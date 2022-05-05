@@ -1,4 +1,4 @@
-package dev.u9g.minecrftdatagenerator.generators;
+package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

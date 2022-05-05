@@ -1,4 +1,4 @@
-package dev.u9g.minecrftdatagenerator.generators;
+package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
@@ -6,8 +6,7 @@ import com.google.common.collect.Multimap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dev.u9g.minecrftdatagenerator.util.DGU;
-import net.minecraft.client.MinecraftClient;
+import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;

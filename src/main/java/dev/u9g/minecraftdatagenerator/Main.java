@@ -1,4 +1,4 @@
-package dev.u9g.minecrftdatagenerator;
+package dev.u9g.minecraftdatagenerator;
 
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;

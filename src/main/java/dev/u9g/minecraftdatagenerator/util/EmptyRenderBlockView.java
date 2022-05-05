@@ -1,4 +1,4 @@
-package dev.u9g.minecrftdatagenerator.util;
+package dev.u9g.minecraftdatagenerator.util;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

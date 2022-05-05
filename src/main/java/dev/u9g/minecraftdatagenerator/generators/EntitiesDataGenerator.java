@@ -1,8 +1,8 @@
-package dev.u9g.minecrftdatagenerator.generators;
+package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecrftdatagenerator.util.DGU;
+import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

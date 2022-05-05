@@ -1,8 +1,8 @@
-package dev.u9g.minecrftdatagenerator.mixin;
+package dev.u9g.minecraftdatagenerator.mixin;
 
-import dev.u9g.minecrftdatagenerator.Main;
-import dev.u9g.minecrftdatagenerator.generators.DataGenerators;
-import dev.u9g.minecrftdatagenerator.util.DGU;
+import dev.u9g.minecraftdatagenerator.Main;
+import dev.u9g.minecraftdatagenerator.generators.DataGenerators;
+import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.MinecraftVersion;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,4 +1,4 @@
-package dev.u9g.minecrftdatagenerator.mixin;
+package dev.u9g.minecraftdatagenerator.mixin;
 
 import com.google.common.base.Preconditions;
 import net.minecraft.block.BlockState;

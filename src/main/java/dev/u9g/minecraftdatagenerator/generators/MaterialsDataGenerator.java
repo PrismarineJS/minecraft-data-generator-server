@@ -1,11 +1,11 @@
-package dev.u9g.minecrftdatagenerator.generators;
+package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dev.u9g.minecrftdatagenerator.mixin.MiningToolItemAccessor;
+import dev.u9g.minecraftdatagenerator.mixin.MiningToolItemAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

@@ -1,8 +1,8 @@
-package dev.u9g.minecrftdatagenerator.generators;
+package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecrftdatagenerator.util.EmptyRenderBlockView;
+import dev.u9g.minecraftdatagenerator.util.EmptyRenderBlockView;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;

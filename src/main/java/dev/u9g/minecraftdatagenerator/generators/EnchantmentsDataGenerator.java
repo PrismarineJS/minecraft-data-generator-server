@@ -1,9 +1,9 @@
-package dev.u9g.minecrftdatagenerator.generators;
+package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecrftdatagenerator.util.DGU;
+import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.util.Identifier;

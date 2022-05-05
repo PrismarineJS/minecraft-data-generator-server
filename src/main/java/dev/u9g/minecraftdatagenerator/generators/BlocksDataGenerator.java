@@ -1,9 +1,9 @@
-package dev.u9g.minecrftdatagenerator.generators;
+package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.common.base.CaseFormat;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecrftdatagenerator.util.DGU;
+import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;

@@ -1,13 +1,11 @@
-package dev.u9g.minecrftdatagenerator.util;
+package dev.u9g.minecraftdatagenerator.util;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Language;
 import net.minecraft.world.World;
 

@@ -1,4 +1,4 @@
-package dev.u9g.minecrftdatagenerator.mixin;
+package dev.u9g.minecraftdatagenerator.mixin;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.MiningToolItem;

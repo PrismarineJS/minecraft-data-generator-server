@@ -18,7 +18,7 @@
     ]
   },
   "mixins": [
-    "minecrft-data-generator.mixins.json"
+    "minecraft-data-generator.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.14.4",
