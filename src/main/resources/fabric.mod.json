@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "minecrft-data-generator",
+  "id": "minecraft-data-generator",
   "version": "${version}",
   "name": "Minecrft Data Generator",
   "description": "",
@@ -14,7 +14,7 @@
   "environment": "server",
   "entrypoints": {
     "main": [
-      "dev.u9g.minecrftdatagenerator.Main"
+      "dev.u9g.minecraftdatagenerator.Main"
     ]
   },
   "mixins": [
