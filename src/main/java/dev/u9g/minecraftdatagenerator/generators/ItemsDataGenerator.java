@@ -57,7 +57,9 @@ public class ItemsDataGenerator implements IDataGenerator {
         for (EnchantmentTarget target : enchantmentTargets) {
             enchantCategoriesArray.add(EnchantmentsDataGenerator.getEnchantmentTargetName(target));
         }
-        itemDesc.add("enchantCategories", enchantCategoriesArray);
+        if (enchantCategoriesArray.size() > 0) {
+            itemDesc.add("enchantCategories", enchantCategoriesArray);
+        }
 
         if (item.isDamageable()) {
             List<Item> repairWithItems = calculateItemsToRepairWith(itemRegistry, item);
