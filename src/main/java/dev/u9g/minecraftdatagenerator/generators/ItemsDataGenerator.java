@@ -69,7 +69,9 @@ public class ItemsDataGenerator implements IDataGenerator {
                 Identifier repairWithName = itemRegistry.getKey(repairWithItem).orElseThrow().getValue();
                 fixedWithArray.add(repairWithName.getPath());
             }
-            itemDesc.add("repairWith", fixedWithArray);
+            if (fixedWithArray.size() > 0) {
+                itemDesc.add("repairWith", fixedWithArray);
+            }
 
             int maxDurability = item.getMaxDamage();
             itemDesc.addProperty("maxDurability", maxDurability);
