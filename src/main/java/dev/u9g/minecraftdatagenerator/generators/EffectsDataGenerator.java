@@ -6,6 +6,10 @@ import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class EffectsDataGenerator implements IDataGenerator {
 
@@ -27,7 +31,7 @@ public class EffectsDataGenerator implements IDataGenerator {
         Identifier registryKey = registry.getKey(statusEffect).orElseThrow().getValue();
 
         effectDesc.addProperty("id", registry.getRawId(statusEffect));
-        effectDesc.addProperty("name", registryKey.getPath());
+        effectDesc.addProperty("name", Arrays.stream(registryKey.getPath().split("_")).map(StringUtils::capitalize).collect(Collectors.joining()));
         effectDesc.addProperty("displayName", DGU.translateText(statusEffect.getTranslationKey()));
 
         effectDesc.addProperty("type", statusEffect.isBeneficial() ? "good" : "bad");
