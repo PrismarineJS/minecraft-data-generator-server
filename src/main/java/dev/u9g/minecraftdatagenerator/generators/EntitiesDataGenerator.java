@@ -65,9 +65,9 @@ public class EntitiesDataGenerator implements IDataGenerator {
         entity.discard();
         return switch (entity.getClass().getPackageName()) {
             case "net.minecraft.entity.decoration", "net.minecraft.entity.decoration.painting" -> "Immobile";
-            case "net.minecraft.entity.boss", "net.minecraft.entity.mob", "net.minecraft.entity.boss.dragon" -> "Hostile Mobs";
+            case "net.minecraft.entity.boss", "net.minecraft.entity.mob", "net.minecraft.entity.boss.dragon" -> "Hostile mobs";
             case "net.minecraft.entity.projectile", "net.minecraft.entity.projectile.thrown" -> "Projectiles";
-            case "net.minecraft.entity.passive" -> "Passive Mobs";
+            case "net.minecraft.entity.passive" -> "Passive mobs";
             case "net.minecraft.entity.vehicle" -> "Vehicles";
             case "net.minecraft.entity" -> "UNKNOWN";
             default -> throw new Error("Unexpected entity type: " + entity.getClass().getPackageName());
