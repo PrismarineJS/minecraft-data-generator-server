@@ -150,7 +150,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("hardness", block.getHardness());
         blockDesc.addProperty("resistance", block.getBlastResistance());
         blockDesc.addProperty("stackSize", block.asItem().getMaxCount());
-        blockDesc.addProperty("diggable", block.getHardness() != -1.0f || block.getHardness() == 0f);
+        blockDesc.addProperty("diggable", block.getHardness() != -1.0f);
         blockDesc.addProperty("material", findMatchingBlockMaterial(defaultState, materials));
 
         blockDesc.addProperty("transparent", !defaultState.isOpaque());
