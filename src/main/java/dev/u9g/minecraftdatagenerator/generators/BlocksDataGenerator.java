@@ -4,6 +4,7 @@ import com.google.common.base.CaseFormat;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
+import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
@@ -139,18 +140,22 @@ public class BlocksDataGenerator implements IDataGenerator {
         BlockState defaultState = block.getDefaultState();
         Identifier registryKey = blockRegistry.getKey(block).orElseThrow().getValue();
         String localizationKey = block.getTranslationKey();
+        List<Item> effectiveTools = getItemsEffectiveForBlock(defaultState);
 
         blockDesc.addProperty("id", blockRegistry.getRawId(block));
         blockDesc.addProperty("name", registryKey.getPath());
-//        if (Objects.equals(registryKey.getPath(), "red_candle_cake")) {
-//            System.out.println();
-//        }
         blockDesc.addProperty("displayName", DGU.translateText(localizationKey));
 
         blockDesc.addProperty("hardness", block.getHardness());
         blockDesc.addProperty("resistance", block.getBlastResistance());
         blockDesc.addProperty("stackSize", block.asItem().getMaxCount());
-        blockDesc.addProperty("diggable", block.getHardness() != -1.0f);
+        blockDesc.addProperty("diggable", block.getHardness() != -1.0f && !(block instanceof AirBlock));
+//        JsonObject effTools = new JsonObject();
+//        effectiveTools.forEach(item -> effTools.addProperty(
+//                String.valueOf(Registry.ITEM.getRawId(item)), // key
+//                item.getMiningSpeedMultiplier(item.getDefaultStack(), defaultState) // value
+//        ));
+//        blockDesc.add("effectiveTools", effTools);
         blockDesc.addProperty("material", findMatchingBlockMaterial(defaultState, materials));
 
         blockDesc.addProperty("transparent", !defaultState.isOpaque());
@@ -166,8 +171,6 @@ public class BlocksDataGenerator implements IDataGenerator {
             stateProperties.add(generateStateProperty(property));
         }
         blockDesc.add("states", stateProperties);
-
-        List<Item> effectiveTools = getItemsEffectiveForBlock(defaultState);
 
         //Only add harvest tools if tool is required for harvesting this block
         if (defaultState.isToolRequired()) {
