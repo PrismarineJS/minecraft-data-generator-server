@@ -2,23 +2,82 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import dev.u9g.minecraftdatagenerator.mixin.TheEndBiomeDataAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.fabricmc.fabric.api.biome.v1.NetherBiomes;
-import net.fabricmc.fabric.api.biome.v1.TheEndBiomes;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BuiltinBiomes;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class BiomesDataGenerator implements IDataGenerator {
+    private static final Set<RegistryKey<Biome>> END_BIOMES = new HashSet<>();
 
-    private static String guessBiomeDimensionFromCategory(Biome biome) {
-        return switch (biome.getCategory()) {
-            case NETHER -> "nether";
-            case END -> "end";
-            default -> "overworld";
-        };
+    private static String guessBiomeDimensionFromCategory(Biome biome, String biomeName) {
+        var key = DynamicRegistryManager.BUILTIN.get().get(Registry.BIOME_KEY).getKey(biome).orElseThrow();
+        if (NetherBiomes.canGenerateInNether(key)) {
+            return "nether";
+        } else if (END_BIOMES.contains(key) || biomeName.startsWith("end_")) {
+            return "end";
+        }
+        return "overworld";
+    }
+
+    private static String guessCategoryBasedOnName(String name, String dimension) {
+        if (dimension.equals("nether")) {
+            return "nether";
+        } else if (dimension.equals("end")) {
+            return "the_end";
+        }
+
+        if (name.contains("end")) {
+            System.out.println();
+        }
+
+        if (name.contains("hills")) {
+            return "extreme_hills";
+        } else if (name.contains("ocean")) {
+            return "ocean";
+        } else if (name.contains("plains")) {
+            return "plains";
+        } else if (name.contains("ice") || name.contains("frozen")) {
+            return "ice";
+        } else if (name.contains("jungle")) {
+            return "jungle";
+        } else if (name.contains("desert")) {
+            return "desert";
+        } else if (name.contains("forest") || name.contains("grove")) {
+            return "forest";
+        } else if (name.contains("taiga")) {
+            return "taiga";
+        } else if (name.contains("swamp")) {
+            return "swamp";
+        } else if (name.contains("river")) {
+            return "river";
+        } else if (name.equals("the_end")) {
+            return "the_end";
+        } else if (name.contains("mushroom")) {
+            return "mushroom";
+        } else if (name.contains("beach") || name.equals("stony_shore")) {
+            return "beach";
+        } else if (name.contains("savanna")) {
+            return "savanna";
+        } else if (name.contains("badlands")) {
+            return "mesa";
+        } else if (name.contains("peaks") || name.equals("snowy_slopes") || name.equals("meadow")) {
+            return "mountain";
+        } else if (name.equals("the_void")) {
+            return "none";
+        } else if (name.contains("cave") || name.equals("deep_dark")) {
+            return "underground";
+        } else {
+            System.out.println("Unable to find biome category for biome with name: '"+name+"'");
+            return "none";
+        }
     }
 
     private static int getBiomeColorFor(String biomeName) {
@@ -83,22 +142,23 @@ public class BiomesDataGenerator implements IDataGenerator {
         else if (biomeName.equals("end_midlands")) return 15464630;
         else if (biomeName.equals("small_end_islands")) return 42;
         else if (biomeName.equals("end_barrens")) return 9474162;
-        else throw new Error("Unexpected biome, with name: '"+biomeName+"'");
+        System.out.println("Don't know the color of biome: '"+biomeName+"'");
+        return 0;
     }
 
     public static JsonObject generateBiomeInfo(Registry<Biome> registry, Biome biome) {
         JsonObject biomeDesc = new JsonObject();
         Identifier registryKey = registry.getKey(biome).orElseThrow().getValue();
         String localizationKey = String.format("biome.%s.%s", registryKey.getNamespace(), registryKey.getPath());
-
+        String name = registryKey.getPath();
         biomeDesc.addProperty("id", registry.getRawId(biome));
-        biomeDesc.addProperty("name", registryKey.getPath());
-
-        biomeDesc.addProperty("category", biome.getCategory().getName());
+        biomeDesc.addProperty("name", name);
+        String dimension = guessBiomeDimensionFromCategory(biome, name);
+        biomeDesc.addProperty("category", guessCategoryBasedOnName(name, dimension));
         biomeDesc.addProperty("temperature", biome.getTemperature());
         biomeDesc.addProperty("precipitation", biome.getPrecipitation().getName());
         //biomeDesc.addProperty("depth", biome.getDepth()); - Doesn't exist anymore in minecraft source
-        biomeDesc.addProperty("dimension", guessBiomeDimensionFromCategory(biome));
+        biomeDesc.addProperty("dimension", dimension);
         biomeDesc.addProperty("displayName", DGU.translateText(localizationKey));
         biomeDesc.addProperty("color", getBiomeColorFor(registryKey.getPath()));
         biomeDesc.addProperty("rainfall", biome.getDownfall());
@@ -114,12 +174,18 @@ public class BiomesDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray biomesArray = new JsonArray();
-        DynamicRegistryManager registryManager = DynamicRegistryManager.create();
+        DynamicRegistryManager registryManager = DynamicRegistryManager.BUILTIN.get();
         Registry<Biome> biomeRegistry = registryManager.get(Registry.BIOME_KEY);
 
         biomeRegistry.stream()
                 .map(biome -> generateBiomeInfo(biomeRegistry, biome))
                 .forEach(biomesArray::add);
         return biomesArray;
+    }
+
+    static {
+        END_BIOMES.addAll(TheEndBiomeDataAccessor.END_BIOMES_MAP().keySet());
+        END_BIOMES.addAll(TheEndBiomeDataAccessor.END_BARRENS_MAP().keySet());
+        END_BIOMES.addAll(TheEndBiomeDataAccessor.END_MIDLANDS_MAP().keySet());
     }
 }

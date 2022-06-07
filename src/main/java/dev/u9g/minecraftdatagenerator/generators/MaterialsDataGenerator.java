@@ -120,7 +120,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
         Registry<Item> itemRegistry = Registry.ITEM;
         itemRegistry.forEach(item -> {
             if (item instanceof MiningToolItem toolItem) {
-                Tag<Block> effectiveBlocks = ((MiningToolItemAccessor) toolItem).getEffectiveBlocks();
+                TagKey<Block> effectiveBlocks = ((MiningToolItemAccessor) toolItem).getEffectiveBlocks();
                 String materialName = makeMaterialNameForTag(effectiveBlocks);
 
                 if (!uniqueMaterialNames.contains(materialName)) {
@@ -161,7 +161,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
         itemRegistry.forEach(item -> {
             //Tools are handled rather easily and do not require anything else
             if (item instanceof MiningToolItem toolItem) {
-                Tag<Block> effectiveBlocks = ((MiningToolItemAccessor) toolItem).getEffectiveBlocks();
+                TagKey<Block> effectiveBlocks = ((MiningToolItemAccessor) toolItem).getEffectiveBlocks();
                 String materialName = makeMaterialNameForTag(effectiveBlocks);
 
                 Map<Item, Float> materialSpeeds = materialMiningSpeeds.computeIfAbsent(materialName, k -> new HashMap<>());

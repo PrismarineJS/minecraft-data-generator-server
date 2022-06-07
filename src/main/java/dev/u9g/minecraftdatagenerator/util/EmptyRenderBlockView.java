@@ -54,7 +54,7 @@ public enum EmptyRenderBlockView implements BlockRenderView {
 
     @Override
     public int getColor(BlockPos pos, ColorResolver colorResolver) {
-        DynamicRegistryManager registryManager = DynamicRegistryManager.create();
+        DynamicRegistryManager registryManager = DynamicRegistryManager.BUILTIN.get();
         Registry<Biome> biomeRegistry = registryManager.get(Registry.BIOME_KEY);
         Biome plainsBiome = biomeRegistry.get(BiomeKeys.PLAINS);
 
