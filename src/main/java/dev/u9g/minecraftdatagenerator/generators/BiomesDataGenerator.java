@@ -3,17 +3,20 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
+import net.fabricmc.fabric.api.biome.v1.NetherBiomes;
+import net.fabricmc.fabric.api.biome.v1.TheEndBiomes;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BuiltinBiomes;
 
 public class BiomesDataGenerator implements IDataGenerator {
 
     private static String guessBiomeDimensionFromCategory(Biome biome) {
         return switch (biome.getCategory()) {
             case NETHER -> "nether";
-            case THEEND -> "end";
+            case END -> "end";
             default -> "overworld";
         };
     }

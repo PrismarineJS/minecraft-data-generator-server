@@ -15,7 +15,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.MiningToolItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.registry.Registry;
 
 import java.util.*;
@@ -40,9 +40,8 @@ public class MaterialsDataGenerator implements IDataGenerator {
         return "materials";
     }
 
-    private static String makeMaterialNameForTag(Tag<Block> tag) {
-        Tag.Identified<Block> identifiedTag = (Tag.Identified<Block>) tag;
-        return identifiedTag.getId().getPath();
+    private static String makeMaterialNameForTag(TagKey<Block> tag) {
+        return tag.id().getPath();
     }
 
     public static class MaterialInfo {
