@@ -2,6 +2,7 @@ package dev.u9g.minecraftdatagenerator.mixin;
 
 import net.fabricmc.fabric.impl.biome.TheEndBiomeData;
 import net.fabricmc.fabric.impl.biome.WeightedPicker;
+import net.minecraft.tag.BiomeTags;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,15 +13,15 @@ import java.util.Map;
 
 @Mixin(TheEndBiomeData.class)
 public interface TheEndBiomeDataAccessor {
-    @Accessor("END_BIOMES_MAP")
+    @Accessor(value = "END_BIOMES_MAP", remap = false)
     public static Map<RegistryKey<Biome>, WeightedPicker<RegistryKey<Biome>>> END_BIOMES_MAP() {
         throw new IllegalStateException("Should never be called.");
     }
-    @Accessor("END_MIDLANDS_MAP")
+    @Accessor(value = "END_MIDLANDS_MAP", remap = false)
     public static Map<RegistryKey<Biome>, WeightedPicker<RegistryKey<Biome>>> END_MIDLANDS_MAP() {
         throw new IllegalStateException("Should never be called.");
     }
-    @Accessor("END_BARRENS_MAP")
+    @Accessor(value = "END_BARRENS_MAP", remap = false)
     public static Map<RegistryKey<Biome>, WeightedPicker<RegistryKey<Biome>>> END_BARRENS_MAP() {
         throw new IllegalStateException("Should never be called.");
     }
