@@ -14,9 +14,10 @@ import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class EntitiesDataGenerator implements IDataGenerator {
 
@@ -28,7 +29,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultArray = new JsonArray();
-        Registry<EntityType<?>> entityTypeRegistry = Registry.ENTITY_TYPE;
+        Registry<EntityType<?>> entityTypeRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ENTITY_TYPE);
         entityTypeRegistry.forEach(entity -> resultArray.add(generateEntity(entityTypeRegistry, entity)));
         return resultArray;
     }

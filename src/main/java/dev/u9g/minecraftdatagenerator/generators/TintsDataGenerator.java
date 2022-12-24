@@ -3,18 +3,23 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.mojangannoyances.BlockColors;
+import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.EmptyRenderBlockView;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.RedstoneWireBlock;
 import net.minecraft.client.color.world.FoliageColors;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.DynamicRegistryManager;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TintsDataGenerator implements IDataGenerator {
 
@@ -136,9 +141,9 @@ public class TintsDataGenerator implements IDataGenerator {
 
     @Override
     public JsonObject generateDataJson() {
-        DynamicRegistryManager registryManager = DynamicRegistryManager.BUILTIN.get();
-        Registry<Biome> biomeRegistry = registryManager.get(Registry.BIOME_KEY);
-        Registry<Block> blockRegistry = registryManager.get(Registry.BLOCK_KEY);
+        DynamicRegistryManager registryManager = DGU.getWorld().getRegistryManager();
+        Registry<Biome> biomeRegistry = registryManager.get(RegistryKeys.BIOME);
+        Registry<Block> blockRegistry = registryManager.get(RegistryKeys.BLOCK);
 
         BiomeTintColors biomeTintColors = generateBiomeTintColors(biomeRegistry);
         Map<Integer, Integer> redstoneColors = generateRedstoneTintColors();

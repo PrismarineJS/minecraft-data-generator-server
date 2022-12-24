@@ -2,9 +2,11 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.particle.ParticleType;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class ParticlesDataGenerator implements IDataGenerator {
 
@@ -16,7 +18,7 @@ public class ParticlesDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultsArray = new JsonArray();
-        Registry<ParticleType<?>>particleTypeRegistry = Registry.PARTICLE_TYPE;
+        Registry<ParticleType<?>>particleTypeRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.PARTICLE_TYPE);
         particleTypeRegistry.forEach(particleType -> resultsArray.add(generateParticleType(particleTypeRegistry, particleType)));
         return resultsArray;
     }

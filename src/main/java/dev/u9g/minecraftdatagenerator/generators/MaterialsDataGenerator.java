@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.mixin.MiningToolItemAccessor;
+import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -14,9 +15,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.MiningToolItem;
 import net.minecraft.item.SwordItem;
-import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.TagKey;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.TagKey;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -117,7 +119,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
 
         HashSet<String> uniqueMaterialNames = new HashSet<>();
 
-        Registry<Item> itemRegistry = Registry.ITEM;
+        Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM);
         itemRegistry.forEach(item -> {
             if (item instanceof MiningToolItem toolItem) {
                 TagKey<Block> effectiveBlocks = ((MiningToolItemAccessor) toolItem).getEffectiveBlocks();
@@ -136,7 +138,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
 
     @Override
     public JsonElement generateDataJson() {
-        Registry<Item> itemRegistry = Registry.ITEM;
+        Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM);
 
         Map<String, Map<Item, Float>> materialMiningSpeeds = new HashMap<>();
         materialMiningSpeeds.put("default", ImmutableMap.of());

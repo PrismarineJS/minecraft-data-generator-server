@@ -2,14 +2,15 @@ package dev.u9g.minecraftdatagenerator.mojangannoyances;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
+import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.color.world.GrassColors;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.collection.IdList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockRenderView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -71,7 +72,7 @@ public class BlockColors {
     }
 
     public int getParticleColor(BlockState state, World world, BlockPos pos) {
-        BlockColorProvider blockColorProvider = (BlockColorProvider)this.providers.get(Registry.BLOCK.getRawId(state.getBlock()));
+        BlockColorProvider blockColorProvider = (BlockColorProvider)this.providers.get(DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK).getRawId(state.getBlock()));
         if (blockColorProvider != null) {
             return blockColorProvider.getColor(state, (BlockRenderView)null, (BlockPos)null, 0);
         } else {
@@ -81,7 +82,7 @@ public class BlockColors {
     }
 
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
-        BlockColorProvider blockColorProvider = (BlockColorProvider)this.providers.get(Registry.BLOCK.getRawId(state.getBlock()));
+        BlockColorProvider blockColorProvider = (BlockColorProvider)this.providers.get(DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK).getRawId(state.getBlock()));
         return blockColorProvider == null ? -1 : blockColorProvider.getColor(state, world, pos, tintIndex);
     }
 
@@ -91,7 +92,7 @@ public class BlockColors {
 
         for(int var5 = 0; var5 < var4; ++var5) {
             Block block = var3[var5];
-            this.providers.set(provider, Registry.BLOCK.getRawId(block));
+            this.providers.set(provider, DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK).getRawId(block));
         }
 
     }

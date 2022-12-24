@@ -5,10 +5,11 @@ import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.mixin.TheEndBiomeDataAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.fabricmc.fabric.api.biome.v1.NetherBiomes;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.DynamicRegistryManager;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 
 import java.util.HashSet;
@@ -18,7 +19,7 @@ public class BiomesDataGenerator implements IDataGenerator {
     private static final Set<RegistryKey<Biome>> END_BIOMES = new HashSet<>();
 
     private static String guessBiomeDimensionFromCategory(Biome biome, String biomeName) {
-        var key = DynamicRegistryManager.BUILTIN.get().get(Registry.BIOME_KEY).getKey(biome).orElseThrow();
+        var key = DGU.getWorld().getRegistryManager().get(RegistryKeys.BIOME).getKey(biome).orElseThrow();
         if (NetherBiomes.canGenerateInNether(key)) {
             return "nether";
         } else if (END_BIOMES.contains(key) || biomeName.startsWith("end_")) {
@@ -174,8 +175,8 @@ public class BiomesDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray biomesArray = new JsonArray();
-        DynamicRegistryManager registryManager = DynamicRegistryManager.BUILTIN.get();
-        Registry<Biome> biomeRegistry = registryManager.get(Registry.BIOME_KEY);
+        DynamicRegistryManager registryManager = DGU.getWorld().getRegistryManager();
+        Registry<Biome> biomeRegistry = registryManager.get(RegistryKeys.BIOME);
 
         biomeRegistry.stream()
                 .map(biome -> generateBiomeInfo(biomeRegistry, biome))
