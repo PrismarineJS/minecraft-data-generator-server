@@ -4,11 +4,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.EmptyBlockView;
 
@@ -96,7 +98,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
 
     @Override
     public JsonObject generateDataJson() {
-        Registry<Block> blockRegistry = Registry.BLOCK;
+        Registry<Block> blockRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK);
         BlockShapesCache blockShapesCache = new BlockShapesCache();
 
         blockRegistry.forEach(blockShapesCache::processBlock);

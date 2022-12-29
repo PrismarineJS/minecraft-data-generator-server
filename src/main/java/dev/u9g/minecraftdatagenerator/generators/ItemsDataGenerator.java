@@ -6,8 +6,9 @@ import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +37,7 @@ public class ItemsDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultArray = new JsonArray();
-        Registry<Item> itemRegistry = Registry.ITEM;
+        Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM);
         itemRegistry.stream().forEach(item -> resultArray.add(generateItem(itemRegistry, item)));
         return resultArray;
     }

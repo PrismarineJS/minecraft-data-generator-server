@@ -2,8 +2,7 @@ package dev.u9g.minecraftdatagenerator.mixin;
 
 import net.fabricmc.fabric.impl.biome.TheEndBiomeData;
 import net.fabricmc.fabric.impl.biome.WeightedPicker;
-import net.minecraft.tag.BiomeTags;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;

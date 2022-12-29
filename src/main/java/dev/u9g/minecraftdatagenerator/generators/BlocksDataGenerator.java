@@ -12,6 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.BooleanProperty;
@@ -21,7 +23,6 @@ import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.EmptyBlockView;
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ public class BlocksDataGenerator implements IDataGenerator {
     private static Logger logger = LoggerFactory.getLogger(BlocksDataGenerator.class);
 
     private static List<Item> getItemsEffectiveForBlock(BlockState blockState) {
-        return Registry.ITEM.stream()
+        return DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM).stream()
                 .filter(item -> item.getDefaultStack().isSuitableFor(blockState))
                 .collect(Collectors.toList());
     }
@@ -107,7 +108,7 @@ public class BlocksDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultBlocksArray = new JsonArray();
-        Registry<Block> blockRegistry = Registry.BLOCK;
+        Registry<Block> blockRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK);
         List<MaterialsDataGenerator.MaterialInfo> availableMaterials = MaterialsDataGenerator.getGlobalMaterialInfo();
 
         blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(blockRegistry, availableMaterials, block)));

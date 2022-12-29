@@ -5,8 +5,9 @@ import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public class EffectsDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultsArray = new JsonArray();
-        Registry<StatusEffect> statusEffectRegistry = Registry.STATUS_EFFECT;
+        Registry<StatusEffect> statusEffectRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.STATUS_EFFECT);
         statusEffectRegistry.forEach(effect -> resultsArray.add(generateEffect(statusEffectRegistry, effect)));
         return resultsArray;
     }

@@ -12,7 +12,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.recipe.ShapelessRecipe;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +127,6 @@ public class RecipeDataGenerator implements IDataGenerator {
     }
 
     private static int getRawIdFor (Item item) {
-        return Registry.ITEM.getRawId(item);
+        return DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM).getRawId(item);
     }
 }

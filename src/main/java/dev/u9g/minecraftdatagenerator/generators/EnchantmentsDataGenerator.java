@@ -6,8 +6,9 @@ import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.List;
 import java.util.Locale;
@@ -65,7 +66,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultsArray = new JsonArray();
-        Registry<Enchantment> enchantmentRegistry = Registry.ENCHANTMENT;
+        Registry<Enchantment> enchantmentRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ENCHANTMENT);
         enchantmentRegistry.stream()
                 .forEach(enchantment -> resultsArray.add(generateEnchantment(enchantmentRegistry, enchantment)));
         return resultsArray;
