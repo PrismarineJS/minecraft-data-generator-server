@@ -157,12 +157,13 @@ public class BiomesDataGenerator implements IDataGenerator {
         String dimension = guessBiomeDimensionFromCategory(biome, name);
         biomeDesc.addProperty("category", guessCategoryBasedOnName(name, dimension));
         biomeDesc.addProperty("temperature", biome.getTemperature());
-        biomeDesc.addProperty("precipitation", biome.getPrecipitation().getName());
+        //biomeDesc.addProperty("precipitation", biome.getPrecipitation().getName());// - removed in 1.19.4
+        biomeDesc.addProperty("has_precipitation", biome.hasPrecipitation());
         //biomeDesc.addProperty("depth", biome.getDepth()); - Doesn't exist anymore in minecraft source
         biomeDesc.addProperty("dimension", dimension);
         biomeDesc.addProperty("displayName", DGU.translateText(localizationKey));
         biomeDesc.addProperty("color", getBiomeColorFor(registryKey.getPath()));
-        biomeDesc.addProperty("rainfall", biome.getDownfall());
+        //biomeDesc.addProperty("rainfall", biome.getDownfall());// - removed in 1.19.4
 
         return biomeDesc;
     }
