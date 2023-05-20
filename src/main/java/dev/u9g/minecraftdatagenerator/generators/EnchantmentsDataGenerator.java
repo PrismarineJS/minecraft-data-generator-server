@@ -99,7 +99,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         }
         enchantmentDesc.add("exclude", excludes);
 
-        enchantmentDesc.addProperty("category", getEnchantmentTargetName(enchantment.type));
+        enchantmentDesc.addProperty("category", getEnchantmentTargetName(enchantment.target));
         enchantmentDesc.addProperty("weight", enchantment.getRarity().getWeight());
         enchantmentDesc.addProperty("tradeable", enchantment.isAvailableForEnchantedBookOffer());
         enchantmentDesc.addProperty("discoverable", enchantment.isAvailableForRandomSelection());
