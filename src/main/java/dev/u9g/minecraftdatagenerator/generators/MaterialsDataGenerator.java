@@ -113,10 +113,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
         resultList.add(new MaterialInfo("leaves", blockState -> blockState.isIn(BlockTags.LEAVES)));
         resultList.add(new MaterialInfo("wool", blockState -> blockState.isIn(BlockTags.WOOL)));
 
-        // Block Materials were removed in 1.20
-        // resultList.add(new MaterialInfo("gourd", blockState -> blockState.getMaterial() == Material.GOURD));
-        // resultList.add(new MaterialInfo("plant", blockState -> blockState.getMaterial() == Material.PLANT || blockState.getMaterial() == Material.REPLACEABLE_PLANT));
-
+        // Block Materials were removed in 1.20 in favor of block tags
         resultList.add(new MaterialInfo("gourd", blockState -> blockState.isOf(Blocks.MELON) || blockState.isOf(Blocks.PUMPKIN) || blockState.isOf(Blocks.JACK_O_LANTERN)));
         // 'sword_efficient' tag is for all plants, and includes everything from the old PLANT and REPLACEABLE_PLANT materials (see https://minecraft.fandom.com/wiki/Tag#Blocks)
         resultList.add(new MaterialInfo("plant", blockState -> blockState.isIn(BlockTags.SWORD_EFFICIENT)));
