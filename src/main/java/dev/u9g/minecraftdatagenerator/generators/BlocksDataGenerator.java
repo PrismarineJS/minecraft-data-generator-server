@@ -10,7 +10,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
@@ -48,12 +48,11 @@ public class BlocksDataGenerator implements IDataGenerator {
         if (minecraftServer != null) {
             //If we have local world context, we can actually evaluate loot tables and determine actual data
             ServerWorld serverWorld = minecraftServer.getOverworld();
-            LootContext.Builder lootContext = new LootContext.Builder(serverWorld)
-                    .parameter(LootContextParameters.BLOCK_STATE, blockState)
-                    .parameter(LootContextParameters.ORIGIN, Vec3d.ZERO)
-                    .parameter(LootContextParameters.TOOL, firstToolItem.getDefaultStack())
-                    .random(0L);
-            outDrops.addAll(blockState.getDroppedStacks(lootContext));
+            LootContextParameterSet.Builder lootContextParameterSet = new LootContextParameterSet.Builder(serverWorld)
+                    .add(LootContextParameters.BLOCK_STATE, blockState)
+                    .add(LootContextParameters.ORIGIN, Vec3d.ZERO)
+                    .add(LootContextParameters.TOOL, firstToolItem.getDefaultStack());
+            outDrops.addAll(blockState.getDroppedStacks(lootContextParameterSet));
         } else {
             //If we're lacking world context to correctly determine drops, assume that default drop is ItemBlock stack in quantity of 1
             Item itemBlock = blockState.getBlock().asItem();
