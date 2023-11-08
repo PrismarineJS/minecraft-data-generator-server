@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(EntityType.class)
 public interface EntityTypeAccessor<T extends Entity> {
     @Accessor("factory")
-    public EntityType.EntityFactory<T> factory();
+    EntityType.EntityFactory<T> factory();
 }

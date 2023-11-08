@@ -5,12 +5,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import dev.u9g.minecraftdatagenerator.util.DGU;
+import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.EmptyBlockView;
 
@@ -32,6 +34,12 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
 
             for (BlockState blockState : blockStates) {
                 VoxelShape blockShape = blockState.getCollisionShape(EmptyBlockView.INSTANCE, BlockPos.ORIGIN);
+
+                // Replace block offset
+                Vec3d blockShapeCenter = blockState.getModelOffset(EmptyBlockView.INSTANCE, BlockPos.ORIGIN);
+                Vec3d inverseBlockShapeCenter = blockShapeCenter.negate();
+                blockShape = blockShape.offset(inverseBlockShapeCenter.x, inverseBlockShapeCenter.y, inverseBlockShapeCenter.z);
+
                 Integer blockShapeIndex = uniqueBlockShapes.get(blockShape);
 
                 if (blockShapeIndex == null) {

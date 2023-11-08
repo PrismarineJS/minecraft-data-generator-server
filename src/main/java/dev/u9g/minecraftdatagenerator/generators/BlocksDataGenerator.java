@@ -3,10 +3,10 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.common.base.CaseFormat;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import dev.u9g.minecraftdatagenerator.mixin.BlockAccessor;
+import dev.u9g.minecraftdatagenerator.util.BlockSettingsAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-import net.minecraft.block.AirBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -150,6 +150,23 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("resistance", block.getBlastResistance());
         blockDesc.addProperty("stackSize", block.asItem().getMaxCount());
         blockDesc.addProperty("diggable", block.getHardness() != -1.0f && !(block instanceof AirBlock));
+        blockDesc.addProperty("air", defaultState.isAir());
+        blockDesc.addProperty("fallingBlock", block instanceof FallingBlock);
+        blockDesc.addProperty("replaceable", defaultState.isReplaceable());
+
+        if (defaultState.hasModelOffset()) {
+            JsonObject offsetData = new JsonObject();
+
+            offsetData.addProperty("maxHorizontalOffset", block.getMaxHorizontalModelOffset());
+            offsetData.addProperty("verticalModelOffsetMultiplier", block.getVerticalModelOffsetMultiplier());
+
+            AbstractBlock.Settings blockSettings = ((BlockAccessor) block).settings();
+            AbstractBlock.OffsetType offsetType = ((BlockSettingsAccessor) blockSettings).getOffsetType();
+            offsetData.addProperty("offsetType", offsetType.name());
+
+            blockDesc.add("modelOffset", offsetData);
+        }
+
 //        JsonObject effTools = new JsonObject();
 //        effectiveTools.forEach(item -> effTools.addProperty(
 //                String.valueOf(Registry.ITEM.getRawId(item)), // key
