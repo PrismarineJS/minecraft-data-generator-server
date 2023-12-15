@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeEntry;
@@ -52,20 +53,17 @@ public class RecipeDataGenerator implements IDataGenerator {
                         ingr.add(getRawIdFor(matching[0].getItem()));
                     }
                 }
-                Lists.reverse(ingr);
+                //Lists.reverse(ingr);
 
                 JsonArray inShape = new JsonArray();
 
+
                 var iter = ingr.iterator();
-                for (int y = 0; y < 3; y++) {
+                for (int y = 0; y < sr.getHeight(); y++) {
                     var jsonRow = new JsonArray();
-                    int one = iter.next();
-                    int two = iter.next();
-                    int three = iter.next();
-                    if (y > 0 && one == -1 && two == -1 && three == -1) continue;
-                    jsonRow.add(one);
-                    jsonRow.add(two);
-                    jsonRow.add(three);
+                    for (int z = 0; z < sr.getWidth();z++) {
+                        jsonRow.add(iter.next());
+                    }
                     inShape.add(jsonRow);
                 }
 
