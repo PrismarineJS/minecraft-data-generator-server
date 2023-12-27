@@ -1,0 +1,33 @@
+package dev.u9g.minecraftdatagenerator.generators;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import dev.u9g.minecraftdatagenerator.mixin.LanguageAccessor;
+import dev.u9g.minecraftdatagenerator.util.Registries;
+import net.minecraft.entity.attribute.EntityAttributes;
+
+import java.util.Map;
+
+public class AttributesDataGenerator implements IDataGenerator {
+    @Override
+    public String getDataName() {
+        return "attributes";
+    }
+
+    @Override
+    public JsonElement generateDataJson() {
+        Map<String, String> translations = ((LanguageAccessor) Registries.LANGUAGE).translations();
+        JsonArray arr = new JsonArray();
+        for (Map.Entry<String, String> translation : translations.entrySet()) {
+            String key = translation.getKey();
+            if (!key.startsWith("attribute.name.")) continue;
+            JsonObject obj = new JsonObject();
+            key = key.replace("attribute.name.", "");
+            obj.addProperty("name", key.split("\\.")[1]);
+            obj.addProperty("resource", key);
+            arr.add(obj);
+        }
+        return arr;
+    }
+}
