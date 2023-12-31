@@ -7,7 +7,8 @@
     "BiomeEffectsAccessor",
     "MiningToolItemAccessor",
     "ReadyMixin",
-    "StatusEffectAccessor"
+    "StatusEffectAccessor",
+    "EULAMixin"
   ],
   "client": [
   ],
