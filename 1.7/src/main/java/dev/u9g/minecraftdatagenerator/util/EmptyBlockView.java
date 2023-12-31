@@ -7,7 +7,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.biome.Biome;
 
 public class EmptyBlockView implements BlockView {
-    public static EmptyBlockView INSTANCE = new EmptyBlockView();
+    public static final EmptyBlockView INSTANCE = new EmptyBlockView();
 
     @Override
     public Block getBlock(int x, int y, int z) {

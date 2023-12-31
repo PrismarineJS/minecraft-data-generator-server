@@ -49,34 +49,16 @@ public class EntitiesDataGenerator implements IDataGenerator {
     private static String getCategoryFrom(@NotNull Class<?> entityClass) {
         if (entityClass == PlayerEntity.class) return "other"; // fail early for player entities
         String packageName = entityClass.getPackage().getName();
-        String category = null;
-        switch (packageName) {
-            case "net.minecraft.entity.decoration":
-            case "net.minecraft.entity.decoration.painting":
-                category = "Immobile";
-                break;
-            case "net.minecraft.entity.boss":
-            case "net.minecraft.entity.mob":
-            case "net.minecraft.entity.boss.dragon":
-                category = "Hostile mobs";
-                break;
-            case "net.minecraft.entity.projectile":
-            case "net.minecraft.entity.thrown":
-                category = "Projectiles";
-                break;
-            case "net.minecraft.entity.passive":
-                category = "Passive mobs";
-                break;
-            case "net.minecraft.entity.vehicle":
-                category = "Vehicles";
-                break;
-            case "net.minecraft.entity":
-                category = "other";
-                break;
-            default:
-                throw new Error("Unexpected entity type: " + packageName);
-        }
-        ;
+        String category = switch (packageName) {
+            case "net.minecraft.entity.decoration", "net.minecraft.entity.decoration.painting" -> "Immobile";
+            case "net.minecraft.entity.boss", "net.minecraft.entity.mob", "net.minecraft.entity.boss.dragon" ->
+                    "Hostile mobs";
+            case "net.minecraft.entity.projectile", "net.minecraft.entity.thrown" -> "Projectiles";
+            case "net.minecraft.entity.passive" -> "Passive mobs";
+            case "net.minecraft.entity.vehicle" -> "Vehicles";
+            case "net.minecraft.entity" -> "other";
+            default -> throw new Error("Unexpected entity type: " + packageName);
+        };
         return category;
     }
 

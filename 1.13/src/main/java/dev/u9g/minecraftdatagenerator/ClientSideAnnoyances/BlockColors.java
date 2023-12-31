@@ -54,11 +54,10 @@ public class BlockColors {
     }
 
     public void method_12158(BlockColorable blockColorable, Block... blocks) {
-        Block[] var3 = blocks;
         int var4 = blocks.length;
 
         for (int var5 = 0; var5 < var4; ++var5) {
-            Block block = var3[var5];
+            Block block = blocks[var5];
             this.BlockColor2Id.set(blockColorable, Registry.BLOCK.getRawId(block));
         }
 

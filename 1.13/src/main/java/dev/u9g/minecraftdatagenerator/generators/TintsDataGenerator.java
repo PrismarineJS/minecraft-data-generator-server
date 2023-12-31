@@ -151,8 +151,8 @@ public class TintsDataGenerator implements IDataGenerator {
     }
 
     public static class BiomeTintColors {
-        Map<Integer, List<Biome>> grassColoursMap = new HashMap<>();
-        Map<Integer, List<Biome>> foliageColoursMap = new HashMap<>();
-        Map<Integer, List<Biome>> waterColourMap = new HashMap<>();
+        final Map<Integer, List<Biome>> grassColoursMap = new HashMap<>();
+        final Map<Integer, List<Biome>> foliageColoursMap = new HashMap<>();
+        final Map<Integer, List<Biome>> waterColourMap = new HashMap<>();
     }
 }

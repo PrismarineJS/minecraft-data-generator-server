@@ -10,7 +10,7 @@ import java.util.Map;
 @Mixin(StatusEffect.class)
 public interface StatusEffectAccessor {
     @Accessor("STATUS_EFFECTS_BY_ID")
-    public static Map<Identifier, StatusEffect> STATUS_EFFECTS_BY_ID() {
+    static Map<Identifier, StatusEffect> STATUS_EFFECTS_BY_ID() {
         throw new Error();
     }
 

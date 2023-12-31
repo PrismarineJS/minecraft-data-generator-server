@@ -11,7 +11,7 @@ import net.minecraft.world.level.LevelGeneratorType;
 import org.jetbrains.annotations.Nullable;
 
 public class EmptyBlockView implements BlockView {
-    public static EmptyBlockView INSTANCE = new EmptyBlockView();
+    public static final EmptyBlockView INSTANCE = new EmptyBlockView();
 
     @Nullable
     public BlockEntity getBlockEntity(BlockPos pos) {

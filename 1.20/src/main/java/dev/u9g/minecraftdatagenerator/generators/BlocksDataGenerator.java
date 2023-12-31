@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 
 public class BlocksDataGenerator implements IDataGenerator {
 
-    private static Logger logger = LoggerFactory.getLogger(BlocksDataGenerator.class);
+    private static final Logger logger = LoggerFactory.getLogger(BlocksDataGenerator.class);
 
     private static List<Item> getItemsEffectiveForBlock(BlockState blockState) {
         return DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM).stream()

@@ -5,7 +5,6 @@ import net.minecraft.util.math.MathHelper;
 
 public class ServerSideRedstoneWireBlock {
     private static final Vector3f[] data = new Vector3f[16];
-    ;
 
     static {
         for (int i = 0; i <= 15; ++i) {

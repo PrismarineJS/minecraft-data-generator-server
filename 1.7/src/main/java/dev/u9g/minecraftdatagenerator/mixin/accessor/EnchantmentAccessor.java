@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(Enchantment.class)
 public interface EnchantmentAccessor {
     @Accessor("ALL_ENCHANTMENTS")
-    public static Enchantment[] ALL_ENCHANTMENTS() {
+    static Enchantment[] ALL_ENCHANTMENTS() {
         throw new Error();
     }
 }

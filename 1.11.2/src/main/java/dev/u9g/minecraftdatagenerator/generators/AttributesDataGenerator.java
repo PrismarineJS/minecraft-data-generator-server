@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.mixin.LanguageAccessor;
 import dev.u9g.minecraftdatagenerator.util.Registries;
-import net.minecraft.entity.attribute.EntityAttributes;
 
 import java.util.Map;
 

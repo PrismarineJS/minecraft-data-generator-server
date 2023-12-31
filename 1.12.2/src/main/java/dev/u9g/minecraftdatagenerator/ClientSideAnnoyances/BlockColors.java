@@ -49,11 +49,7 @@ public class BlockColors {
                 return blockView != null && blockPos != null ? BiomeColors.getFoliageColor(blockView, blockPos) : FoliageColors.getDefaultColor();
             }
         }, Blocks.LEAVES);
-        blockColors.method_12158(new BlockColorable() {
-            public int method_12155(BlockState blockState, @Nullable BlockView blockView, @Nullable BlockPos blockPos, int i) {
-                return blockView != null && blockPos != null ? BiomeColors.getFoliageColor(blockView, blockPos) : FoliageColors.getDefaultColor();
-            }
-        }, Blocks.LEAVES2);
+        blockColors.method_12158((blockState, blockView, blockPos, i) -> blockView != null && blockPos != null ? BiomeColors.getFoliageColor(blockView, blockPos) : FoliageColors.getDefaultColor(), Blocks.LEAVES2);
         blockColors.method_12158((blockState, blockView, blockPos, i) -> blockView != null && blockPos != null ? BiomeColors.getWaterColor(blockView, blockPos) : -1, Blocks.WATER, Blocks.FLOWING_WATER);
         blockColors.method_12158((blockState, blockView, blockPos, i) -> RedstoneWireBlock.method_8877((Integer) blockState.get(RedstoneWireBlock.POWER)), Blocks.REDSTONE_WIRE);
         blockColors.method_12158((blockState, blockView, blockPos, i) -> blockView != null && blockPos != null ? BiomeColors.getGrassColor(blockView, blockPos) : -1, Blocks.SUGARCANE);
@@ -93,11 +89,10 @@ public class BlockColors {
     }
 
     public void method_12158(BlockColorable blockColorable, Block... blocks) {
-        Block[] var3 = blocks;
         int var4 = blocks.length;
 
         for (int var5 = 0; var5 < var4; ++var5) {
-            Block block = var3[var5];
+            Block block = blocks[var5];
             this.BlockColor2Id.set(blockColorable, Block.getIdByBlock(block));
         }
     }

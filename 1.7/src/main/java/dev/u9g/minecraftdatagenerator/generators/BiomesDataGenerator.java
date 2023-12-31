@@ -27,104 +27,84 @@ public class BiomesDataGenerator implements IDataGenerator {
             biomeDisplayNamed = "MegaTaigaHills";
         }
         String biomeDisplayName = StringUtils.join(biomeDisplayNamed.split(" "), "");
-        if (biomeDisplayName.equals("Ocean") || biomeDisplayName.equals("Ocean")) return 112;
-        else if (biomeDisplayName.equals("Plains") || biomeDisplayName.equals("Plains")) return 9286496;
-        else if (biomeDisplayName.equals("Desert") || biomeDisplayName.equals("Desert")) return 16421912;
-        else if (biomeDisplayName.equals("ExtremeHills") || biomeDisplayName.equals("Extreme Hills")) return 6316128;
-        else if (biomeDisplayName.equals("Forest") || biomeDisplayName.equals("Forest")) return 353825;
-        else if (biomeDisplayName.equals("Taiga") || biomeDisplayName.equals("Taiga")) return 747097;
-        else if (biomeDisplayName.equals("Swampland") || biomeDisplayName.equals("Swampland")) return 522674;
-        else if (biomeDisplayName.equals("River") || biomeDisplayName.equals("River")) return 255;
-        else if (biomeDisplayName.equals("Hell") || biomeDisplayName.equals("Hell")) return 16711680;
-        else if (biomeDisplayName.equals("TheEnd") || biomeDisplayName.equals("The End")) return 8421631;
-        else if (biomeDisplayName.equals("FrozenOcean") || biomeDisplayName.equals("Frozen Ocean")) return 7368918;
-        else if (biomeDisplayName.equals("FrozenRiver") || biomeDisplayName.equals("Frozen River")) return 10526975;
-        else if (biomeDisplayName.equals("IcePlains") || biomeDisplayName.equals("Ice Plains")) return 16777215;
-        else if (biomeDisplayName.equals("IceMountains") || biomeDisplayName.equals("Ice Mountains")) return 10526880;
-        else if (biomeDisplayName.equals("MushroomIsland") || biomeDisplayName.equals("Mushroom Island"))
-            return 16711935;
-        else if (biomeDisplayName.equals("MushroomIslandShore") || biomeDisplayName.equals("Mushroom Island Shore"))
-            return 10486015;
-        else if (biomeDisplayName.equals("Beach") || biomeDisplayName.equals("Beach")) return 16440917;
-        else if (biomeDisplayName.equals("DesertHills") || biomeDisplayName.equals("Desert Hills")) return 13786898;
-        else if (biomeDisplayName.equals("ForestHills") || biomeDisplayName.equals("Forest Hills")) return 2250012;
-        else if (biomeDisplayName.equals("TaigaHills") || biomeDisplayName.equals("Taiga Hills")) return 1456435;
-        else if (biomeDisplayName.equals("ExtremeHillsEdge") || biomeDisplayName.equals("Extreme Hills Edge"))
-            return 7501978;
-        else if (biomeDisplayName.equals("Jungle") || biomeDisplayName.equals("Jungle")) return 5470985;
-        else if (biomeDisplayName.equals("JungleHills") || biomeDisplayName.equals("Jungle Hills")) return 2900485;
-        else if (biomeDisplayName.equals("JungleEdge") || biomeDisplayName.equals("Jungle Edge")) return 6458135;
-        else if (biomeDisplayName.equals("DeepOcean") || biomeDisplayName.equals("Deep Ocean")) return 48;
-        else if (biomeDisplayName.equals("StoneBeach") || biomeDisplayName.equals("Stone Beach")) return 10658436;
-        else if (biomeDisplayName.equals("ColdBeach") || biomeDisplayName.equals("Cold Beach")) return 16445632;
-        else if (biomeDisplayName.equals("BirchForest") || biomeDisplayName.equals("Birch Forest")) return 3175492;
-        else if (biomeDisplayName.equals("BirchForestHills") || biomeDisplayName.equals("Birch Forest Hills"))
-            return 2055986;
-        else if (biomeDisplayName.equals("RoofedForest") || biomeDisplayName.equals("Roofed Forest")) return 4215066;
-        else if (biomeDisplayName.equals("ColdTaiga") || biomeDisplayName.equals("Cold Taiga")) return 3233098;
-        else if (biomeDisplayName.equals("ColdTaigaHills") || biomeDisplayName.equals("Cold Taiga Hills"))
-            return 2375478;
-        else if (biomeDisplayName.equals("MegaTaiga") || biomeDisplayName.equals("Mega Taiga")) return 5858897;
-        else if (biomeDisplayName.equals("MegaTaigaHills") || biomeDisplayName.equals("Mega Taiga Hills"))
-            return 4542270;
-        else if (biomeDisplayName.equals("ExtremeHills+") || biomeDisplayName.equals("Extreme Hills+")) return 5271632;
-        else if (biomeDisplayName.equals("Savanna") || biomeDisplayName.equals("Savanna")) return 12431967;
-        else if (biomeDisplayName.equals("SavannaPlateau") || biomeDisplayName.equals("Savanna Plateau"))
-            return 10984804;
-        else if (biomeDisplayName.equals("Mesa") || biomeDisplayName.equals("Mesa")) return 14238997;
-        else if (biomeDisplayName.equals("MesaPlateauF") || biomeDisplayName.equals("Mesa Plateau F")) return 11573093;
-        else if (biomeDisplayName.equals("MesaPlateau") || biomeDisplayName.equals("Mesa Plateau")) return 13274213;
-        else if (biomeDisplayName.equals("TheEnd-Floatingislands") || biomeDisplayName.equals("The End - Floating islands"))
-            return 8421631;
-        else if (biomeDisplayName.equals("TheEnd-Mediumisland") || biomeDisplayName.equals("The End - Medium island"))
-            return 8421631;
-        else if (biomeDisplayName.equals("TheEnd-Highisland") || biomeDisplayName.equals("The End - High island"))
-            return 8421631;
-        else if (biomeDisplayName.equals("TheEnd-Barrenisland") || biomeDisplayName.equals("The End - Barren island"))
-            return 8421631;
-        else if (biomeDisplayName.equals("WarmOcean") || biomeDisplayName.equals("Warm Ocean")) return 172;
-        else if (biomeDisplayName.equals("LukewarmOcean") || biomeDisplayName.equals("Lukewarm Ocean")) return 144;
-        else if (biomeDisplayName.equals("ColdOcean") || biomeDisplayName.equals("Cold Ocean")) return 2105456;
-        else if (biomeDisplayName.equals("WarmDeepOcean") || biomeDisplayName.equals("Warm Deep Ocean")) return 80;
-        else if (biomeDisplayName.equals("LukewarmDeepOcean") || biomeDisplayName.equals("Lukewarm Deep Ocean"))
-            return 64;
-        else if (biomeDisplayName.equals("ColdDeepOcean") || biomeDisplayName.equals("Cold Deep Ocean")) return 2105400;
-        else if (biomeDisplayName.equals("FrozenDeepOcean") || biomeDisplayName.equals("Frozen Deep Ocean"))
-            return 4210832;
-        else if (biomeDisplayName.equals("TheVoid") || biomeDisplayName.equals("The Void")) return 0;
-        else if (biomeDisplayName.equals("SunflowerPlains") || biomeDisplayName.equals("Sunflower Plains"))
-            return 11918216;
-        else if (biomeDisplayName.equals("DesertM") || biomeDisplayName.equals("Desert M")) return 16759872;
-        else if (biomeDisplayName.equals("ExtremeHillsM") || biomeDisplayName.equals("Extreme Hills M")) return 8947848;
-        else if (biomeDisplayName.equals("FlowerForest") || biomeDisplayName.equals("Flower Forest")) return 2985545;
-        else if (biomeDisplayName.equals("TaigaM") || biomeDisplayName.equals("Taiga M")) return 3378817;
-        else if (biomeDisplayName.equals("SwamplandM") || biomeDisplayName.equals("Swampland M")) return 3145690;
-        else if (biomeDisplayName.equals("IcePlainsSpikes") || biomeDisplayName.equals("Ice Plains Spikes"))
-            return 11853020;
-        else if (biomeDisplayName.equals("JungleM") || biomeDisplayName.equals("Jungle M")) return 8102705;
-        else if (biomeDisplayName.equals("JungleEdgeM") || biomeDisplayName.equals("Jungle Edge M")) return 9089855;
-        else if (biomeDisplayName.equals("BirchForestM") || biomeDisplayName.equals("Birch Forest M")) return 5807212;
-        else if (biomeDisplayName.equals("BirchForestHillsM") || biomeDisplayName.equals("Birch Forest Hills M"))
-            return 4687706;
-        else if (biomeDisplayName.equals("RoofedForestM") || biomeDisplayName.equals("Roofed Forest M")) return 6846786;
-        else if (biomeDisplayName.equals("ColdTaigaM") || biomeDisplayName.equals("Cold Taiga M")) return 5864818;
-        else if (biomeDisplayName.equals("MegaSpruceTaiga") || biomeDisplayName.equals("Mega Spruce Taiga"))
-            return 8490617;
-        else if (biomeDisplayName.equals("MegaSpruceTaiga(Hills)") || biomeDisplayName.equals("Mega Spruce Taiga (Hills)"))
-            return 7173990;
-        else if (biomeDisplayName.equals("ExtremeHills+M") || biomeDisplayName.equals("Extreme Hills+ M"))
-            return 7903352;
-        else if (biomeDisplayName.equals("SavannaM") || biomeDisplayName.equals("Savanna M")) return 15063687;
-        else if (biomeDisplayName.equals("SavannaPlateauM") || biomeDisplayName.equals("Savanna Plateau M"))
-            return 13616524;
-        else if (biomeDisplayName.equals("Mesa(Bryce)") || biomeDisplayName.equals("Mesa (Bryce)")) return 16739645;
-        else if (biomeDisplayName.equals("MesaPlateauFM") || biomeDisplayName.equals("Mesa Plateau F M"))
-            return 14204813;
-        else if (biomeDisplayName.equals("MesaPlateauM") || biomeDisplayName.equals("Mesa Plateau M")) return 15905933;
-        else if (biomeDisplayName.equals("BambooJungle") || biomeDisplayName.equals("Bamboo Jungle")) return 7769620;
-        else if (biomeDisplayName.equals("BambooJungleHills") || biomeDisplayName.equals("Bamboo Jungle Hills"))
-            return 3884810;
-        throw new Error("Unexpected biome, with name: '" + biomeDisplayName + "'");
+        return switch (biomeDisplayName) {
+            case "Ocean", "Ocean" -> 112;
+            case "Plains", "Plains" -> 9286496;
+            case "Desert", "Desert" -> 16421912;
+            case "ExtremeHills", "Extreme Hills" -> 6316128;
+            case "Forest", "Forest" -> 353825;
+            case "Taiga", "Taiga" -> 747097;
+            case "Swampland", "Swampland" -> 522674;
+            case "River", "River" -> 255;
+            case "Hell", "Hell" -> 16711680;
+            case "TheEnd", "The End" -> 8421631;
+            case "FrozenOcean", "Frozen Ocean" -> 7368918;
+            case "FrozenRiver", "Frozen River" -> 10526975;
+            case "IcePlains", "Ice Plains" -> 16777215;
+            case "IceMountains", "Ice Mountains" -> 10526880;
+            case "MushroomIsland", "Mushroom Island" -> 16711935;
+            case "MushroomIslandShore", "Mushroom Island Shore" -> 10486015;
+            case "Beach", "Beach" -> 16440917;
+            case "DesertHills", "Desert Hills" -> 13786898;
+            case "ForestHills", "Forest Hills" -> 2250012;
+            case "TaigaHills", "Taiga Hills" -> 1456435;
+            case "ExtremeHillsEdge", "Extreme Hills Edge" -> 7501978;
+            case "Jungle", "Jungle" -> 5470985;
+            case "JungleHills", "Jungle Hills" -> 2900485;
+            case "JungleEdge", "Jungle Edge" -> 6458135;
+            case "DeepOcean", "Deep Ocean" -> 48;
+            case "StoneBeach", "Stone Beach" -> 10658436;
+            case "ColdBeach", "Cold Beach" -> 16445632;
+            case "BirchForest", "Birch Forest" -> 3175492;
+            case "BirchForestHills", "Birch Forest Hills" -> 2055986;
+            case "RoofedForest", "Roofed Forest" -> 4215066;
+            case "ColdTaiga", "Cold Taiga" -> 3233098;
+            case "ColdTaigaHills", "Cold Taiga Hills" -> 2375478;
+            case "MegaTaiga", "Mega Taiga" -> 5858897;
+            case "MegaTaigaHills", "Mega Taiga Hills" -> 4542270;
+            case "ExtremeHills+", "Extreme Hills+" -> 5271632;
+            case "Savanna", "Savanna" -> 12431967;
+            case "SavannaPlateau", "Savanna Plateau" -> 10984804;
+            case "Mesa", "Mesa" -> 14238997;
+            case "MesaPlateauF", "Mesa Plateau F" -> 11573093;
+            case "MesaPlateau", "Mesa Plateau" -> 13274213;
+            case "TheEnd-Floatingislands", "The End - Floating islands" -> 8421631;
+            case "TheEnd-Mediumisland", "The End - Medium island" -> 8421631;
+            case "TheEnd-Highisland", "The End - High island" -> 8421631;
+            case "TheEnd-Barrenisland", "The End - Barren island" -> 8421631;
+            case "WarmOcean", "Warm Ocean" -> 172;
+            case "LukewarmOcean", "Lukewarm Ocean" -> 144;
+            case "ColdOcean", "Cold Ocean" -> 2105456;
+            case "WarmDeepOcean", "Warm Deep Ocean" -> 80;
+            case "LukewarmDeepOcean", "Lukewarm Deep Ocean" -> 64;
+            case "ColdDeepOcean", "Cold Deep Ocean" -> 2105400;
+            case "FrozenDeepOcean", "Frozen Deep Ocean" -> 4210832;
+            case "TheVoid", "The Void" -> 0;
+            case "SunflowerPlains", "Sunflower Plains" -> 11918216;
+            case "DesertM", "Desert M" -> 16759872;
+            case "ExtremeHillsM", "Extreme Hills M" -> 8947848;
+            case "FlowerForest", "Flower Forest" -> 2985545;
+            case "TaigaM", "Taiga M" -> 3378817;
+            case "SwamplandM", "Swampland M" -> 3145690;
+            case "IcePlainsSpikes", "Ice Plains Spikes" -> 11853020;
+            case "JungleM", "Jungle M" -> 8102705;
+            case "JungleEdgeM", "Jungle Edge M" -> 9089855;
+            case "BirchForestM", "Birch Forest M" -> 5807212;
+            case "BirchForestHillsM", "Birch Forest Hills M" -> 4687706;
+            case "RoofedForestM", "Roofed Forest M" -> 6846786;
+            case "ColdTaigaM", "Cold Taiga M" -> 5864818;
+            case "MegaSpruceTaiga", "Mega Spruce Taiga" -> 8490617;
+            case "MegaSpruceTaiga(Hills)", "Mega Spruce Taiga (Hills)" -> 7173990;
+            case "ExtremeHills+M", "Extreme Hills+ M" -> 7903352;
+            case "SavannaM", "Savanna M" -> 15063687;
+            case "SavannaPlateauM", "Savanna Plateau M" -> 13616524;
+            case "Mesa(Bryce)", "Mesa (Bryce)" -> 16739645;
+            case "MesaPlateauFM", "Mesa Plateau F M" -> 14204813;
+            case "MesaPlateauM", "Mesa Plateau M" -> 15905933;
+            case "BambooJungle", "Bamboo Jungle" -> 7769620;
+            case "BambooJungleHills", "Bamboo Jungle Hills" -> 3884810;
+            default -> throw new Error("Unexpected biome, with name: '" + biomeDisplayName + "'");
+        };
     }
 
     public static JsonObject generateBiomeInfo(Biome biome) {

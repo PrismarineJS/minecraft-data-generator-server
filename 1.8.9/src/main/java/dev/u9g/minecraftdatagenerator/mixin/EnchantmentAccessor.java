@@ -10,7 +10,7 @@ import java.util.Map;
 @Mixin(Enchantment.class)
 public interface EnchantmentAccessor {
     @Accessor("ENCHANTMENT_MAP")
-    public static Map<Identifier, Enchantment> ENCHANTMENT_MAP() {
+    static Map<Identifier, Enchantment> ENCHANTMENT_MAP() {
         throw new Error();
     }
 }

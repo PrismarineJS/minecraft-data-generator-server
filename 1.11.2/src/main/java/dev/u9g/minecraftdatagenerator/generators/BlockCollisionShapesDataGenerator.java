@@ -94,7 +94,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
         }
 
         private static class Shapes {
-            List<Box> boxes;
+            final List<Box> boxes;
 
             public Shapes(List<Box> boxes) {
                 this.boxes = boxes;

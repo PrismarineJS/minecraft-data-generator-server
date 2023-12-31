@@ -10,7 +10,7 @@ import java.util.List;
 @Mixin(NoteBlock.class)
 public interface NoteBlockAccessor {
     @Accessor("TUNES")
-    public static List<SoundEvent> TUNES() {
+    static List<SoundEvent> TUNES() {
         return null;
     }
 }

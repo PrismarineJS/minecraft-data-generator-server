@@ -37,8 +37,8 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
     }
 
     private static class BlockShapesCache {
-        public Map<VoxelShape, Integer> uniqueBlockShapes = new HashMap<>();
-        public Map<Block, List<Integer>> blockCollisionShapes = new HashMap<>();
+        public final Map<VoxelShape, Integer> uniqueBlockShapes = new HashMap<>();
+        public final Map<Block, List<Integer>> blockCollisionShapes = new HashMap<>();
         private int lastCollisionShapeId = 0;
 
         public void processBlock(Block block) {

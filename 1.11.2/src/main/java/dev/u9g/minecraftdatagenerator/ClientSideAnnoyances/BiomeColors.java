@@ -3,31 +3,22 @@ package dev.u9g.minecraftdatagenerator.ClientSideAnnoyances;
 import dev.u9g.minecraftdatagenerator.util.EmptyBlockView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.biome.Biome;
 
 import java.util.Iterator;
 
 public class BiomeColors {
-    private static final ColorProvider GRASS_COLOR = new ColorProvider() {
-        public int getColorAtPos(Biome biome, BlockPos pos) {
-            double d = (double) MathHelper.clamp(biome.getTemperature(pos), 0.0F, 1.0F);
-            double e = (double) MathHelper.clamp(biome.getRainfall(), 0.0F, 1.0F);
-            return GrassColors.getColor(d, e);
-        }
+    private static final ColorProvider GRASS_COLOR = (biome, pos) -> {
+        double d = (double) MathHelper.clamp(biome.getTemperature(pos), 0.0F, 1.0F);
+        double e = (double) MathHelper.clamp(biome.getRainfall(), 0.0F, 1.0F);
+        return GrassColors.getColor(d, e);
     };
-    private static final ColorProvider FOLIAGE_COLOR = new ColorProvider() {
-        public int getColorAtPos(Biome biome, BlockPos pos) {
-            double d = (double) MathHelper.clamp(biome.getTemperature(pos), 0.0F, 1.0F);
-            double e = (double) MathHelper.clamp(biome.getRainfall(), 0.0F, 1.0F);
-            return FoliageColors.getColor(d, e);
-        }
+    private static final ColorProvider FOLIAGE_COLOR = (biome, pos) -> {
+        double d = (double) MathHelper.clamp(biome.getTemperature(pos), 0.0F, 1.0F);
+        double e = (double) MathHelper.clamp(biome.getRainfall(), 0.0F, 1.0F);
+        return FoliageColors.getColor(d, e);
     };
-    private static final ColorProvider WATER_COLOR = new ColorProvider() {
-        public int getColorAtPos(Biome biome, BlockPos pos) {
-            return biome.getWaterColor();
-        }
-    };
+    private static final ColorProvider WATER_COLOR = (biome, pos) -> biome.getWaterColor();
 
     private static int getColor(EmptyBlockView view, BlockPos pos, ColorProvider provider) {
         int i = 0;

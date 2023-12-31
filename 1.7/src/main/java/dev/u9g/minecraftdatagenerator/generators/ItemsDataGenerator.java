@@ -76,9 +76,8 @@ public class ItemsDataGenerator implements IDataGenerator {
             itemDesc.addProperty("maxDurability", maxDurability);
         }
 
-        if (item instanceof VariantBlockItem) {
+        if (item instanceof VariantBlockItem it) {
             JsonArray variations = new JsonArray();
-            VariantBlockItem it = (VariantBlockItem) item;
             int i = 0;
             JsonObject obj = new JsonObject();
             for (String variant : ((VariantBlockItemAccessor) it).variants()) {

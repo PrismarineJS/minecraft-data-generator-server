@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class DGU {
 
-    public static final TypeAdapter<JsonElement> JSON_ELEMENT = new TypeAdapter<JsonElement>() {
+    public static final TypeAdapter<JsonElement> JSON_ELEMENT = new TypeAdapter<>() {
         @Override
         public JsonElement read(JsonReader in) throws IOException {
             switch (in.peek()) {
@@ -97,7 +97,7 @@ public class DGU {
     };
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(JsonElement.class, JSON_ELEMENT).setPrettyPrinting().create();
-    private static Language language = Language.getInstance();
+    private static final Language language = Language.getInstance();
 
     @Environment(EnvType.CLIENT)
     private static MinecraftServer getCurrentlyRunningServerClient() {

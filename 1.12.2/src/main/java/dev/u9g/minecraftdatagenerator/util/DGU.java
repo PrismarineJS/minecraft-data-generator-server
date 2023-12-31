@@ -15,7 +15,6 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.Language;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 

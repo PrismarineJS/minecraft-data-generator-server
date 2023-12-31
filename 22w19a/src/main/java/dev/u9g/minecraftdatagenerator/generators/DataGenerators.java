@@ -17,7 +17,7 @@ import java.util.List;
 public class DataGenerators {
 
     private static final Logger logger = LoggerFactory.getLogger(DataGenerators.class);
-    private static List<IDataGenerator> GENERATORS = new ArrayList<>();
+    private static final List<IDataGenerator> GENERATORS = new ArrayList<>();
 
     static {
         register(new BiomesDataGenerator());

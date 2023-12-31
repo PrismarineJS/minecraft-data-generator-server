@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 public class DGU {
 
-    private static Language language = Language.getInstance();
+    private static final Language language = Language.getInstance();
 
     @Environment(EnvType.CLIENT)
     private static MinecraftServer getCurrentlyRunningServerClient() {

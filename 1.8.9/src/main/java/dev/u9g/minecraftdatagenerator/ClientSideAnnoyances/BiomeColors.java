@@ -7,21 +7,9 @@ import net.minecraft.world.biome.Biome;
 import java.util.Iterator;
 
 public class BiomeColors {
-    private static final ColorProvider GRASS_COLOR = new ColorProvider() {
-        public int getColorAtPos(Biome biome, BlockPos pos) {
-            return biome.getGrassColor(pos);
-        }
-    };
-    private static final ColorProvider FOLIAGE_COLOR = new ColorProvider() {
-        public int getColorAtPos(Biome biome, BlockPos pos) {
-            return biome.getFoliageColor(pos);
-        }
-    };
-    private static final ColorProvider WATER_COLOR = new ColorProvider() {
-        public int getColorAtPos(Biome biome, BlockPos pos) {
-            return biome.waterColor;
-        }
-    };
+    private static final ColorProvider GRASS_COLOR = (biome, pos) -> biome.getGrassColor(pos);
+    private static final ColorProvider FOLIAGE_COLOR = (biome, pos) -> biome.getFoliageColor(pos);
+    private static final ColorProvider WATER_COLOR = (biome, pos) -> biome.waterColor;
 
     private static int getColor(BlockView view, BlockPos pos, ColorProvider provider) {
         int i = 0;

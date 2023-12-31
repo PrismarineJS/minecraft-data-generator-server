@@ -9,7 +9,7 @@ import java.util.List;
 @Mixin(NoteBlock.class)
 public interface NoteBlockAccessor {
     @Accessor("TUNES")
-    public static List<String> TUNES() {
+    static List<String> TUNES() {
         return null;
     }
 }

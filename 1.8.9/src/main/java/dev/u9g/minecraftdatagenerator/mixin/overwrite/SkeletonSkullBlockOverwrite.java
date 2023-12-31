@@ -10,23 +10,13 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(SkeletonSkullBlock.class)
 public class SkeletonSkullBlockOverwrite {
     private static Box boundingBox(BlockState state) {
-        switch (state.get(SkeletonSkullBlock.FACING)) {
-            default: {
-                return new Box(0.25f, 0.0f, 0.25f, 0.75f, 0.5f, 0.75f);
-            }
-            case NORTH: {
-                return new Box(0.25f, 0.25f, 0.5f, 0.75f, 0.75f, 1.0f);
-            }
-            case SOUTH: {
-                return new Box(0.25f, 0.25f, 0.0f, 0.75f, 0.75f, 0.5f);
-            }
-            case WEST: {
-                return new Box(0.5f, 0.25f, 0.25f, 1.0f, 0.75f, 0.75f);
-            }
-            case EAST: {
-                return new Box(0.0f, 0.25f, 0.25f, 0.5f, 0.75f, 0.75f);
-            }
-        }
+        return switch (state.get(SkeletonSkullBlock.FACING)) {
+            default -> new Box(0.25f, 0.0f, 0.25f, 0.75f, 0.5f, 0.75f);
+            case NORTH -> new Box(0.25f, 0.25f, 0.5f, 0.75f, 0.75f, 1.0f);
+            case SOUTH -> new Box(0.25f, 0.25f, 0.0f, 0.75f, 0.75f, 0.5f);
+            case WEST -> new Box(0.5f, 0.25f, 0.25f, 1.0f, 0.75f, 0.75f);
+            case EAST -> new Box(0.0f, 0.25f, 0.25f, 0.5f, 0.75f, 0.75f);
+        };
     }
 
     public Box getCollisionBox(World world, BlockPos pos, BlockState state) {

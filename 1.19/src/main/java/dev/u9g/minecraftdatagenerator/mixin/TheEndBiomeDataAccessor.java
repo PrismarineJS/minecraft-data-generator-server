@@ -13,17 +13,17 @@ import java.util.Map;
 @Mixin(TheEndBiomeData.class)
 public interface TheEndBiomeDataAccessor {
     @Accessor("END_BIOMES_MAP")
-    public static Map<RegistryKey<Biome>, WeightedPicker<RegistryKey<Biome>>> END_BIOMES_MAP() {
+    static Map<RegistryKey<Biome>, WeightedPicker<RegistryKey<Biome>>> END_BIOMES_MAP() {
         throw new IllegalStateException("Should never be called.");
     }
 
     @Accessor("END_MIDLANDS_MAP")
-    public static Map<RegistryKey<Biome>, WeightedPicker<RegistryKey<Biome>>> END_MIDLANDS_MAP() {
+    static Map<RegistryKey<Biome>, WeightedPicker<RegistryKey<Biome>>> END_MIDLANDS_MAP() {
         throw new IllegalStateException("Should never be called.");
     }
 
     @Accessor("END_BARRENS_MAP")
-    public static Map<RegistryKey<Biome>, WeightedPicker<RegistryKey<Biome>>> END_BARRENS_MAP() {
+    static Map<RegistryKey<Biome>, WeightedPicker<RegistryKey<Biome>>> END_BARRENS_MAP() {
         throw new IllegalStateException("Should never be called.");
     }
 }

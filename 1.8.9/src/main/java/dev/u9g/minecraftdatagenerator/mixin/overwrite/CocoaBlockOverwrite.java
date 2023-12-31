@@ -17,21 +17,17 @@ public class CocoaBlockOverwrite {
         int j = 4 + i * 2;
         int k = 5 + i * 2;
         float f = (float) j / 2.0f;
-        switch (direction) {
-            case SOUTH: {
-                return new Box((8.0f - f) / 16.0f, (12.0f - (float) k) / 16.0f, (15.0f - (float) j) / 16.0f, (8.0f + f) / 16.0f, 0.75f, 0.9375f);
-            }
-            case NORTH: {
-                return new Box((8.0f - f) / 16.0f, (12.0f - (float) k) / 16.0f, 0.0625f, (8.0f + f) / 16.0f, 0.75f, (1.0f + (float) j) / 16.0f);
-            }
-            case WEST: {
-                return new Box(0.0625f, (12.0f - (float) k) / 16.0f, (8.0f - f) / 16.0f, (1.0f + (float) j) / 16.0f, 0.75f, (8.0f + f) / 16.0f);
-            }
-            case EAST: {
-                return new Box((15.0f - (float) j) / 16.0f, (12.0f - (float) k) / 16.0f, (8.0f - f) / 16.0f, 0.9375f, 0.75f, (8.0f + f) / 16.0f);
-            }
-        }
-        throw new Error("Should never hit here");
+        return switch (direction) {
+            case SOUTH ->
+                    new Box((8.0f - f) / 16.0f, (12.0f - (float) k) / 16.0f, (15.0f - (float) j) / 16.0f, (8.0f + f) / 16.0f, 0.75f, 0.9375f);
+            case NORTH ->
+                    new Box((8.0f - f) / 16.0f, (12.0f - (float) k) / 16.0f, 0.0625f, (8.0f + f) / 16.0f, 0.75f, (1.0f + (float) j) / 16.0f);
+            case WEST ->
+                    new Box(0.0625f, (12.0f - (float) k) / 16.0f, (8.0f - f) / 16.0f, (1.0f + (float) j) / 16.0f, 0.75f, (8.0f + f) / 16.0f);
+            case EAST ->
+                    new Box((15.0f - (float) j) / 16.0f, (12.0f - (float) k) / 16.0f, (8.0f - f) / 16.0f, 0.9375f, 0.75f, (8.0f + f) / 16.0f);
+            default -> throw new Error("Should never hit here");
+        };
     }
 
     /**
