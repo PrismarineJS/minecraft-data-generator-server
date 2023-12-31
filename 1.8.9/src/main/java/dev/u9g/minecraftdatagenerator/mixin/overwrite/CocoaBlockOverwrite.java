@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(CocoaBlock.class)
 public class CocoaBlockOverwrite {
     @Unique
-    @Unique
     private static Box collisionBox(BlockState state) {
         Direction direction = state.get(CocoaBlock.FACING);
         int i = state.get(CocoaBlock.AGE);
