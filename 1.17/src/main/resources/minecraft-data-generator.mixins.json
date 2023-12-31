@@ -6,8 +6,7 @@
   "mixins": [
     "ClientPlayerInteractionManagerMixin",
     "MiningToolItemAccessor",
-    "ReadyMixin",
-    "StopMixin"
+    "ReadyMixin"
   ],
   "client": [
   ],

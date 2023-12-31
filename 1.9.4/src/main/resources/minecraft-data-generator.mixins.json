@@ -15,8 +15,7 @@
     "NoteBlockAccessor",
     "ReadyMixin",
     "SoundAccessor",
-    "StatusEffectAccessor",
-    "StopMixin"
+    "StatusEffectAccessor"
   ],
   "client": [
   ],

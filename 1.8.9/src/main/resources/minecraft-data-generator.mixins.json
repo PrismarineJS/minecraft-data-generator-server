@@ -13,7 +13,6 @@
     "NoteBlockAccessor",
     "ReadyMixin",
     "StatusEffectAccessor",
-    "StopMixin",
     "overwrite.CocoaBlockOverwrite",
     "overwrite.EndPortalFrameBlockOverwrite",
     "overwrite.ItemEntityOverwrite",
