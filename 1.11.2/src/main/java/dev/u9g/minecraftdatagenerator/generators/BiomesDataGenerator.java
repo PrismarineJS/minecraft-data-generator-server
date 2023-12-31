@@ -2,7 +2,7 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.SkyColor;
+import dev.u9g.minecraftdatagenerator.clientsideannoyances.SkyColor;
 import dev.u9g.minecraftdatagenerator.mixin.BiomeAccessor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.SimpleRegistry;

@@ -6,9 +6,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(SkeletonSkullBlock.class)
 public class SkeletonSkullBlockOverwrite {
+    @Unique
+    @Unique
     private static Box boundingBox(BlockState state) {
         return switch (state.get(SkeletonSkullBlock.FACING)) {
             default -> new Box(0.25f, 0.0f, 0.25f, 0.75f, 0.5f, 0.75f);
@@ -19,6 +22,8 @@ public class SkeletonSkullBlockOverwrite {
         };
     }
 
+    @Unique
+    @Unique
     public Box getCollisionBox(World world, BlockPos pos, BlockState state) {
         return boundingBox(state);
     }

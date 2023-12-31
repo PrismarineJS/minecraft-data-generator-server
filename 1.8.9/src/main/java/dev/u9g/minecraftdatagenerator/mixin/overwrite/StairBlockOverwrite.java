@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 import java.util.List;
 
@@ -53,6 +54,7 @@ public abstract class StairBlockOverwrite extends Block {
         this.setBoundingBox(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
     }
 
+    @Unique
     public Box someFuncThatIRemade(BlockState state) {
         if (state.get(HALF) == StairsBlock.Half.TOP) {
             return new Box(0.0f, 0.5f, 0.0f, 1.0f, 1.0f, 1.0f);
@@ -61,6 +63,7 @@ public abstract class StairBlockOverwrite extends Block {
         }
     }
 
+    @Unique
     public boolean calculateWhichTypeOfStairThisIsButDoesntWorkBecauseWeDontHaveAdjBlocks(BlockState state) {
         EmptyBlockView blockView = new EmptyBlockView() {
             @Override
