@@ -8,7 +8,8 @@
     "EULAMixin",
     "MiningToolItemAccessor",
     "ReadyMixin",
-    "StatusEffectAccessor"
+    "StatusEffectAccessor",
+    "StopMixin"
   ],
   "client": [
   ],

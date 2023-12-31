@@ -8,6 +8,7 @@
     "EULAMixin",
     "MiningToolItemAccessor",
     "ReadyMixin",
+    "StopMixin",
     "TheEndBiomeDataAccessor"
   ],
   "client": [

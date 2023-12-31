@@ -6,6 +6,7 @@
   "mixins": [
     "BlocksMixin",
     "ReadyMixin",
+    "StopMixin",
     "VariantBlockItemAccessor",
     "accessor.BiomeAccessor",
     "accessor.BlockAccessor",

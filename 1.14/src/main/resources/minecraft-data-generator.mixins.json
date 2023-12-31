@@ -6,7 +6,8 @@
   "mixins": [
     "MiningToolItemAccessor",
     "ReadyMixin",
-    "StatusEffectAccessor"
+    "StatusEffectAccessor",
+    "StopMixin"
   ],
   "client": [
   ],
