@@ -1,0 +1,25 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.u9g.minecraftdatagenerator.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "BlocksMixin",
+    "ReadyMixin",
+    "VariantBlockItemAccessor",
+    "accessor.BiomeAccessor",
+    "accessor.BlockAccessor",
+    "accessor.EnchantmentAccessor",
+    "accessor.EntityTypeAccessor",
+    "accessor.ItemAccessor",
+    "accessor.LanguageAccessor",
+    "accessor.MiningToolItemAccessor",
+    "accessor.StatusEffectAccessor",
+    "overwrite.ItemEntityOverwrite"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

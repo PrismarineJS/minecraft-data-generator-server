@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "minecraft-data-generator",
+  "version": "${version}",
+  "name": "Minecraft Data Generator",
+  "description": "",
+  "authors": [
+    "Archengius",
+    "U9G"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "dev.u9g.minecraftdatagenerator.Main"
+    ]
+  },
+  "mixins": [
+    "minecraft-data-generator.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "fabric": "*",
+    "minecraft": "1.17"
+  }
+}
