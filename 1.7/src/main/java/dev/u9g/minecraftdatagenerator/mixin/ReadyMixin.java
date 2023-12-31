@@ -18,10 +18,10 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.logging.Level;
 
-@Mixin(PlayerManager.class)
+@Mixin(MinecraftDedicatedServer.class)
 public class ReadyMixin {
-    @Inject(method = "onPlayerConnect(Lnet/minecraft/network/ClientConnection;Lnet/minecraft/entity/player/ServerPlayerEntity;)V", at = @At("TAIL"))
-    private void init(ClientConnection player, ServerPlayerEntity par2, CallbackInfo ci) {
+    @Inject(method = "setupServer()Z", at = @At("TAIL"))
+    private void init(CallbackInfoReturnable<Boolean> cir) {
         Registries.init();
         Main.LOGGER.log(Level.INFO, "Starting data generation!");
         String versionName = DGU.getCurrentlyRunningServer().getVersion();

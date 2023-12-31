@@ -1,10 +1,8 @@
 package dev.u9g.minecraftdatagenerator.util;
 
-import dev.u9g.minecraftdatagenerator.mixin.accessor.MinecraftClientAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class DGU {
     public static MinecraftServer getCurrentlyRunningServer() {
-        return ((MinecraftClientAccessor) MinecraftClient.getInstance()).getServer();
+        return MinecraftServer.getServer();
     }
 
     @Environment(EnvType.CLIENT)

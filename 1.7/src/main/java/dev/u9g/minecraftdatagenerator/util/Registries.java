@@ -29,7 +29,6 @@ public class Registries {
     public static RegistryView<String, StatusEffect> STATUS_EFFECTS;
     public static RegistryView<String, Enchantment> ENCHANTMENTS;
     public static RegistryView<String, Class<? extends Entity>> ENTITY_TYPES;
-    public static Set<String> IDENTIFIERS = new HashSet<>();
 
     private static RegistryView<String, Class<? extends Entity>> setupEntityTypesRegistry() {
         TableBackedRegistryView.Builder<String, Class<? extends Entity>> registry = new TableBackedRegistryView.Builder<>();

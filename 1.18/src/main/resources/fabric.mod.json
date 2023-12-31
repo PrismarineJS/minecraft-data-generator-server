@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "minecraft-data-generator",
   "version": "${version}",
-  "name": "Minecrft Data Generator",
+  "name": "Minecraft Data Generator",
   "description": "",
   "authors": [
     "Archengius",
@@ -10,7 +10,6 @@
   ],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/minecrft-data-generator/icon.png",
   "environment": "server",
   "entrypoints": {
     "main": [
