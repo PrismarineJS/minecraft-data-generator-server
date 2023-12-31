@@ -22,6 +22,6 @@ public class ReadyMixin {
         Path dataDumpDirectory = serverRootDirectory.resolve("minecraft-data").resolve(versionName);
         DataGenerators.runDataGenerators(dataDumpDirectory);
         Main.LOGGER.info("Done data generation!");
-        DGU.getCurrentlyRunningServer().stop(false);
+        System.exit(0);
     }
 }
