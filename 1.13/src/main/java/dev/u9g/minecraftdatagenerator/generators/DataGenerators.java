@@ -44,16 +44,16 @@ public class DataGenerators {
         try {
             Files.createDirectories(outputDirectory);
         } catch (IOException exception) {
-            logger.log(Level.INFO, "Failed to create data generator output directory at " + outputDirectory);
+            logger.info("Failed to create data generator output directory at " + outputDirectory);
             exception.printStackTrace();
             return false;
         }
 
         int generatorsFailed = 0;
-        logger.log(Level.INFO, MessageFormat.format("Running minecraft data generators, output at {0}", outputDirectory));
+        logger.info(MessageFormat.format("Running minecraft data generators, output at {0}", outputDirectory));
 
         for (IDataGenerator dataGenerator : GENERATORS) {
-            logger.log(Level.INFO, MessageFormat.format("Running generator {0}", dataGenerator.getDataName()));
+            logger.info(MessageFormat.format("Running generator {0}", dataGenerator.getDataName()));
             try {
                 String outputFileName = String.format("%s.json", dataGenerator.getDataName());
                 JsonElement outputElement = dataGenerator.generateDataJson();
@@ -64,16 +64,16 @@ public class DataGenerators {
                     jsonWriter.setIndent("  ");
                     Streams.write(outputElement, jsonWriter);
                 }
-                logger.log(Level.INFO, MessageFormat.format("Generator: {0} -> {1}", dataGenerator.getDataName(), outputFileName));
+                logger.info(MessageFormat.format("Generator: {0} -> {1}", dataGenerator.getDataName(), outputFileName));
 
             } catch (Throwable exception) {
-                logger.log(Level.INFO, MessageFormat.format("Failed to run data generator {0}", dataGenerator.getDataName()));
+                logger.info(MessageFormat.format("Failed to run data generator {0}", dataGenerator.getDataName()));
                 exception.printStackTrace();
                 generatorsFailed++;
             }
         }
 
-        logger.log(Level.INFO, "Finishing running data generators");
+        logger.info("Finishing running data generators");
         return generatorsFailed == 0;
     }
 }
