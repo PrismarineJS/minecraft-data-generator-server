@@ -1,0 +1,4 @@
+allprojects {
+    version = "1.0.0-SNAPSHOT"
+    group = "dev.u9g"
+}

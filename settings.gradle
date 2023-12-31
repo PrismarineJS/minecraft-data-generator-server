@@ -6,6 +6,27 @@ pluginManagement {
         }
         gradlePluginPortal()
     }
+    plugins {
+        id 'fabric-loom' version "1.4.5"
+    }
+}
+
+dependencyResolutionManagement  {
+    repositories {
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        maven {
+            name = "legacy-fabric"
+            url = "https://maven.legacyfabric.net"
+        }
+        maven {
+            name = "u9g"
+            url = "https://maven.u9g.dev"
+        }
+        mavenCentral()
+    }
 }
 
 [
