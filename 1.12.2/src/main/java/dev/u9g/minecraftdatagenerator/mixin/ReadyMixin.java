@@ -23,5 +23,6 @@ public class ReadyMixin {
         DataGenerators.runDataGenerators(dataDumpDirectory);
         Main.LOGGER.log(Level.INFO, "Done data generation!");
         DGU.getCurrentlyRunningServer().stopServer();
+        System.exit(0);
     }
 }
