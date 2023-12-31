@@ -8,9 +8,11 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(CocoaBlock.class)
 public class CocoaBlockOverwrite {
+    @Unique
     private static Box collisionBox(BlockState state) {
         Direction direction = state.get(CocoaBlock.FACING);
         int i = state.get(CocoaBlock.AGE);

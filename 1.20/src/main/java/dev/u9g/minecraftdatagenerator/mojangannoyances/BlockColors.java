@@ -35,12 +35,12 @@ public class BlockColors {
         blockColors.registerColorProvider((state, world, pos, tintIndex) -> FoliageColors.getBirchColor(), Blocks.BIRCH_LEAVES);
         blockColors.registerColorProvider((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), Blocks.OAK_LEAVES, Blocks.JUNGLE_LEAVES, Blocks.ACACIA_LEAVES, Blocks.DARK_OAK_LEAVES, Blocks.VINE, Blocks.MANGROVE_LEAVES);
         blockColors.registerColorProvider((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getWaterColor(world, pos) : -1, Blocks.WATER, Blocks.BUBBLE_COLUMN, Blocks.WATER_CAULDRON);
-        blockColors.registerColorProvider((state, world, pos, tintIndex) -> RedstoneWireBlock.getWireColor((Integer) state.get(RedstoneWireBlock.POWER)), Blocks.REDSTONE_WIRE);
+        blockColors.registerColorProvider((state, world, pos, tintIndex) -> RedstoneWireBlock.getWireColor(state.get(RedstoneWireBlock.POWER)), Blocks.REDSTONE_WIRE);
         blockColors.registerColorProperty(RedstoneWireBlock.POWER, Blocks.REDSTONE_WIRE);
         blockColors.registerColorProvider((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : -1, Blocks.SUGAR_CANE);
         blockColors.registerColorProvider((state, world, pos, tintIndex) -> 14731036, Blocks.ATTACHED_MELON_STEM, Blocks.ATTACHED_PUMPKIN_STEM);
         blockColors.registerColorProvider((state, world, pos, tintIndex) -> {
-            int i = (Integer) state.get(StemBlock.AGE);
+            int i = state.get(StemBlock.AGE);
             int j = i * 32;
             int k = 255 - i * 8;
             int l = i * 4;
@@ -52,9 +52,9 @@ public class BlockColors {
     }
 
     public int getParticleColor(BlockState state, World world, BlockPos pos) {
-        BlockColorProvider blockColorProvider = (BlockColorProvider) this.providers.get(DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK).getRawId(state.getBlock()));
+        BlockColorProvider blockColorProvider = this.providers.get(DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK).getRawId(state.getBlock()));
         if (blockColorProvider != null) {
-            return blockColorProvider.getColor(state, (BlockRenderView) null, (BlockPos) null, 0);
+            return blockColorProvider.getColor(state, null, null, 0);
         } else {
             MapColor mapColor = state.getMapColor(world, pos);
             return mapColor != null ? mapColor.color : -1;
@@ -62,15 +62,14 @@ public class BlockColors {
     }
 
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
-        BlockColorProvider blockColorProvider = (BlockColorProvider) this.providers.get(DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK).getRawId(state.getBlock()));
+        BlockColorProvider blockColorProvider = this.providers.get(DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK).getRawId(state.getBlock()));
         return blockColorProvider == null ? -1 : blockColorProvider.getColor(state, world, pos, tintIndex);
     }
 
     public void registerColorProvider(BlockColorProvider provider, Block... blocks) {
         int var4 = blocks.length;
 
-        for (int var5 = 0; var5 < var4; ++var5) {
-            Block block = blocks[var5];
+        for (Block block : blocks) {
             this.providers.set(provider, DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK).getRawId(block));
         }
 
@@ -79,8 +78,7 @@ public class BlockColors {
     private void registerColorProperties(Set<Property<?>> properties, Block... blocks) {
         int var4 = blocks.length;
 
-        for (int var5 = 0; var5 < var4; ++var5) {
-            Block block = blocks[var5];
+        for (Block block : blocks) {
             this.properties.put(block, properties);
         }
 
@@ -91,6 +89,6 @@ public class BlockColors {
     }
 
     public Set<Property<?>> getProperties(Block block) {
-        return (Set) this.properties.getOrDefault(block, ImmutableSet.of());
+        return this.properties.getOrDefault(block, ImmutableSet.of());
     }
 }

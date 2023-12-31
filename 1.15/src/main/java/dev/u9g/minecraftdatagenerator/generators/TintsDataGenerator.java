@@ -2,9 +2,9 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.FoliageColors;
-import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.GrassColors;
-import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.ServerSideRedstoneWireBlock;
+import dev.u9g.minecraftdatagenerator.clientsideannoyances.FoliageColors;
+import dev.u9g.minecraftdatagenerator.clientsideannoyances.GrassColors;
+import dev.u9g.minecraftdatagenerator.clientsideannoyances.ServerSideRedstoneWireBlock;
 import dev.u9g.minecraftdatagenerator.util.EmptyRenderBlockView;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

@@ -77,7 +77,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         if (entityType == EntityType.PLAYER) return "other"; // fail early for player entities
         Class<? extends Entity> entityClazz = getEntityClass(entityType);
         String packageName = entityClazz.getPackage().getName();
-        String category = switch (packageName) {
+        return switch (packageName) {
             case "net.minecraft.entity.decoration", "net.minecraft.entity.decoration.painting" -> "Immobile";
             case "net.minecraft.entity.boss", "net.minecraft.entity.mob", "net.minecraft.entity.boss.dragon" ->
                     "Hostile mobs";
@@ -87,7 +87,6 @@ public class EntitiesDataGenerator implements IDataGenerator {
             case "net.minecraft.entity" -> "other";
             default -> throw new Error("Unexpected entity type: " + packageName);
         };
-        return category;
     }
 
     //Honestly, both "type" and "category" fields in the schema and examples do not contain any useful information

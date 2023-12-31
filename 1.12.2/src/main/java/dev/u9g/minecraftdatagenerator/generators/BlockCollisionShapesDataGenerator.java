@@ -95,31 +95,22 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
             return shapes;
         }
 
-        private static class Shapes {
-            final List<Box> boxes;
-
-            public Shapes(List<Box> boxes) {
-                this.boxes = boxes;
-            }
+        private record Shapes(List<Box> boxes) {
 
             public JsonArray toJSON() {
-                JsonArray arr = new JsonArray();
-                boxes.forEach(box -> arr.add(jsonOf(box)));
-                return arr;
-            }
+                        JsonArray arr = new JsonArray();
+                        boxes.forEach(box -> arr.add(jsonOf(box)));
+                        return arr;
+                    }
 
-            @Override
-            public boolean equals(Object o) {
-                if (this == o) return true;
-                if (o == null || getClass() != o.getClass()) return false;
-                Shapes shapes = (Shapes) o;
-                return Objects.equals(boxes, shapes.boxes);
-            }
+                    @Override
+                    public boolean equals(Object o) {
+                        if (this == o) return true;
+                        if (o == null || getClass() != o.getClass()) return false;
+                        Shapes shapes = (Shapes) o;
+                        return Objects.equals(boxes, shapes.boxes);
+                    }
 
-            @Override
-            public int hashCode() {
-                return boxes != null ? boxes.hashCode() : 0;
-            }
         }
     }
 }

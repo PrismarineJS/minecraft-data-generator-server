@@ -19,12 +19,12 @@ public class ReadyMixin {
     @Inject(method = "setupServer()Z", at = @At("TAIL"))
     private void init(CallbackInfoReturnable<Boolean> cir) {
         Registries.init();
-        Main.LOGGER.log(Level.INFO, "Starting data generation!");
+        Main.LOGGER.info("Starting data generation!");
         String versionName = DGU.getCurrentlyRunningServer().getVersion();
         Path serverRootDirectory = (new File(".")).toPath().toAbsolutePath();
         Path dataDumpDirectory = serverRootDirectory.resolve("minecraft-data").resolve(versionName);
         DataGenerators.runDataGenerators(dataDumpDirectory);
-        Main.LOGGER.log(Level.INFO, "Done data generation!");
-        System.exit(0);
+        Main.LOGGER.info("Done data generation!");
+        Runtime.getRuntime().halt(0);
     }
 }

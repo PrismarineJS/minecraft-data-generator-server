@@ -75,7 +75,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         List<Enchantment> incompatibleEnchantments = registry.stream()
                 .filter(other -> !enchantment.canCombine(other))
                 .filter(other -> other != enchantment)
-                .collect(Collectors.toList());
+                .toList();
 
         JsonArray excludes = new JsonArray();
         for (Enchantment excludedEnchantment : incompatibleEnchantments) {
