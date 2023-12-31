@@ -26,15 +26,15 @@ public class BiomesDataGenerator implements IDataGenerator {
         }
         String biomeDisplayName = StringUtils.join(biomeDisplayNamed.split(" "), "");
         return switch (biomeDisplayName) {
-            case "Ocean", "Ocean" -> 112;
-            case "Plains", "Plains" -> 9286496;
-            case "Desert", "Desert" -> 16421912;
+            case "Ocean" -> 112;
+            case "Plains" -> 9286496;
+            case "Desert" -> 16421912;
             case "ExtremeHills", "Extreme Hills" -> 6316128;
-            case "Forest", "Forest" -> 353825;
-            case "Taiga", "Taiga" -> 747097;
-            case "Swampland", "Swampland" -> 522674;
-            case "River", "River" -> 255;
-            case "Hell", "Hell" -> 16711680;
+            case "Forest" -> 353825;
+            case "Taiga" -> 747097;
+            case "Swampland" -> 522674;
+            case "River" -> 255;
+            case "Hell" -> 16711680;
             case "TheEnd", "The End" -> 8421631;
             case "FrozenOcean", "Frozen Ocean" -> 7368918;
             case "FrozenRiver", "Frozen River" -> 10526975;
@@ -42,12 +42,12 @@ public class BiomesDataGenerator implements IDataGenerator {
             case "IceMountains", "Ice Mountains" -> 10526880;
             case "MushroomIsland", "Mushroom Island" -> 16711935;
             case "MushroomIslandShore", "Mushroom Island Shore" -> 10486015;
-            case "Beach", "Beach" -> 16440917;
+            case "Beach" -> 16440917;
             case "DesertHills", "Desert Hills" -> 13786898;
             case "ForestHills", "Forest Hills" -> 2250012;
             case "TaigaHills", "Taiga Hills" -> 1456435;
             case "ExtremeHillsEdge", "Extreme Hills Edge" -> 7501978;
-            case "Jungle", "Jungle" -> 5470985;
+            case "Jungle" -> 5470985;
             case "JungleHills", "Jungle Hills" -> 2900485;
             case "JungleEdge", "Jungle Edge" -> 6458135;
             case "DeepOcean", "Deep Ocean" -> 48;
@@ -61,9 +61,9 @@ public class BiomesDataGenerator implements IDataGenerator {
             case "MegaTaiga", "Mega Taiga" -> 5858897;
             case "MegaTaigaHills", "Mega Taiga Hills" -> 4542270;
             case "ExtremeHills+", "Extreme Hills+" -> 5271632;
-            case "Savanna", "Savanna" -> 12431967;
+            case "Savanna" -> 12431967;
             case "SavannaPlateau", "Savanna Plateau" -> 10984804;
-            case "Mesa", "Mesa" -> 14238997;
+            case "Mesa" -> 14238997;
             case "MesaPlateauF", "Mesa Plateau F" -> 11573093;
             case "MesaPlateau", "Mesa Plateau" -> 13274213;
             case "TheEnd-Floatingislands", "The End - Floating islands" -> 8421631;
