@@ -1,7 +1,5 @@
 package dev.u9g.minecraftdatagenerator.ClientSideAnnoyances;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.RenderBlockView;
@@ -23,7 +21,7 @@ public class BiomeColors {
         int m = (l * 2 + 1) * (l * 2 + 1);
 
         int n;
-        for(Iterator<BlockPos.Mutable> var8 = BlockPos.mutableIterate(blockPos.getX() - l, blockPos.getY(), blockPos.getZ() - l, blockPos.getX() + l, blockPos.getY(), blockPos.getZ() + l).iterator(); var8.hasNext(); k += n & 255) {
+        for (Iterator<BlockPos.Mutable> var8 = BlockPos.mutableIterate(blockPos.getX() - l, blockPos.getY(), blockPos.getZ() - l, blockPos.getX() + l, blockPos.getY(), blockPos.getZ() + l).iterator(); var8.hasNext(); k += n & 255) {
             BlockPos.Mutable mutable = var8.next();
             n = colorProvider.getColor(renderBlockView.method_8577(mutable), mutable);
             i += (n & 16711680) >> 16;

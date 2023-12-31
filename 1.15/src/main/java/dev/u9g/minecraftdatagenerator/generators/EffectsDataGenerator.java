@@ -16,19 +16,6 @@ import java.util.stream.Collectors;
 
 public class EffectsDataGenerator implements IDataGenerator {
 
-    @Override
-    public String getDataName() {
-        return "effects";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultsArray = new JsonArray();
-        Registry<StatusEffect> statusEffectRegistry = Registry.STATUS_EFFECT;
-        statusEffectRegistry.forEach(effect -> resultsArray.add(generateEffect(statusEffectRegistry, effect)));
-        return resultsArray;
-    }
-
     public static JsonObject generateEffect(Registry<StatusEffect> registry, StatusEffect statusEffect) {
         JsonObject effectDesc = new JsonObject();
         Identifier registryKey = registry.getId(statusEffect);
@@ -42,7 +29,20 @@ public class EffectsDataGenerator implements IDataGenerator {
             effectDesc.addProperty("displayName", DGU.translateText(statusEffect.getTranslationKey()));
         }
 
-        effectDesc.addProperty("type", ((StatusEffectAccessor)statusEffect).type() == StatusEffectType.BENEFICIAL ? "good" : "bad");
+        effectDesc.addProperty("type", ((StatusEffectAccessor) statusEffect).type() == StatusEffectType.BENEFICIAL ? "good" : "bad");
         return effectDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "effects";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultsArray = new JsonArray();
+        Registry<StatusEffect> statusEffectRegistry = Registry.STATUS_EFFECT;
+        statusEffectRegistry.forEach(effect -> resultsArray.add(generateEffect(statusEffectRegistry, effect)));
+        return resultsArray;
     }
 }

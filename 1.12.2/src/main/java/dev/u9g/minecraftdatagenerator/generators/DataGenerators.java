@@ -1,11 +1,9 @@
 package dev.u9g.minecraftdatagenerator.generators;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonWriter;
 import dev.u9g.minecraftdatagenerator.Main;
-import io.netty.handler.logging.LogLevel;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -22,6 +20,22 @@ public class DataGenerators {
 
     private static final List<IDataGenerator> GENERATORS = new ArrayList<>();
     private static final Logger logger = Main.LOGGER;
+
+    static {
+        register(new BiomesDataGenerator());
+        register(new BlockCollisionShapesDataGenerator());
+        register(new BlocksDataGenerator());
+        register(new EffectsDataGenerator());
+        register(new EnchantmentsDataGenerator());
+        register(new EntitiesDataGenerator());
+        register(new FoodsDataGenerator());
+        register(new ItemsDataGenerator());
+        register(new ParticlesDataGenerator());
+        register(new TintsDataGenerator());
+        register(new LanguageDataGenerator());
+        register(new InstrumentsDataGenerator());
+        register(new AttributesDataGenerator());
+    }
 
     public static void register(IDataGenerator generator) {
         GENERATORS.add(generator);
@@ -62,21 +76,5 @@ public class DataGenerators {
 
         logger.log(Level.INFO, "Finishing running data generators");
         return generatorsFailed == 0;
-    }
-
-    static {
-        register(new BiomesDataGenerator());
-        register(new BlockCollisionShapesDataGenerator());
-        register(new BlocksDataGenerator());
-        register(new EffectsDataGenerator());
-        register(new EnchantmentsDataGenerator());
-        register(new EntitiesDataGenerator());
-        register(new FoodsDataGenerator());
-        register(new ItemsDataGenerator());
-        register(new ParticlesDataGenerator());
-        register(new TintsDataGenerator());
-        register(new LanguageDataGenerator());
-        register(new InstrumentsDataGenerator());
-        register(new AttributesDataGenerator());
     }
 }

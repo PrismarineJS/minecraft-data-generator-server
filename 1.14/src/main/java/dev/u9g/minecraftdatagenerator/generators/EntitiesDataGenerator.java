@@ -13,7 +13,6 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -23,19 +22,6 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {
-
-    @Override
-    public String getDataName() {
-        return "entities";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultArray = new JsonArray();
-        Registry<EntityType<?>> entityTypeRegistry = Registry.ENTITY_TYPE;
-        entityTypeRegistry.forEach(entity -> resultArray.add(generateEntity(entityTypeRegistry, entity)));
-        return resultArray;
-    }
 
     public static JsonObject generateEntity(Registry<EntityType<?>> entityRegistry, EntityType<?> entityType) {
         JsonObject entityDesc = new JsonObject();
@@ -65,7 +51,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         try {
             for (var field : EntityType.class.getFields())
                 if (entityType == field.get(EntityType.class))
-                    entityClazz = (Class<? extends Entity>)((ParameterizedType) TypeToken.get(field.getGenericType()).getType()).getActualTypeArguments()[0];
+                    entityClazz = (Class<? extends Entity>) ((ParameterizedType) TypeToken.get(field.getGenericType()).getType()).getActualTypeArguments()[0];
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -73,7 +59,8 @@ public class EntitiesDataGenerator implements IDataGenerator {
         if (entityClazz == null) throw new RuntimeException("Shouldn't be null...");
         return switch (entityClazz.getPackageName()) {
             case "net.minecraft.entity.decoration", "net.minecraft.entity.decoration.painting" -> "Immobile";
-            case "net.minecraft.entity.boss", "net.minecraft.entity.mob", "net.minecraft.entity.boss.dragon" -> "Hostile mobs";
+            case "net.minecraft.entity.boss", "net.minecraft.entity.mob", "net.minecraft.entity.boss.dragon" ->
+                    "Hostile mobs";
             case "net.minecraft.entity.projectile", "net.minecraft.entity.thrown" -> "Projectiles";
             case "net.minecraft.entity.passive" -> "Passive mobs";
             case "net.minecraft.entity.vehicle" -> "Vehicles";
@@ -117,5 +104,18 @@ public class EntitiesDataGenerator implements IDataGenerator {
             return "projectile";
         }
         return "other";
+    }
+
+    @Override
+    public String getDataName() {
+        return "entities";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultArray = new JsonArray();
+        Registry<EntityType<?>> entityTypeRegistry = Registry.ENTITY_TYPE;
+        entityTypeRegistry.forEach(entity -> resultArray.add(generateEntity(entityTypeRegistry, entity)));
+        return resultArray;
     }
 }

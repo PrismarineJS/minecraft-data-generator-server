@@ -22,20 +22,6 @@ import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {
 
-    @Override
-    public String getDataName() {
-        return "entities";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultArray = new JsonArray();
-        for (Class<? extends Entity> entityType : Registries.ENTITY_TYPES) {
-            resultArray.add(generateEntity(entityType));
-        }
-        return resultArray;
-    }
-
     public static JsonObject generateEntity(Class<? extends Entity> entityClass) {
         JsonObject entityDesc = new JsonObject();
         Identifier registryKey = Registries.ENTITY_TYPES.getIdentifier(entityClass);
@@ -95,7 +81,8 @@ public class EntitiesDataGenerator implements IDataGenerator {
                 break;
             default:
                 throw new Error("Unexpected entity type: " + packageName);
-        };
+        }
+        ;
         return category;
     }
 
@@ -151,5 +138,19 @@ public class EntitiesDataGenerator implements IDataGenerator {
             }
         }
         return rawId;
+    }
+
+    @Override
+    public String getDataName() {
+        return "entities";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultArray = new JsonArray();
+        for (Class<? extends Entity> entityType : Registries.ENTITY_TYPES) {
+            resultArray.add(generateEntity(entityType));
+        }
+        return resultArray;
     }
 }

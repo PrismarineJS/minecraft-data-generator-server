@@ -16,10 +16,8 @@ import net.minecraft.util.Language;
 import net.minecraft.world.biome.Biome;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 public class Registries {
     public static Language LANGUAGE;
@@ -48,7 +46,7 @@ public class Registries {
         for (Enchantment enchantment : EnchantmentAccessor.ALL_ENCHANTMENTS()) {
             if (enchantment == null) continue;
             String translatedName = Registries.LANGUAGE.translate(enchantment.getTranslationKey());
-            registry.add(String.join("",translatedName.toLowerCase(Locale.ENGLISH).split(" ")), enchantment.id, enchantment);
+            registry.add(String.join("", translatedName.toLowerCase(Locale.ENGLISH).split(" ")), enchantment.id, enchantment);
         }
         return registry.build();
     }

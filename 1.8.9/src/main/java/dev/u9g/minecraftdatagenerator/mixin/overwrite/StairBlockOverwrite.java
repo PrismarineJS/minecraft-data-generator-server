@@ -25,9 +25,11 @@ public abstract class StairBlockOverwrite extends Block {
         super(material);
     }
 
-    @Shadow public abstract void setBoundingBox(BlockView view, BlockPos pos);
+    @Shadow
+    public abstract void setBoundingBox(BlockView view, BlockPos pos);
 
-    @Shadow public abstract boolean method_8911(BlockView blockView, BlockPos blockPos);
+    @Shadow
+    public abstract boolean method_8911(BlockView blockView, BlockPos blockPos);
 
     /**
      * @author a

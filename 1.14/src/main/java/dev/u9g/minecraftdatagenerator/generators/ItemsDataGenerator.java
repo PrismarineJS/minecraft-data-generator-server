@@ -3,10 +3,8 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -29,19 +27,6 @@ public class ItemsDataGenerator implements IDataGenerator {
         return Arrays.stream(EnchantmentTarget.values())
                 .filter(target -> target.isAcceptableItem(sourceItem))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public String getDataName() {
-        return "items";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultArray = new JsonArray();
-        Registry<Item> itemRegistry = Registry.ITEM;
-        itemRegistry.stream().forEach(item -> resultArray.add(generateItem(itemRegistry, item)));
-        return resultArray;
     }
 
     public static JsonObject generateItem(Registry<Item> itemRegistry, Item item) {
@@ -80,5 +65,18 @@ public class ItemsDataGenerator implements IDataGenerator {
             itemDesc.addProperty("maxDurability", maxDurability);
         }
         return itemDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "items";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultArray = new JsonArray();
+        Registry<Item> itemRegistry = Registry.ITEM;
+        itemRegistry.stream().forEach(item -> resultArray.add(generateItem(itemRegistry, item)));
+        return resultArray;
     }
 }

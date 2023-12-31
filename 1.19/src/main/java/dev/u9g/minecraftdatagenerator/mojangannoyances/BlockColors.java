@@ -47,7 +47,7 @@ public class BlockColors {
             return world != null && pos != null ? BiomeColors.getWaterColor(world, pos) : -1;
         }, Blocks.WATER, Blocks.BUBBLE_COLUMN, Blocks.WATER_CAULDRON);
         blockColors.registerColorProvider((state, world, pos, tintIndex) -> {
-            return RedstoneWireBlock.getWireColor((Integer)state.get(RedstoneWireBlock.POWER));
+            return RedstoneWireBlock.getWireColor((Integer) state.get(RedstoneWireBlock.POWER));
         }, Blocks.REDSTONE_WIRE);
         blockColors.registerColorProperty(RedstoneWireBlock.POWER, Blocks.REDSTONE_WIRE);
         blockColors.registerColorProvider((state, world, pos, tintIndex) -> {
@@ -57,7 +57,7 @@ public class BlockColors {
             return 14731036;
         }, Blocks.ATTACHED_MELON_STEM, Blocks.ATTACHED_PUMPKIN_STEM);
         blockColors.registerColorProvider((state, world, pos, tintIndex) -> {
-            int i = (Integer)state.get(StemBlock.AGE);
+            int i = (Integer) state.get(StemBlock.AGE);
             int j = i * 32;
             int k = 255 - i * 8;
             int l = i * 4;
@@ -71,9 +71,9 @@ public class BlockColors {
     }
 
     public int getParticleColor(BlockState state, World world, BlockPos pos) {
-        BlockColorProvider blockColorProvider = (BlockColorProvider)this.providers.get(Registry.BLOCK.getRawId(state.getBlock()));
+        BlockColorProvider blockColorProvider = (BlockColorProvider) this.providers.get(Registry.BLOCK.getRawId(state.getBlock()));
         if (blockColorProvider != null) {
-            return blockColorProvider.getColor(state, (BlockRenderView)null, (BlockPos)null, 0);
+            return blockColorProvider.getColor(state, (BlockRenderView) null, (BlockPos) null, 0);
         } else {
             MapColor mapColor = state.getMapColor(world, pos);
             return mapColor != null ? mapColor.color : -1;
@@ -81,7 +81,7 @@ public class BlockColors {
     }
 
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
-        BlockColorProvider blockColorProvider = (BlockColorProvider)this.providers.get(Registry.BLOCK.getRawId(state.getBlock()));
+        BlockColorProvider blockColorProvider = (BlockColorProvider) this.providers.get(Registry.BLOCK.getRawId(state.getBlock()));
         return blockColorProvider == null ? -1 : blockColorProvider.getColor(state, world, pos, tintIndex);
     }
 
@@ -89,7 +89,7 @@ public class BlockColors {
         Block[] var3 = blocks;
         int var4 = blocks.length;
 
-        for(int var5 = 0; var5 < var4; ++var5) {
+        for (int var5 = 0; var5 < var4; ++var5) {
             Block block = var3[var5];
             this.providers.set(provider, Registry.BLOCK.getRawId(block));
         }
@@ -100,7 +100,7 @@ public class BlockColors {
         Block[] var3 = blocks;
         int var4 = blocks.length;
 
-        for(int var5 = 0; var5 < var4; ++var5) {
+        for (int var5 = 0; var5 < var4; ++var5) {
             Block block = var3[var5];
             this.properties.put(block, properties);
         }
@@ -112,6 +112,6 @@ public class BlockColors {
     }
 
     public Set<Property<?>> getProperties(Block block) {
-        return (Set)this.properties.getOrDefault(block, ImmutableSet.of());
+        return (Set) this.properties.getOrDefault(block, ImmutableSet.of());
     }
 }

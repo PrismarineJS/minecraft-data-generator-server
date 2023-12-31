@@ -16,6 +16,18 @@ import java.util.stream.Collectors;
 
 public class EffectsDataGenerator implements IDataGenerator {
 
+    public static JsonObject generateEffect(StatusEffect statusEffect) {
+        JsonObject effectDesc = new JsonObject();
+        @NotNull Identifier registryKey = Objects.requireNonNull(Registries.STATUS_EFFECTS.getIdentifier(statusEffect));
+
+        effectDesc.addProperty("id", Registries.STATUS_EFFECTS.getRawId(statusEffect));
+        effectDesc.addProperty("name", Arrays.stream(registryKey.getPath().split("_")).map(StringUtils::capitalize).collect(Collectors.joining()));
+        effectDesc.addProperty("displayName", DGU.translateText(statusEffect.getTranslationKey()));
+
+        effectDesc.addProperty("type", !((StatusEffectAccessor) statusEffect).negative() ? "good" : "bad");
+        return effectDesc;
+    }
+
     @Override
     public String getDataName() {
         return "effects";
@@ -28,17 +40,5 @@ public class EffectsDataGenerator implements IDataGenerator {
             resultsArray.add(generateEffect(effect));
         }
         return resultsArray;
-    }
-
-    public static JsonObject generateEffect(StatusEffect statusEffect) {
-        JsonObject effectDesc = new JsonObject();
-        @NotNull Identifier registryKey = Objects.requireNonNull(Registries.STATUS_EFFECTS.getIdentifier(statusEffect));
-
-        effectDesc.addProperty("id", Registries.STATUS_EFFECTS.getRawId(statusEffect));
-        effectDesc.addProperty("name", Arrays.stream(registryKey.getPath().split("_")).map(StringUtils::capitalize).collect(Collectors.joining()));
-        effectDesc.addProperty("displayName", DGU.translateText(statusEffect.getTranslationKey()));
-
-        effectDesc.addProperty("type", !((StatusEffectAccessor)statusEffect).negative() ? "good" : "bad");
-        return effectDesc;
     }
 }

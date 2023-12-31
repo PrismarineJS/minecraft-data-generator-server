@@ -21,12 +21,6 @@ import java.util.*;
 
 public class TintsDataGenerator implements IDataGenerator {
 
-    public static class BiomeTintColors {
-        Map<Integer, List<Biome>> grassColoursMap = new HashMap<>();
-        Map<Integer, List<Biome>> foliageColoursMap = new HashMap<>();
-        Map<Integer, List<Biome>> waterColourMap = new HashMap<>();
-    }
-
     public static BiomeTintColors generateBiomeTintColors() {
         BiomeTintColors colors = new BiomeTintColors();
 
@@ -39,7 +33,7 @@ public class TintsDataGenerator implements IDataGenerator {
             };
             int biomeGrassColor = GrassColors.getGrassColor(bv.getBiome(BlockPos.ORIGIN));
             int biomeFoliageColor = FoliageColors.getFoliageColor(bv.getBiome(BlockPos.ORIGIN));
-            int biomeWaterColor = ((BiomeAccessor)biome).waterColor();
+            int biomeWaterColor = ((BiomeAccessor) biome).waterColor();
 
             colors.grassColoursMap.computeIfAbsent(biomeGrassColor, k -> new ArrayList<>()).add(biome);
             colors.foliageColoursMap.computeIfAbsent(biomeFoliageColor, k -> new ArrayList<>()).add(biome);
@@ -157,5 +151,11 @@ public class TintsDataGenerator implements IDataGenerator {
         resultObject.add("constant", encodeBlocksColorMap(constantTintColors));
 
         return resultObject;
+    }
+
+    public static class BiomeTintColors {
+        Map<Integer, List<Biome>> grassColoursMap = new HashMap<>();
+        Map<Integer, List<Biome>> foliageColoursMap = new HashMap<>();
+        Map<Integer, List<Biome>> waterColourMap = new HashMap<>();
     }
 }

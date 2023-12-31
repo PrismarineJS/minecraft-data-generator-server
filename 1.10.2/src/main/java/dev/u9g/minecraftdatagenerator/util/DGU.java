@@ -15,13 +15,28 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.Language;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
 public class DGU {
+
+    public static Gson gson = new GsonBuilder().registerTypeAdapterFactory(TypeAdapters.newFactory(double.class, Double.class, new TypeAdapter<Number>() {
+        @Override
+        public Number read(JsonReader in) throws IOException {
+            if (in.peek() == JsonToken.NULL) {
+                in.nextNull();
+                return null;
+            }
+            return in.nextDouble();
+        }
+
+        @Override
+        public void write(JsonWriter out, Number value) throws IOException {
+            out.value(value);
+        }
+    })).create();
 
     @Environment(EnvType.CLIENT)
     private static MinecraftServer getCurrentlyRunningServerClient() {
@@ -51,7 +66,8 @@ public class DGU {
     private static String translateTextFallback(String translationKey) {
         try {
             return Registries.LANGUAGE.translate(translationKey);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         throw new RuntimeException("Failed to translate: '" + translationKey + "'");
     }
 
@@ -71,19 +87,4 @@ public class DGU {
     public static ItemStack stackFor(Item ic) {
         return new ItemStack(ic);
     }
-
-    public static Gson gson = new GsonBuilder().registerTypeAdapterFactory(TypeAdapters.newFactory(double.class, Double.class, new TypeAdapter<Number>() {
-        @Override
-        public Number read(JsonReader in) throws IOException {
-            if (in.peek() == JsonToken.NULL) {
-                in.nextNull();
-                return null;
-            }
-            return in.nextDouble();
-        }
-        @Override
-        public void write(JsonWriter out, Number value) throws IOException {
-            out.value(value);
-        }
-    })).create();
 }

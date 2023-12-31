@@ -10,12 +10,10 @@ import com.google.gson.stream.JsonWriter;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.Language;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,6 +31,22 @@ public class DGU {
 //        return (MinecraftServer) FabricLoader.getInstance().getGameInstance();
 //    }
 
+    public static Gson gson = new GsonBuilder().registerTypeAdapterFactory(TypeAdapters.newFactory(double.class, Double.class, new TypeAdapter<Number>() {
+        @Override
+        public Number read(JsonReader in) throws IOException {
+            if (in.peek() == JsonToken.NULL) {
+                in.nextNull();
+                return null;
+            }
+            return in.nextDouble();
+        }
+
+        @Override
+        public void write(JsonWriter out, Number value) throws IOException {
+            out.value(value);
+        }
+    })).create();
+
     public static MinecraftServer getCurrentlyRunningServer() {
         return (MinecraftServer) FabricLoader.getInstance().getGameInstance();
     }
@@ -45,7 +59,8 @@ public class DGU {
     private static String translateTextFallback(String translationKey) {
         try {
             return Registries.LANGUAGE.translate(translationKey);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         throw new RuntimeException("Failed to translate: '" + translationKey + "'");
     }
 
@@ -65,19 +80,4 @@ public class DGU {
     public static ItemStack stackFor(Item ic) {
         return new ItemStack(ic);
     }
-
-    public static Gson gson = new GsonBuilder().registerTypeAdapterFactory(TypeAdapters.newFactory(double.class, Double.class, new TypeAdapter<Number>() {
-        @Override
-        public Number read(JsonReader in) throws IOException {
-            if (in.peek() == JsonToken.NULL) {
-                in.nextNull();
-                return null;
-            }
-            return in.nextDouble();
-        }
-        @Override
-        public void write(JsonWriter out, Number value) throws IOException {
-            out.value(value);
-        }
-    })).create();
 }

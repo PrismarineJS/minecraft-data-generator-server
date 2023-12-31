@@ -4,18 +4,14 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-import net.minecraft.enchantment.DamageEnchantment;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
-import net.minecraft.enchantment.VanishingCurseEnchantment;
-import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class EnchantmentsDataGenerator implements IDataGenerator {
 
@@ -52,27 +48,13 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
     }
 
     private static JsonObject generateEnchantmentMaxPowerCoefficients(Enchantment enchantment) {
-        int b = getMaximumPower(enchantment,0);
-        int a = getMaximumPower(enchantment,1) - b;
+        int b = getMaximumPower(enchantment, 0);
+        int a = getMaximumPower(enchantment, 1) - b;
 
         JsonObject resultObject = new JsonObject();
         resultObject.addProperty("a", a);
         resultObject.addProperty("b", b);
         return resultObject;
-    }
-
-    @Override
-    public String getDataName() {
-        return "enchantments";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultsArray = new JsonArray();
-        Registry<Enchantment> enchantmentRegistry = Registry.ENCHANTMENT;
-        enchantmentRegistry.stream()
-                .forEach(enchantment -> resultsArray.add(generateEnchantment(enchantmentRegistry, enchantment)));
-        return resultsArray;
     }
 
     public static JsonObject generateEnchantment(Registry<Enchantment> registry, Enchantment enchantment) {
@@ -111,5 +93,19 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
 
     private static int getMaximumPower(Enchantment ench, int level) {
         return ench.getMinimumPower(level) + 5;
+    }
+
+    @Override
+    public String getDataName() {
+        return "enchantments";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultsArray = new JsonArray();
+        Registry<Enchantment> enchantmentRegistry = Registry.ENCHANTMENT;
+        enchantmentRegistry.stream()
+                .forEach(enchantment -> resultsArray.add(generateEnchantment(enchantmentRegistry, enchantment)));
+        return resultsArray;
     }
 }

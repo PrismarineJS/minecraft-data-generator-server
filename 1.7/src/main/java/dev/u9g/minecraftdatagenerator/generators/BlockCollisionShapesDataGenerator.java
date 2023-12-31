@@ -17,6 +17,22 @@ import java.util.Objects;
 public class BlockCollisionShapesDataGenerator implements IDataGenerator {
     private static final Box ENTITY_BOX = Box.of(0.0D, 0.0D, 0.0D, 1.0D, 2.0D, 1.0D);
 
+    private static String nameOf(Block block) {
+        return Objects.requireNonNull(Registries.BLOCKS.getId(block));
+    }
+
+    private static JsonArray jsonOf(Box box) {
+        JsonArray arr = new JsonArray();
+        if (box == null) return arr;
+        arr.add(new JsonPrimitive(box.minX));
+        arr.add(new JsonPrimitive(box.minY));
+        arr.add(new JsonPrimitive(box.minZ));
+        arr.add(new JsonPrimitive(box.maxX));
+        arr.add(new JsonPrimitive(box.maxY));
+        arr.add(new JsonPrimitive(box.maxZ));
+        return arr;
+    }
+
     @Override
     public String getDataName() {
         return "blockCollisionShapes";
@@ -41,22 +57,6 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
         return resultObject;
     }
 
-    private static String nameOf(Block block) {
-        return Objects.requireNonNull(Registries.BLOCKS.getId(block));
-    }
-
-    private static JsonArray jsonOf(Box box) {
-        JsonArray arr = new JsonArray();
-        if (box == null) return arr;
-        arr.add(new JsonPrimitive(box.minX));
-        arr.add(new JsonPrimitive(box.minY));
-        arr.add(new JsonPrimitive(box.minZ));
-        arr.add(new JsonPrimitive(box.maxX));
-        arr.add(new JsonPrimitive(box.maxY));
-        arr.add(new JsonPrimitive(box.maxZ));
-        return arr;
-    }
-
     public static class ShapeCache {
         private final ArrayList<Shapes> shapesCache = new ArrayList<>();
 
@@ -70,7 +70,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
                     field.setAccessible(true);
                     Texture[] icons = (Texture[]) field.get(block);
                     return icons.length;
-                }  catch (Exception err) {
+                } catch (Exception err) {
                     err.printStackTrace();
                 }
             }

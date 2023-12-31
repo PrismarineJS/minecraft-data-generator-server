@@ -17,12 +17,13 @@ public class LanguageDataGenerator implements IDataGenerator {
     public JsonElement generateDataJson() {
         try {
             JsonObject obj = new JsonObject();
-            Map<String, String> translations = ((LanguageAccessor)Registries.LANGUAGE).translations();
+            Map<String, String> translations = ((LanguageAccessor) Registries.LANGUAGE).translations();
             for (Map.Entry<String, String> entry : translations.entrySet()) {
                 obj.addProperty(entry.getKey(), entry.getValue());
             }
             return obj;
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         throw new RuntimeException("Failed to generate language file");
     }
 }

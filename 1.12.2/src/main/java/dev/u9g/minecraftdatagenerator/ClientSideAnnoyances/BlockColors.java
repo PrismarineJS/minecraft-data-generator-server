@@ -22,13 +22,13 @@ public class BlockColors {
             DoublePlantBlock.DoublePlantType doublePlantType = blockState.get(DoublePlantBlock.VARIANT);
             return blockView != null && blockPos != null &&
                     (doublePlantType == DoublePlantBlock.DoublePlantType.GRASS || doublePlantType == DoublePlantBlock.DoublePlantType.FERN) ?
-                        BiomeColors.getGrassColor(blockView, blockState.get(DoublePlantBlock.HALF) == DoublePlantBlock.HalfType.UPPER ? blockPos.down() : blockPos) : -1;
+                    BiomeColors.getGrassColor(blockView, blockState.get(DoublePlantBlock.HALF) == DoublePlantBlock.HalfType.UPPER ? blockPos.down() : blockPos) : -1;
         }, Blocks.DOUBLE_PLANT);
         blockColors.method_12158((blockState, blockView, blockPos, i) -> {
             if (blockView != null && blockPos != null) {
                 BlockEntity blockEntity = blockView.getBlockEntity(blockPos);
                 if (blockEntity instanceof FlowerPotBlockEntity) {
-                    Item item = ((FlowerPotBlockEntity)blockEntity).getItem();
+                    Item item = ((FlowerPotBlockEntity) blockEntity).getItem();
                     BlockState blockState2 = Block.getBlockFromItem(item).getDefaultState();
                     return blockColors.method_12157(blockState2, blockView, blockPos, i);
                 } else {
@@ -55,7 +55,7 @@ public class BlockColors {
             }
         }, Blocks.LEAVES2);
         blockColors.method_12158((blockState, blockView, blockPos, i) -> blockView != null && blockPos != null ? BiomeColors.getWaterColor(blockView, blockPos) : -1, Blocks.WATER, Blocks.FLOWING_WATER);
-        blockColors.method_12158((blockState, blockView, blockPos, i) -> RedstoneWireBlock.method_8877((Integer)blockState.get(RedstoneWireBlock.POWER)), Blocks.REDSTONE_WIRE);
+        blockColors.method_12158((blockState, blockView, blockPos, i) -> RedstoneWireBlock.method_8877((Integer) blockState.get(RedstoneWireBlock.POWER)), Blocks.REDSTONE_WIRE);
         blockColors.method_12158((blockState, blockView, blockPos, i) -> blockView != null && blockPos != null ? BiomeColors.getGrassColor(blockView, blockPos) : -1, Blocks.SUGARCANE);
         blockColors.method_12158((blockState, blockView, blockPos, i) -> {
             int j = blockState.get(AttachedStemBlock.AGE);
@@ -88,7 +88,7 @@ public class BlockColors {
     }
 
     public int method_12157(BlockState blockState, @Nullable BlockView blockView, @Nullable BlockPos blockPos, int i) {
-        net.minecraft.client.BlockColorable blockColorable = (net.minecraft.client.BlockColorable)this.BlockColor2Id.fromId(Block.getIdByBlock(blockState.getBlock()));
+        net.minecraft.client.BlockColorable blockColorable = (net.minecraft.client.BlockColorable) this.BlockColor2Id.fromId(Block.getIdByBlock(blockState.getBlock()));
         return blockColorable == null ? -1 : blockColorable.method_12155(blockState, blockView, blockPos, i);
     }
 
@@ -96,7 +96,7 @@ public class BlockColors {
         Block[] var3 = blocks;
         int var4 = blocks.length;
 
-        for(int var5 = 0; var5 < var4; ++var5) {
+        for (int var5 = 0; var5 < var4; ++var5) {
             Block block = var3[var5];
             this.BlockColor2Id.set(blockColorable, Block.getIdByBlock(block));
         }

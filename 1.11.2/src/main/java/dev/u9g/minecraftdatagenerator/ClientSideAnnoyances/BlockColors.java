@@ -20,7 +20,7 @@ public class BlockColors {
         final BlockColors blockColors = new BlockColors();
         blockColors.method_12158(new BlockColorable() {
             public int method_12155(BlockState blockState, @Nullable EmptyBlockView blockView, @Nullable BlockPos blockPos, int i) {
-                DoublePlantBlock.DoublePlantType doublePlantType = (DoublePlantBlock.DoublePlantType)blockState.get(DoublePlantBlock.VARIANT);
+                DoublePlantBlock.DoublePlantType doublePlantType = (DoublePlantBlock.DoublePlantType) blockState.get(DoublePlantBlock.VARIANT);
                 return blockView != null && blockPos != null && (doublePlantType == DoublePlantBlock.DoublePlantType.GRASS || doublePlantType == DoublePlantBlock.DoublePlantType.FERN) ? BiomeColors.getGrassColor(blockView, blockState.get(DoublePlantBlock.HALF) == DoublePlantBlock.HalfType.UPPER ? blockPos.down() : blockPos) : -1;
             }
         }, Blocks.DOUBLE_PLANT);
@@ -29,7 +29,7 @@ public class BlockColors {
                 if (blockView != null && blockPos != null) {
                     BlockEntity blockEntity = blockView.getBlockEntity(blockPos);
                     if (blockEntity instanceof FlowerPotBlockEntity) {
-                        Item item = ((FlowerPotBlockEntity)blockEntity).getItem();
+                        Item item = ((FlowerPotBlockEntity) blockEntity).getItem();
                         BlockState blockState2 = Block.getBlockFromItem(item).getDefaultState();
                         return blockColors.method_12157(blockState2, blockView, blockPos, i);
                     } else {
@@ -47,7 +47,7 @@ public class BlockColors {
         }, Blocks.GRASS);
         blockColors.method_12158(new BlockColorable() {
             public int method_12155(BlockState blockState, @Nullable EmptyBlockView blockView, @Nullable BlockPos blockPos, int i) {
-                PlanksBlock.WoodType woodType = (PlanksBlock.WoodType)blockState.get(Leaves1Block.VARIANT);
+                PlanksBlock.WoodType woodType = (PlanksBlock.WoodType) blockState.get(Leaves1Block.VARIANT);
                 if (woodType == PlanksBlock.WoodType.SPRUCE) {
                     return net.minecraft.client.color.world.FoliageColors.getSpruceColor();
                 } else if (woodType == PlanksBlock.WoodType.BIRCH) {
@@ -69,7 +69,7 @@ public class BlockColors {
         }, Blocks.WATER, Blocks.FLOWING_WATER);
         blockColors.method_12158(new BlockColorable() {
             public int method_12155(BlockState blockState, @Nullable EmptyBlockView blockView, @Nullable BlockPos blockPos, int i) {
-                return RedstoneWireBlock.method_8877((Integer)blockState.get(RedstoneWireBlock.POWER));
+                return RedstoneWireBlock.method_8877((Integer) blockState.get(RedstoneWireBlock.POWER));
             }
         }, Blocks.REDSTONE_WIRE);
         blockColors.method_12158(new BlockColorable() {
@@ -79,7 +79,7 @@ public class BlockColors {
         }, Blocks.SUGARCANE);
         blockColors.method_12158(new BlockColorable() {
             public int method_12155(BlockState blockState, @Nullable EmptyBlockView blockView, @Nullable BlockPos blockPos, int i) {
-                int j = (Integer)blockState.get(AttachedStemBlock.AGE);
+                int j = (Integer) blockState.get(AttachedStemBlock.AGE);
                 int k = j * 32;
                 int l = 255 - j * 8;
                 int m = j * 4;
@@ -109,9 +109,9 @@ public class BlockColors {
     }
 
     public int method_13410(BlockState blockState) {
-        BlockColorable blockColorable = (BlockColorable)this.BlockColor2Id.fromId(Block.getIdByBlock(blockState.getBlock()));
+        BlockColorable blockColorable = (BlockColorable) this.BlockColor2Id.fromId(Block.getIdByBlock(blockState.getBlock()));
         if (blockColorable != null) {
-            return blockColorable.method_12155(blockState, null, (BlockPos)null, 0);
+            return blockColorable.method_12155(blockState, null, (BlockPos) null, 0);
         } else {
             MaterialColor materialColor = blockState.getMaterialColor();
             return materialColor != null ? materialColor.color : -1;
@@ -119,7 +119,7 @@ public class BlockColors {
     }
 
     public int method_12157(BlockState blockState, @Nullable EmptyBlockView blockView, @Nullable BlockPos blockPos, int i) {
-        BlockColorable blockColorable = (BlockColorable)this.BlockColor2Id.fromId(Block.getIdByBlock(blockState.getBlock()));
+        BlockColorable blockColorable = (BlockColorable) this.BlockColor2Id.fromId(Block.getIdByBlock(blockState.getBlock()));
         return blockColorable == null ? -1 : blockColorable.method_12155(blockState, blockView, blockPos, i);
     }
 
@@ -127,7 +127,7 @@ public class BlockColors {
         Block[] var3 = blocks;
         int var4 = blocks.length;
 
-        for(int var5 = 0; var5 < var4; ++var5) {
+        for (int var5 = 0; var5 < var4; ++var5) {
             Block block = var3[var5];
             this.BlockColor2Id.set(blockColorable, Block.getIdByBlock(block));
         }

@@ -1,6 +1,5 @@
 package dev.u9g.minecraftdatagenerator.registryview;
 
-import net.minecraft.block.Block;
 import net.minecraft.util.registry.SimpleRegistry;
 import org.jetbrains.annotations.NotNull;
 

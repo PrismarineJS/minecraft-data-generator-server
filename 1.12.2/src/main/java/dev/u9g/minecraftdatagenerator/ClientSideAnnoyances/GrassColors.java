@@ -11,8 +11,8 @@ public class GrassColors {
     }
 
     public static int getColor(double temperature, double humidity) {
-        int j = (int)((1.0 - (humidity *= temperature)) * 255.0);
-        int i = (int)((1.0 - temperature) * 255.0);
+        int j = (int) ((1.0 - (humidity *= temperature)) * 255.0);
+        int i = (int) ((1.0 - temperature) * 255.0);
         int k = j << 8 | i;
         if (k > colorMap.length) {
             return -65281;

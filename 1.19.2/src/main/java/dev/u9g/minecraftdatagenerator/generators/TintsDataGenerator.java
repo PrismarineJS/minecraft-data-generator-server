@@ -14,15 +14,12 @@ import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TintsDataGenerator implements IDataGenerator {
-
-    public static class BiomeTintColors {
-        Map<Integer, List<Biome>> grassColoursMap = new HashMap<>();
-        Map<Integer, List<Biome>> foliageColoursMap = new HashMap<>();
-        Map<Integer, List<Biome>> waterColourMap = new HashMap<>();
-    }
 
     public static BiomeTintColors generateBiomeTintColors(Registry<Biome> biomeRegistry) {
         BiomeTintColors colors = new BiomeTintColors();
@@ -154,5 +151,11 @@ public class TintsDataGenerator implements IDataGenerator {
         resultObject.add("constant", encodeBlocksColorMap(blockRegistry, constantTintColors));
 
         return resultObject;
+    }
+
+    public static class BiomeTintColors {
+        Map<Integer, List<Biome>> grassColoursMap = new HashMap<>();
+        Map<Integer, List<Biome>> foliageColoursMap = new HashMap<>();
+        Map<Integer, List<Biome>> waterColourMap = new HashMap<>();
     }
 }

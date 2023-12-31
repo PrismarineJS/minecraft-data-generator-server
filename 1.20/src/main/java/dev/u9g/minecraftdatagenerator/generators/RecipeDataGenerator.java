@@ -1,19 +1,13 @@
 package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.ShapedRecipe;
-import net.minecraft.recipe.ShapelessRecipe;
+import net.minecraft.recipe.*;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKeys;
 
@@ -23,12 +17,14 @@ import java.util.Objects;
 
 public class RecipeDataGenerator implements IDataGenerator {
 
+    private static int getRawIdFor(Item item) {
+        return DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM).getRawId(item);
+    }
+
     @Override
     public String getDataName() {
         return "recipes";
     }
-
-
 
     @Override
     public JsonElement generateDataJson() {
@@ -61,7 +57,7 @@ public class RecipeDataGenerator implements IDataGenerator {
                 var iter = ingr.iterator();
                 for (int y = 0; y < sr.getHeight(); y++) {
                     var jsonRow = new JsonArray();
-                    for (int z = 0; z < sr.getWidth();z++) {
+                    for (int z = 0; z < sr.getWidth(); z++) {
                         jsonRow.add(iter.next());
                     }
                     inShape.add(jsonRow);
@@ -128,9 +124,5 @@ public class RecipeDataGenerator implements IDataGenerator {
             finalObj.get(a.toString()).getAsJsonArray().add(b);
         });
         return finalObj;
-    }
-
-    private static int getRawIdFor (Item item) {
-        return DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM).getRawId(item);
     }
 }

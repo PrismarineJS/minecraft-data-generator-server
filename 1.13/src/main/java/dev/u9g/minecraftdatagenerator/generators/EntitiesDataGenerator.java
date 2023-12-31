@@ -7,7 +7,10 @@ import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.*;
+import net.minecraft.entity.mob.AmbientEntity;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.projectile.Projectile;
@@ -21,21 +24,6 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {
-
-    @Override
-    public String getDataName() {
-        return "entities";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultArray = new JsonArray();
-        Registry<EntityType<?>> entityTypeRegistry = Registry.ENTITY_TYPE;
-        for (EntityType<?> entityType : (Iterable<EntityType<?>>) entityTypeRegistry) {
-            resultArray.add(generateEntity(entityTypeRegistry, entityType));
-        }
-        return resultArray;
-    }
 
     public static JsonObject generateEntity(Registry<EntityType<?>> entityRegistry, EntityType<?> entityType) {
         JsonObject entityDesc = new JsonObject();
@@ -76,7 +64,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         try {
             for (Field field : EntityType.class.getFields())
                 if (entityType == field.get(EntityType.class))
-                    entityClazz = (Class<? extends Entity>)((ParameterizedType) TypeToken.get(field.getGenericType()).getType()).getActualTypeArguments()[0];
+                    entityClazz = (Class<? extends Entity>) ((ParameterizedType) TypeToken.get(field.getGenericType()).getType()).getActualTypeArguments()[0];
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -115,7 +103,8 @@ public class EntitiesDataGenerator implements IDataGenerator {
                 break;
             default:
                 throw new Error("Unexpected entity type: " + packageName);
-        };
+        }
+        ;
         return category;
     }
 
@@ -154,5 +143,20 @@ public class EntitiesDataGenerator implements IDataGenerator {
             return "projectile";
         }
         return "other";
+    }
+
+    @Override
+    public String getDataName() {
+        return "entities";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultArray = new JsonArray();
+        Registry<EntityType<?>> entityTypeRegistry = Registry.ENTITY_TYPE;
+        for (EntityType<?> entityType : (Iterable<EntityType<?>>) entityTypeRegistry) {
+            resultArray.add(generateEntity(entityTypeRegistry, entityType));
+        }
+        return resultArray;
     }
 }

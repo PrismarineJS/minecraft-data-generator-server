@@ -12,21 +12,6 @@ import java.util.Objects;
 
 public class FoodsDataGenerator implements IDataGenerator {
 
-    @Override
-    public String getDataName() {
-        return "foods";
-    }
-
-    public JsonArray generateDataJson() {
-        JsonArray resultsArray = new JsonArray();
-        for (Item item : Registries.ITEMS) {
-            if (item instanceof FoodItem) {
-                resultsArray.add(generateFoodDescriptor((FoodItem)item));
-            }
-        }
-        return resultsArray;
-    }
-
     public static JsonObject generateFoodDescriptor(FoodItem foodItem) {
         JsonObject foodDesc = new JsonObject();
         Identifier registryKey = Registries.ITEMS.getIdentifier(foodItem);
@@ -46,5 +31,20 @@ public class FoodsDataGenerator implements IDataGenerator {
         foodDesc.addProperty("effectiveQuality", foodPoints + saturation);
         foodDesc.addProperty("saturationRatio", saturationRatio);
         return foodDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "foods";
+    }
+
+    public JsonArray generateDataJson() {
+        JsonArray resultsArray = new JsonArray();
+        for (Item item : Registries.ITEMS) {
+            if (item instanceof FoodItem) {
+                resultsArray.add(generateFoodDescriptor((FoodItem) item));
+            }
+        }
+        return resultsArray;
     }
 }

@@ -9,8 +9,8 @@ public class FoliageColors {
 
     public static int getColor(double temperature, double humidity) {
         humidity *= temperature;
-        int i = (int)((1.0D - temperature) * 255.0D);
-        int j = (int)((1.0D - humidity) * 255.0D);
+        int i = (int) ((1.0D - temperature) * 255.0D);
+        int j = (int) ((1.0D - humidity) * 255.0D);
         return colorMap[j << 8 | i];
     }
 

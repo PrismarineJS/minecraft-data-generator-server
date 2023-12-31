@@ -62,6 +62,7 @@ public class TableBackedRegistryView<K, V> implements RegistryView<K, V> {
 
     public static class Builder<K, V> {
         private final HashBasedTable<K, Integer, V> table = HashBasedTable.create();
+
         public Builder<K, V> add(K key, int rawId, V value) {
             table.put(key, rawId, value);
             return this;

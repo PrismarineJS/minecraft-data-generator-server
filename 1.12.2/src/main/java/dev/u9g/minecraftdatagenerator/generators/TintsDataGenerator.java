@@ -4,8 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.BlockColors;
 import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.FoliageColors;
-import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.ServerSideRedstoneWireBlock;
 import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.GrassColors;
+import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.ServerSideRedstoneWireBlock;
 import dev.u9g.minecraftdatagenerator.mixin.BiomeAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.Registries;
@@ -22,19 +22,13 @@ public class TintsDataGenerator implements IDataGenerator {
 
     private static final BlockColors blockColors = BlockColors.create();
 
-    public static class BiomeTintColors {
-        Map<Integer, List<Biome>> grassColoursMap = new HashMap<>();
-        Map<Integer, List<Biome>> foliageColoursMap = new HashMap<>();
-        Map<Integer, List<Biome>> waterColourMap = new HashMap<>();
-    }
-
     public static BiomeTintColors generateBiomeTintColors() {
         BiomeTintColors colors = new BiomeTintColors();
 
         for (Biome biome : Registries.BIOMES) {
             int biomeGrassColor = GrassColors.getGrassColor(biome);
             int biomeFoliageColor = FoliageColors.getFoliageColor(biome);
-            int biomeWaterColor = ((BiomeAccessor)biome).waterColor();
+            int biomeWaterColor = ((BiomeAccessor) biome).waterColor();
 
             colors.grassColoursMap.computeIfAbsent(biomeGrassColor, k -> new ArrayList<>()).add(biome);
             colors.foliageColoursMap.computeIfAbsent(biomeFoliageColor, k -> new ArrayList<>()).add(biome);
@@ -155,5 +149,11 @@ public class TintsDataGenerator implements IDataGenerator {
         resultObject.add("constant", encodeBlocksColorMap(constantTintColors));
 
         return resultObject;
+    }
+
+    public static class BiomeTintColors {
+        Map<Integer, List<Biome>> grassColoursMap = new HashMap<>();
+        Map<Integer, List<Biome>> foliageColoursMap = new HashMap<>();
+        Map<Integer, List<Biome>> waterColourMap = new HashMap<>();
     }
 }

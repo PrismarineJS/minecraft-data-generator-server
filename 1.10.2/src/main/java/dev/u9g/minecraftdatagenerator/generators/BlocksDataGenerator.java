@@ -10,8 +10,13 @@ import dev.u9g.minecraftdatagenerator.mixin.MiningToolItemAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.EmptyBlockView;
 import dev.u9g.minecraftdatagenerator.util.Registries;
-import net.minecraft.block.*;
-import net.minecraft.item.*;
+import net.minecraft.block.AirBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.TransparentBlock;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.IntProperty;
@@ -19,7 +24,10 @@ import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 public class BlocksDataGenerator implements IDataGenerator {
@@ -77,20 +85,6 @@ public class BlocksDataGenerator implements IDataGenerator {
         return propertyObject;
     }
 
-    @Override
-    public String getDataName() {
-        return "blocks";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultBlocksArray = new JsonArray();
-        for (Block block : Registries.BLOCKS) {
-            resultBlocksArray.add(generateBlock(block));
-        }
-        return resultBlocksArray;
-    }
-
     public static JsonObject generateBlock(Block block) {
         JsonObject blockDesc = new JsonObject();
 
@@ -108,12 +102,12 @@ public class BlocksDataGenerator implements IDataGenerator {
         float hardness = block.getDefaultState().getHardness(null, null);
 
         blockDesc.addProperty("hardness", hardness);
-        blockDesc.addProperty("resistance", ((BlockAccessor)block).getBlastResistance());
+        blockDesc.addProperty("resistance", ((BlockAccessor) block).getBlastResistance());
         blockDesc.addProperty("diggable", hardness != -1.0f && !(block instanceof AirBlock));
         JsonObject effTools = new JsonObject();
         effectiveTools.forEach(item -> effTools.addProperty(
-            String.valueOf(Registries.ITEMS.getRawId(item)), // key
-            item.getBlockBreakingSpeed(DGU.stackFor(item), defaultState) // value
+                String.valueOf(Registries.ITEMS.getRawId(item)), // key
+                item.getBlockBreakingSpeed(DGU.stackFor(item), defaultState) // value
         ));
         blockDesc.add("effectiveTools", effTools);
         blockDesc.addProperty("transparent", block instanceof TransparentBlock);
@@ -140,5 +134,19 @@ public class BlocksDataGenerator implements IDataGenerator {
 
     private static Item getItemFromBlock(Block block) {
         return Registries.ITEMS.get(Registries.BLOCKS.getIdentifier(block));
+    }
+
+    @Override
+    public String getDataName() {
+        return "blocks";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultBlocksArray = new JsonArray();
+        for (Block block : Registries.BLOCKS) {
+            resultBlocksArray.add(generateBlock(block));
+        }
+        return resultBlocksArray;
     }
 }

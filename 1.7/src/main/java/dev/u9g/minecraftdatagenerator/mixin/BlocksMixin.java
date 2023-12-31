@@ -1,7 +1,5 @@
 package dev.u9g.minecraftdatagenerator.mixin;
 
-import dev.u9g.minecraftdatagenerator.util.Registries;
-import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

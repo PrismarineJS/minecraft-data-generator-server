@@ -35,46 +35,8 @@ public class MaterialsDataGenerator implements IDataGenerator {
             .add(ImmutableList.of("vine_or_glow_lichen", "plant", makeMaterialNameForTag(BlockTags.AXE_MINEABLE)
             )).build();
 
-    @Override
-    public String getDataName() {
-        return "materials";
-    }
-
     private static String makeMaterialNameForTag(TagKey<Block> tag) {
         return tag.id().getPath();
-    }
-
-    public static class MaterialInfo {
-        private final String materialName;
-        private final Predicate<BlockState> predicate;
-        private final List<MaterialInfo> includedMaterials = new ArrayList<>();
-
-        public MaterialInfo(String materialName, Predicate<BlockState> predicate) {
-            this.materialName = materialName;
-            this.predicate = predicate;
-        }
-
-        protected MaterialInfo includes(List<MaterialInfo> otherMaterials) {
-            this.includedMaterials.addAll(otherMaterials);
-            return this;
-        }
-
-        public String getMaterialName() {
-            return materialName;
-        }
-
-        public Predicate<BlockState> getPredicate() {
-            return predicate;
-        }
-
-        public boolean includesMaterial(MaterialInfo materialInfo) {
-            return includedMaterials.contains(materialInfo);
-        }
-
-        @Override
-        public String toString() {
-            return materialName;
-        }
     }
 
     private static void createCompositeMaterialInfo(List<MaterialInfo> allMaterials, List<String> combinedMaterials) {
@@ -132,6 +94,11 @@ public class MaterialsDataGenerator implements IDataGenerator {
 
         COMPOSITE_MATERIALS.forEach(values -> createCompositeMaterialInfo(resultList, values));
         return resultList;
+    }
+
+    @Override
+    public String getDataName() {
+        return "materials";
     }
 
     @Override
@@ -193,5 +160,38 @@ public class MaterialsDataGenerator implements IDataGenerator {
         }
 
         return resultObject;
+    }
+
+    public static class MaterialInfo {
+        private final String materialName;
+        private final Predicate<BlockState> predicate;
+        private final List<MaterialInfo> includedMaterials = new ArrayList<>();
+
+        public MaterialInfo(String materialName, Predicate<BlockState> predicate) {
+            this.materialName = materialName;
+            this.predicate = predicate;
+        }
+
+        protected MaterialInfo includes(List<MaterialInfo> otherMaterials) {
+            this.includedMaterials.addAll(otherMaterials);
+            return this;
+        }
+
+        public String getMaterialName() {
+            return materialName;
+        }
+
+        public Predicate<BlockState> getPredicate() {
+            return predicate;
+        }
+
+        public boolean includesMaterial(MaterialInfo materialInfo) {
+            return includedMaterials.contains(materialInfo);
+        }
+
+        @Override
+        public String toString() {
+            return materialName;
+        }
     }
 }

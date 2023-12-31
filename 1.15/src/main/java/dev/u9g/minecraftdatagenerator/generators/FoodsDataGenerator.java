@@ -3,31 +3,14 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-import net.minecraft.block.Block;
-import net.minecraft.block.CakeBlock;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.Objects;
 
 public class FoodsDataGenerator implements IDataGenerator {
-
-    @Override
-    public String getDataName() {
-        return "foods";
-    }
-
-    public JsonArray generateDataJson() {
-        JsonArray resultsArray = new JsonArray();
-        Registry<Item> itemRegistry = Registry.ITEM;
-        itemRegistry.stream()
-                .filter(Item::isFood)
-                .forEach(food -> resultsArray.add(generateFoodDescriptor(itemRegistry, food)));
-        return resultsArray;
-    }
 
     public static JsonObject generateFoodDescriptor(Registry<Item> registry, Item foodItem) {
         JsonObject foodDesc = new JsonObject();
@@ -50,5 +33,19 @@ public class FoodsDataGenerator implements IDataGenerator {
         foodDesc.addProperty("effectiveQuality", foodPoints + saturation);
         foodDesc.addProperty("saturationRatio", saturationRatio);
         return foodDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "foods";
+    }
+
+    public JsonArray generateDataJson() {
+        JsonArray resultsArray = new JsonArray();
+        Registry<Item> itemRegistry = Registry.ITEM;
+        itemRegistry.stream()
+                .filter(Item::isFood)
+                .forEach(food -> resultsArray.add(generateFoodDescriptor(itemRegistry, food)));
+        return resultsArray;
     }
 }

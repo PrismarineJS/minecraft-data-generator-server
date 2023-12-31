@@ -21,6 +21,26 @@ import java.util.Map;
 
 public class BlockCollisionShapesDataGenerator implements IDataGenerator {
 
+    @Override
+    public String getDataName() {
+        return "blockCollisionShapes";
+    }
+
+    @Override
+    public JsonObject generateDataJson() {
+        Registry<Block> blockRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK);
+        BlockShapesCache blockShapesCache = new BlockShapesCache();
+
+        blockRegistry.forEach(blockShapesCache::processBlock);
+
+        JsonObject resultObject = new JsonObject();
+
+        resultObject.add("blocks", blockShapesCache.dumpBlockShapeIndices(blockRegistry));
+        resultObject.add("shapes", blockShapesCache.dumpShapesObject());
+
+        return resultObject;
+    }
+
     private static class BlockShapesCache {
         public Map<VoxelShape, Integer> uniqueBlockShapes = new HashMap<>();
         public Map<Block, List<Integer>> blockCollisionShapes = new HashMap<>();
@@ -89,25 +109,5 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
             }
             return shapesObject;
         }
-    }
-
-    @Override
-    public String getDataName() {
-        return "blockCollisionShapes";
-    }
-
-    @Override
-    public JsonObject generateDataJson() {
-        Registry<Block> blockRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK);
-        BlockShapesCache blockShapesCache = new BlockShapesCache();
-
-        blockRegistry.forEach(blockShapesCache::processBlock);
-
-        JsonObject resultObject = new JsonObject();
-
-        resultObject.add("blocks", blockShapesCache.dumpBlockShapeIndices(blockRegistry));
-        resultObject.add("shapes", blockShapesCache.dumpShapesObject());
-
-        return resultObject;
     }
 }

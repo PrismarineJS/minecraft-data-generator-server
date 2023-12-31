@@ -1,6 +1,5 @@
 package dev.u9g.minecraftdatagenerator.ClientSideAnnoyances;
 
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
 
@@ -12,8 +11,8 @@ public class GrassColors {
     }
 
     public static int getColor(double d, double e) {
-        int j = (int)((1.0 - (e *= d)) * 255.0);
-        int i = (int)((1.0 - d) * 255.0);
+        int j = (int) ((1.0 - (e *= d)) * 255.0);
+        int i = (int) ((1.0 - d) * 255.0);
         int k = j << 8 | i;
         if (k > colorMap.length) {
             return -65281;

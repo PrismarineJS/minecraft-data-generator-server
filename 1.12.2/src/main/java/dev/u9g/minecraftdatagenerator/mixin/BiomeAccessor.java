@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface BiomeAccessor {
     @Accessor("waterColor")
     int waterColor();
+
     @Accessor("name")
     String name();
 }

@@ -11,27 +11,12 @@ import java.util.Objects;
 
 public class FoodsDataGenerator implements IDataGenerator {
 
-    @Override
-    public String getDataName() {
-        return "foods";
-    }
-
-    public JsonArray generateDataJson() {
-        JsonArray resultsArray = new JsonArray();
-        for (Item item : Registries.ITEMS) {
-            if (item instanceof FoodItem) {
-                resultsArray.add(generateFoodDescriptor((FoodItem)item));
-            }
-        }
-        return resultsArray;
-    }
-
     public static JsonObject generateFoodDescriptor(FoodItem foodItem) {
         JsonObject foodDesc = new JsonObject();
         String registryKey = Registries.ITEMS.getId(foodItem);
 
         foodDesc.addProperty("id", Registries.ITEMS.getRawId(foodItem));
-        foodDesc.addProperty("name", Objects.requireNonNull(registryKey).replace("minecraft:",""));
+        foodDesc.addProperty("name", Objects.requireNonNull(registryKey).replace("minecraft:", ""));
 
         foodDesc.addProperty("stackSize", foodItem.getMaxCount());
         foodDesc.addProperty("displayName", foodItem.getDisplayName(DGU.stackFor(foodItem)));
@@ -45,5 +30,20 @@ public class FoodsDataGenerator implements IDataGenerator {
         foodDesc.addProperty("effectiveQuality", foodPoints + saturation);
         foodDesc.addProperty("saturationRatio", saturationRatio);
         return foodDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "foods";
+    }
+
+    public JsonArray generateDataJson() {
+        JsonArray resultsArray = new JsonArray();
+        for (Item item : Registries.ITEMS) {
+            if (item instanceof FoodItem) {
+                resultsArray.add(generateFoodDescriptor((FoodItem) item));
+            }
+        }
+        return resultsArray;
     }
 }

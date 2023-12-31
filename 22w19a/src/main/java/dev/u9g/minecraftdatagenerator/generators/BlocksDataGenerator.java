@@ -99,21 +99,6 @@ public class BlocksDataGenerator implements IDataGenerator {
         return propertyObject;
     }
 
-    @Override
-    public String getDataName() {
-        return "blocks";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultBlocksArray = new JsonArray();
-        Registry<Block> blockRegistry = Registry.BLOCK;
-        List<MaterialsDataGenerator.MaterialInfo> availableMaterials = MaterialsDataGenerator.getGlobalMaterialInfo();
-
-        blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(blockRegistry, availableMaterials, block)));
-        return resultBlocksArray;
-    }
-
     private static String findMatchingBlockMaterial(BlockState blockState, List<MaterialsDataGenerator.MaterialInfo> materials) {
         List<MaterialsDataGenerator.MaterialInfo> matchingMaterials = materials.stream()
                 .filter(material -> material.getPredicate().test(blockState))
@@ -194,5 +179,20 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("boundingBox", blockCollisionShape.isEmpty() ? "empty" : "block");
 
         return blockDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "blocks";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultBlocksArray = new JsonArray();
+        Registry<Block> blockRegistry = Registry.BLOCK;
+        List<MaterialsDataGenerator.MaterialInfo> availableMaterials = MaterialsDataGenerator.getGlobalMaterialInfo();
+
+        blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(blockRegistry, availableMaterials, block)));
+        return resultBlocksArray;
     }
 }

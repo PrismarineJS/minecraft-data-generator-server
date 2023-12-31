@@ -80,7 +80,7 @@ public class BiomesDataGenerator implements IDataGenerator {
         else if (biomeName.equals("end_midlands")) return 15464630;
         else if (biomeName.equals("small_end_islands")) return 42;
         else if (biomeName.equals("end_barrens")) return 9474162;
-        else throw new Error("Unexpected biome, with name: '"+biomeName+"'");
+        else throw new Error("Unexpected biome, with name: '" + biomeName + "'");
     }
 
     public static JsonObject generateBiomeInfo(Registry<Biome> registry, Biome biome) {

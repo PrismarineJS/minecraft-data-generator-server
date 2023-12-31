@@ -12,14 +12,14 @@ public class BiomeColors {
     private static final ColorProvider GRASS_COLOR = new ColorProvider() {
         public int getColorAtPos(Biome biome, BlockPos pos) {
             double d = (double) MathHelper.clamp(biome.getTemperature(pos), 0.0F, 1.0F);
-            double e = (double)MathHelper.clamp(biome.getRainfall(), 0.0F, 1.0F);
+            double e = (double) MathHelper.clamp(biome.getRainfall(), 0.0F, 1.0F);
             return GrassColors.getColor(d, e);
         }
     };
     private static final ColorProvider FOLIAGE_COLOR = new ColorProvider() {
         public int getColorAtPos(Biome biome, BlockPos pos) {
             double d = (double) MathHelper.clamp(biome.getTemperature(pos), 0.0F, 1.0F);
-            double e = (double)MathHelper.clamp(biome.getRainfall(), 0.0F, 1.0F);
+            double e = (double) MathHelper.clamp(biome.getRainfall(), 0.0F, 1.0F);
             return FoliageColors.getColor(d, e);
         }
     };
@@ -35,8 +35,8 @@ public class BiomeColors {
         int k = 0;
 
         int l;
-        for(Iterator var6 = BlockPos.mutableIterate(pos.add(-1, 0, -1), pos.add(1, 0, 1)).iterator(); var6.hasNext(); k += l & 255) {
-            BlockPos.Mutable mutable = (BlockPos.Mutable)var6.next();
+        for (Iterator var6 = BlockPos.mutableIterate(pos.add(-1, 0, -1), pos.add(1, 0, 1)).iterator(); var6.hasNext(); k += l & 255) {
+            BlockPos.Mutable mutable = (BlockPos.Mutable) var6.next();
             l = provider.getColorAtPos(view.getBiome(mutable), mutable);
             i += (l & 16711680) >> 16;
             j += (l & '\uff00') >> 8;

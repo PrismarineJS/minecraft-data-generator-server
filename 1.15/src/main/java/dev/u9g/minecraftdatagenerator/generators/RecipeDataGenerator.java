@@ -1,25 +1,15 @@
 package dev.u9g.minecraftdatagenerator.generators;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
-import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.item.Item;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.ShapedRecipe;
-import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.util.registry.Registry;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 public class RecipeDataGenerator implements IDataGenerator {
+
+    private static int getRawIdFor(Item item) {
+        return Registry.ITEM.getRawId(item);
+    }
 
     @Override
     public String getDataName() {
@@ -127,9 +117,5 @@ public class RecipeDataGenerator implements IDataGenerator {
 //        });
 //        return finalObj;
         return JsonNull.INSTANCE;
-    }
-
-    private static int getRawIdFor (Item item) {
-        return Registry.ITEM.getRawId(item);
     }
 }

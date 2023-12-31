@@ -7,8 +7,12 @@ import dev.u9g.minecraftdatagenerator.Main;
 import dev.u9g.minecraftdatagenerator.mixin.MiningToolItemAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.EmptyBlockView;
-import net.minecraft.block.*;
-import net.minecraft.item.*;
+import net.minecraft.block.AirBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.IntProperty;
@@ -32,7 +36,7 @@ public class BlocksDataGenerator implements IDataGenerator {
     private static List<Item> getItemsEffectiveForBlock(Block block) {
         return Registry.ITEM.stream()
                 .filter(item -> item instanceof ToolItem)
-                .filter(item -> ((MiningToolItemAccessor)item).getEffectiveBlocks().contains(block))
+                .filter(item -> ((MiningToolItemAccessor) item).getEffectiveBlocks().contains(block))
                 .collect(Collectors.toList());
     }
 
@@ -77,21 +81,6 @@ public class BlocksDataGenerator implements IDataGenerator {
         return propertyObject;
     }
 
-    @Override
-    public String getDataName() {
-        return "blocks";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultBlocksArray = new JsonArray();
-        Registry<Block> blockRegistry = Registry.BLOCK;
-        for (Block block : (Iterable<Block>) blockRegistry) {
-            resultBlocksArray.add(generateBlock(blockRegistry, block));
-        }
-        return resultBlocksArray;
-    }
-
     public static JsonObject generateBlock(Registry<Block> blockRegistry, Block block) {
         JsonObject blockDesc = new JsonObject();
 
@@ -113,8 +102,8 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("diggable", hardness != -1.0f && !(block instanceof AirBlock));
         JsonObject effTools = new JsonObject();
         effectiveTools.forEach(item -> effTools.addProperty(
-            String.valueOf(Registry.ITEM.getRawId(item)), // key
-            item.getBlockBreakingSpeed(DGU.stackFor(item), defaultState) // value
+                String.valueOf(Registry.ITEM.getRawId(item)), // key
+                item.getBlockBreakingSpeed(DGU.stackFor(item), defaultState) // value
         ));
         blockDesc.add("effectiveTools", effTools);
 
@@ -135,5 +124,20 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("boundingBox", blockCollisionShape.isEmpty() ? "empty" : "block");
 
         return blockDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "blocks";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultBlocksArray = new JsonArray();
+        Registry<Block> blockRegistry = Registry.BLOCK;
+        for (Block block : (Iterable<Block>) blockRegistry) {
+            resultBlocksArray.add(generateBlock(blockRegistry, block));
+        }
+        return resultBlocksArray;
     }
 }

@@ -8,7 +8,6 @@ import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.Registries;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
-import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,20 +54,6 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         return resultObject;
     }
 
-    @Override
-    public String getDataName() {
-        return "enchantments";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultsArray = new JsonArray();
-        for (Enchantment enchantment : Registries.ENCHANTMENTS) {
-            resultsArray.add(generateEnchantment(enchantment));
-        }
-        return resultsArray;
-    }
-
     public static JsonObject generateEnchantment(Enchantment enchantment) {
         JsonObject enchantmentDesc = new JsonObject();
         String registryKey = Registries.ENCHANTMENTS.getId(enchantment);
@@ -104,5 +89,19 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         enchantmentDesc.addProperty("discoverable", true); // the first non-enchantable enchant came in 1.16, soul speed
 
         return enchantmentDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "enchantments";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultsArray = new JsonArray();
+        for (Enchantment enchantment : Registries.ENCHANTMENTS) {
+            resultsArray.add(generateEnchantment(enchantment));
+        }
+        return resultsArray;
     }
 }

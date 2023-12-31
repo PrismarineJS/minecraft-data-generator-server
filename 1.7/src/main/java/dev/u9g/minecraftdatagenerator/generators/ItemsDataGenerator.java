@@ -37,27 +37,13 @@ public class ItemsDataGenerator implements IDataGenerator {
         return targets;
     }
 
-    @Override
-    public String getDataName() {
-        return "items";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultArray = new JsonArray();
-        for (Item item : Registries.ITEMS) {
-            resultArray.add(generateItem(item));
-        }
-        return resultArray;
-    }
-
     public static JsonObject generateItem(Item item) {
         JsonObject itemDesc = new JsonObject();
 
         itemDesc.addProperty("id", Registries.ITEMS.getRawId(item));
 
         String name = Registries.ITEMS.getId(item);
-        itemDesc.addProperty("name", name == null ? ((ItemAccessor)item).translationKey() : name.replace("minecraft:", ""));
+        itemDesc.addProperty("name", name == null ? ((ItemAccessor) item).translationKey() : name.replace("minecraft:", ""));
 
         itemDesc.addProperty("displayName", item.getDisplayName(DGU.stackFor(item)));
         itemDesc.addProperty("stackSize", item.getMaxCount());
@@ -92,14 +78,14 @@ public class ItemsDataGenerator implements IDataGenerator {
 
         if (item instanceof VariantBlockItem) {
             JsonArray variations = new JsonArray();
-            VariantBlockItem it = (VariantBlockItem)item;
+            VariantBlockItem it = (VariantBlockItem) item;
             int i = 0;
             JsonObject obj = new JsonObject();
-            for (String variant : ((VariantBlockItemAccessor)it).variants()) {
+            for (String variant : ((VariantBlockItemAccessor) it).variants()) {
                 ItemStack stack = new ItemStack(item, 1, i);
                 obj.add("id", new JsonPrimitive(i));
                 obj.add("name", new JsonPrimitive(variant));
-                obj.add("displayName", new JsonPrimitive(DGU.translateText(it.getTranslationKey(stack)+".name")));
+                obj.add("displayName", new JsonPrimitive(DGU.translateText(it.getTranslationKey(stack) + ".name")));
                 variations.add(obj);
                 i++;
             }
@@ -107,5 +93,19 @@ public class ItemsDataGenerator implements IDataGenerator {
         }
 
         return itemDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "items";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultArray = new JsonArray();
+        for (Item item : Registries.ITEMS) {
+            resultArray.add(generateItem(item));
+        }
+        return resultArray;
     }
 }

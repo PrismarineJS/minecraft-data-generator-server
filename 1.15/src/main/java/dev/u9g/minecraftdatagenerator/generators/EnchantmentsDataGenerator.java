@@ -4,18 +4,14 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-import net.minecraft.enchantment.DamageEnchantment;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
-import net.minecraft.enchantment.VanishingCurseEnchantment;
-import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class EnchantmentsDataGenerator implements IDataGenerator {
 
@@ -61,20 +57,6 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         return resultObject;
     }
 
-    @Override
-    public String getDataName() {
-        return "enchantments";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultsArray = new JsonArray();
-        Registry<Enchantment> enchantmentRegistry = Registry.ENCHANTMENT;
-        enchantmentRegistry.stream()
-                .forEach(enchantment -> resultsArray.add(generateEnchantment(enchantmentRegistry, enchantment)));
-        return resultsArray;
-    }
-
     public static JsonObject generateEnchantment(Registry<Enchantment> registry, Enchantment enchantment) {
         JsonObject enchantmentDesc = new JsonObject();
         Identifier registryKey = registry.getId(enchantment);
@@ -107,5 +89,19 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         enchantmentDesc.addProperty("discoverable", true); // the first non-enchantable enchant came in 1.16, soul speed
 
         return enchantmentDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "enchantments";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultsArray = new JsonArray();
+        Registry<Enchantment> enchantmentRegistry = Registry.ENCHANTMENT;
+        enchantmentRegistry.stream()
+                .forEach(enchantment -> resultsArray.add(generateEnchantment(enchantmentRegistry, enchantment)));
+        return resultsArray;
     }
 }

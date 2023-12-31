@@ -18,6 +18,12 @@ import java.util.Set;
 public class BiomesDataGenerator implements IDataGenerator {
     private static final Set<RegistryKey<Biome>> END_BIOMES = new HashSet<>();
 
+    static {
+        END_BIOMES.addAll(TheEndBiomeDataAccessor.END_BIOMES_MAP().keySet());
+        END_BIOMES.addAll(TheEndBiomeDataAccessor.END_BARRENS_MAP().keySet());
+        END_BIOMES.addAll(TheEndBiomeDataAccessor.END_MIDLANDS_MAP().keySet());
+    }
+
     private static String guessBiomeDimensionFromCategory(Biome biome, String biomeName) {
         var key = DGU.getWorld().getRegistryManager().get(RegistryKeys.BIOME).getKey(biome).orElseThrow();
         if (NetherBiomes.canGenerateInNether(key)) {
@@ -76,7 +82,7 @@ public class BiomesDataGenerator implements IDataGenerator {
         } else if (name.contains("cave") || name.equals("deep_dark")) {
             return "underground";
         } else {
-            System.out.println("Unable to find biome category for biome with name: '"+name+"'");
+            System.out.println("Unable to find biome category for biome with name: '" + name + "'");
             return "none";
         }
     }
@@ -143,7 +149,7 @@ public class BiomesDataGenerator implements IDataGenerator {
         else if (biomeName.equals("end_midlands")) return 15464630;
         else if (biomeName.equals("small_end_islands")) return 42;
         else if (biomeName.equals("end_barrens")) return 9474162;
-        System.out.println("Don't know the color of biome: '"+biomeName+"'");
+        System.out.println("Don't know the color of biome: '" + biomeName + "'");
         return 0;
     }
 
@@ -183,11 +189,5 @@ public class BiomesDataGenerator implements IDataGenerator {
                 .map(biome -> generateBiomeInfo(biomeRegistry, biome))
                 .forEach(biomesArray::add);
         return biomesArray;
-    }
-
-    static {
-        END_BIOMES.addAll(TheEndBiomeDataAccessor.END_BIOMES_MAP().keySet());
-        END_BIOMES.addAll(TheEndBiomeDataAccessor.END_BARRENS_MAP().keySet());
-        END_BIOMES.addAll(TheEndBiomeDataAccessor.END_MIDLANDS_MAP().keySet());
     }
 }

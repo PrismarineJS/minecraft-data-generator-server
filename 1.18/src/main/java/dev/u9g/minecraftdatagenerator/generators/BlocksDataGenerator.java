@@ -7,7 +7,6 @@ import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.SnowBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -28,7 +27,6 @@ import net.minecraft.world.EmptyBlockView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -98,21 +96,6 @@ public class BlocksDataGenerator implements IDataGenerator {
             propertyObject.add("values", propertyValuesArray);
         }
         return propertyObject;
-    }
-
-    @Override
-    public String getDataName() {
-        return "blocks";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultBlocksArray = new JsonArray();
-        Registry<Block> blockRegistry = Registry.BLOCK;
-        List<MaterialsDataGenerator.MaterialInfo> availableMaterials = MaterialsDataGenerator.getGlobalMaterialInfo();
-
-        blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(blockRegistry, availableMaterials, block)));
-        return resultBlocksArray;
     }
 
     private static String findMatchingBlockMaterial(BlockState blockState, List<MaterialsDataGenerator.MaterialInfo> materials) {
@@ -188,5 +171,20 @@ public class BlocksDataGenerator implements IDataGenerator {
 //        ));
 //        blockDesc.add("effectiveTools", effTools);
         return blockDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "blocks";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultBlocksArray = new JsonArray();
+        Registry<Block> blockRegistry = Registry.BLOCK;
+        List<MaterialsDataGenerator.MaterialInfo> availableMaterials = MaterialsDataGenerator.getGlobalMaterialInfo();
+
+        blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(blockRegistry, availableMaterials, block)));
+        return resultBlocksArray;
     }
 }

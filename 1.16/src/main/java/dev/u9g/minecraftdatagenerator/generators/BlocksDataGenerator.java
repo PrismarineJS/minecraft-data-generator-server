@@ -9,10 +9,10 @@ import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.GrassBlock;
-import net.minecraft.item.*;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.MiningToolItem;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.server.MinecraftServer;
@@ -39,7 +39,7 @@ public class BlocksDataGenerator implements IDataGenerator {
     private static List<Item> getItemsEffectiveForBlock(Block block) {
         return Registry.ITEM.stream()
                 .filter(item -> item instanceof MiningToolItem)
-                .filter(item -> ((MiningToolItemAccessor)item).getEffectiveBlocks().contains(block))
+                .filter(item -> ((MiningToolItemAccessor) item).getEffectiveBlocks().contains(block))
                 .collect(Collectors.toList());
     }
 
@@ -49,7 +49,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         ServerWorld serverWorld = minecraftServer.getOverworld();
         LootContext.Builder lootContext = new LootContext.Builder(serverWorld)
                 .parameter(LootContextParameters.BLOCK_STATE, blockState)
-                .parameter(LootContextParameters.POSITION, new BlockPos(0,0,0))
+                .parameter(LootContextParameters.POSITION, new BlockPos(0, 0, 0))
                 .parameter(LootContextParameters.TOOL, firstToolItem.getStackForRender())
                 .random(0L);
         return blockState.getDroppedStacks(lootContext);
@@ -92,20 +92,6 @@ public class BlocksDataGenerator implements IDataGenerator {
         return propertyObject;
     }
 
-    @Override
-    public String getDataName() {
-        return "blocks";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultBlocksArray = new JsonArray();
-        Registry<Block> blockRegistry = Registry.BLOCK;
-
-        blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(blockRegistry, block)));
-        return resultBlocksArray;
-    }
-
     public static JsonObject generateBlock(Registry<Block> blockRegistry, Block block) {
         JsonObject blockDesc = new JsonObject();
 
@@ -127,8 +113,8 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("diggable", hardness != -1.0f && !(block instanceof AirBlock));
         JsonObject effTools = new JsonObject();
         effectiveTools.forEach(item -> effTools.addProperty(
-            String.valueOf(Registry.ITEM.getRawId(item)), // key
-            item.getMiningSpeedMultiplier(item.getStackForRender(), defaultState) // value
+                String.valueOf(Registry.ITEM.getRawId(item)), // key
+                item.getMiningSpeedMultiplier(item.getStackForRender(), defaultState) // value
         ));
         blockDesc.add("effectiveTools", effTools);
 
@@ -155,5 +141,19 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("boundingBox", blockCollisionShape.isEmpty() ? "empty" : "block");
 
         return blockDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "blocks";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultBlocksArray = new JsonArray();
+        Registry<Block> blockRegistry = Registry.BLOCK;
+
+        blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(blockRegistry, block)));
+        return resultBlocksArray;
     }
 }

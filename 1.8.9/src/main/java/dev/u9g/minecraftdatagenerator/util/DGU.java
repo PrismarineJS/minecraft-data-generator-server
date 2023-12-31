@@ -23,7 +23,8 @@ public class DGU {
     private static String translateTextFallback(String translationKey) {
         try {
             return Registries.LANGUAGE.translate(translationKey);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         throw new RuntimeException("Failed to translate: '" + translationKey + "'");
     }
 

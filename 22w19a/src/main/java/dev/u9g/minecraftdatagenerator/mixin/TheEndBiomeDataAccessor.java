@@ -15,10 +15,12 @@ public interface TheEndBiomeDataAccessor {
     public static Map<RegistryKey<Biome>, WeightedPicker<RegistryKey<Biome>>> END_BIOMES_MAP() {
         throw new IllegalStateException("Should never be called.");
     }
+
     @Accessor("END_MIDLANDS_MAP")
     public static Map<RegistryKey<Biome>, WeightedPicker<RegistryKey<Biome>>> END_MIDLANDS_MAP() {
         throw new IllegalStateException("Should never be called.");
     }
+
     @Accessor("END_BARRENS_MAP")
     public static Map<RegistryKey<Biome>, WeightedPicker<RegistryKey<Biome>>> END_BARRENS_MAP() {
         throw new IllegalStateException("Should never be called.");

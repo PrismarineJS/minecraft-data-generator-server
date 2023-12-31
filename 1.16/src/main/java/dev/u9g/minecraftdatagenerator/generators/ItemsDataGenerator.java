@@ -28,19 +28,6 @@ public class ItemsDataGenerator implements IDataGenerator {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public String getDataName() {
-        return "items";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultArray = new JsonArray();
-        Registry<Item> itemRegistry = Registry.ITEM;
-        itemRegistry.stream().forEach(item -> resultArray.add(generateItem(itemRegistry, item)));
-        return resultArray;
-    }
-
     public static JsonObject generateItem(Registry<Item> itemRegistry, Item item) {
         JsonObject itemDesc = new JsonObject();
         Identifier registryKey = itemRegistry.getKey(item).orElseThrow().getValue();
@@ -77,5 +64,18 @@ public class ItemsDataGenerator implements IDataGenerator {
             itemDesc.addProperty("maxDurability", maxDurability);
         }
         return itemDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "items";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultArray = new JsonArray();
+        Registry<Item> itemRegistry = Registry.ITEM;
+        itemRegistry.stream().forEach(item -> resultArray.add(generateItem(itemRegistry, item)));
+        return resultArray;
     }
 }

@@ -26,33 +26,17 @@ public class BiomesDataGenerator implements IDataGenerator {
         Identifier registryKey = registry.getIdentifier(biome);
 
         biomeDesc.addProperty("id", registry.getRawId(biome));
-        biomeDesc.addProperty("name", String.join("_", ((BiomeAccessor)biome).name().toLowerCase(Locale.ENGLISH).split(" ")));
+        biomeDesc.addProperty("name", String.join("_", ((BiomeAccessor) biome).name().toLowerCase(Locale.ENGLISH).split(" ")));
         biomeDesc.addProperty("category", category(biome));
         biomeDesc.addProperty("temperature", biome.getTemperature());
         biomeDesc.addProperty("precipitation", precipitation(biome));
         biomeDesc.addProperty("depth", biome.getDepth());
         biomeDesc.addProperty("dimension", guessBiomeDimensionFromCategory(biome));
-        biomeDesc.addProperty("displayName", ((BiomeAccessor)biome).name());
+        biomeDesc.addProperty("displayName", ((BiomeAccessor) biome).name());
         biomeDesc.addProperty("color", SkyColor.getSkyColor(biome));
         biomeDesc.addProperty("rainfall", biome.getRainfall());
 
         return biomeDesc;
-    }
-
-    @Override
-    public String getDataName() {
-        return "biomes";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray biomesArray = new JsonArray();
-        SimpleRegistry<Identifier, Biome> biomeRegistry = Biome.REGISTRY;
-
-        for (Biome biome : biomeRegistry) {
-            biomesArray.add(generateBiomeInfo(biomeRegistry, biome));
-        }
-        return biomesArray;
     }
 
     private static String category(Biome biome) {
@@ -103,5 +87,21 @@ public class BiomesDataGenerator implements IDataGenerator {
             return "snow";
         }
         return "rain";
+    }
+
+    @Override
+    public String getDataName() {
+        return "biomes";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray biomesArray = new JsonArray();
+        SimpleRegistry<Identifier, Biome> biomeRegistry = Biome.REGISTRY;
+
+        for (Biome biome : biomeRegistry) {
+            biomesArray.add(generateBiomeInfo(biomeRegistry, biome));
+        }
+        return biomesArray;
     }
 }

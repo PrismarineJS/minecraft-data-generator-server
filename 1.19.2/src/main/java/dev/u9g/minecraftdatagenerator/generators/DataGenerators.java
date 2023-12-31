@@ -16,8 +16,25 @@ import java.util.List;
 
 public class DataGenerators {
 
-    private static List<IDataGenerator> GENERATORS = new ArrayList<>();
     private static final Logger logger = LoggerFactory.getLogger(DataGenerators.class);
+    private static List<IDataGenerator> GENERATORS = new ArrayList<>();
+
+    static {
+        register(new BiomesDataGenerator());
+        register(new BlockCollisionShapesDataGenerator());
+        register(new BlocksDataGenerator());
+        register(new EffectsDataGenerator());
+        register(new EnchantmentsDataGenerator());
+        register(new EntitiesDataGenerator());
+        register(new FoodsDataGenerator());
+        register(new ItemsDataGenerator());
+        register(new ParticlesDataGenerator());
+        register(new TintsDataGenerator());
+        register(new MaterialsDataGenerator());
+//        register(new RecipeDataGenerator()); - On hold until mcdata supports multiple materials for a recipe
+        register(new LanguageDataGenerator());
+        register(new InstrumentsDataGenerator());
+    }
 
     public static void register(IDataGenerator generator) {
         GENERATORS.add(generator);
@@ -56,22 +73,5 @@ public class DataGenerators {
 
         logger.info("Finishing running data generators");
         return generatorsFailed == 0;
-    }
-
-    static {
-        register(new BiomesDataGenerator());
-        register(new BlockCollisionShapesDataGenerator());
-        register(new BlocksDataGenerator());
-        register(new EffectsDataGenerator());
-        register(new EnchantmentsDataGenerator());
-        register(new EntitiesDataGenerator());
-        register(new FoodsDataGenerator());
-        register(new ItemsDataGenerator());
-        register(new ParticlesDataGenerator());
-        register(new TintsDataGenerator());
-        register(new MaterialsDataGenerator());
-//        register(new RecipeDataGenerator()); - On hold until mcdata supports multiple materials for a recipe
-        register(new LanguageDataGenerator());
-        register(new InstrumentsDataGenerator());
     }
 }

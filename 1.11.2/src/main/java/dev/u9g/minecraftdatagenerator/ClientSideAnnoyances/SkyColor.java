@@ -15,15 +15,15 @@ public class SkyColor {
     }
 
     public static int hsvToRgb(float hue, float saturation, float value) {
-        int i = (int)(hue * 6.0F) % 6;
-        float f = hue * 6.0F - (float)i;
+        int i = (int) (hue * 6.0F) % 6;
+        float f = hue * 6.0F - (float) i;
         float g = value * (1.0F - saturation);
         float h = value * (1.0F - f * saturation);
         float j = value * (1.0F - (1.0F - f) * saturation);
         float k;
         float l;
         float m;
-        switch(i) {
+        switch (i) {
             case 0:
                 k = value;
                 l = j;
@@ -58,9 +58,9 @@ public class SkyColor {
                 throw new RuntimeException("Something went wrong when converting from HSV to RGB. Input was " + hue + ", " + saturation + ", " + value);
         }
 
-        int n = clamp((int)(k * 255.0F), 0, 255);
-        int o = clamp((int)(l * 255.0F), 0, 255);
-        int p = clamp((int)(m * 255.0F), 0, 255);
+        int n = clamp((int) (k * 255.0F), 0, 255);
+        int o = clamp((int) (l * 255.0F), 0, 255);
+        int p = clamp((int) (m * 255.0F), 0, 255);
         return n << 16 | o << 8 | p;
     }
 

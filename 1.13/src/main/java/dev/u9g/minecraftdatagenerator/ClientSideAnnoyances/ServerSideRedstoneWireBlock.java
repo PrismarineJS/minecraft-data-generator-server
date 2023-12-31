@@ -4,7 +4,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class ServerSideRedstoneWireBlock {
     public static int getWireColor(int powerLevel) {
-        float f = (float)powerLevel / 15.0f;
+        float f = (float) powerLevel / 15.0f;
         float g = f * 0.6f + 0.4f;
         if (powerLevel == 0) {
             g = 0.3f;
@@ -17,9 +17,9 @@ public class ServerSideRedstoneWireBlock {
         if (j < 0.0f) {
             j = 0.0f;
         }
-        int k = MathHelper.clamp((int)(g * 255.0f), 0, 255);
-        int l = MathHelper.clamp((int)(h * 255.0f), 0, 255);
-        int m = MathHelper.clamp((int)(j * 255.0f), 0, 255);
+        int k = MathHelper.clamp((int) (g * 255.0f), 0, 255);
+        int l = MathHelper.clamp((int) (h * 255.0f), 0, 255);
+        int m = MathHelper.clamp((int) (j * 255.0f), 0, 255);
         return 0xFF000000 | k << 16 | l << 8 | m;
     }
 }

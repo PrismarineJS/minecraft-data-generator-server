@@ -57,20 +57,6 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         return resultObject;
     }
 
-    @Override
-    public String getDataName() {
-        return "enchantments";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultsArray = new JsonArray();
-        Registry<Enchantment> enchantmentRegistry = Registry.ENCHANTMENT;
-        enchantmentRegistry.stream()
-                .forEach(enchantment -> resultsArray.add(generateEnchantment(enchantmentRegistry, enchantment)));
-        return resultsArray;
-    }
-
     public static JsonObject generateEnchantment(Registry<Enchantment> registry, Enchantment enchantment) {
         JsonObject enchantmentDesc = new JsonObject();
         Identifier registryKey = registry.getKey(enchantment).orElseThrow().getValue();
@@ -104,5 +90,19 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         enchantmentDesc.addProperty("discoverable", enchantment.isAvailableForRandomSelection());
 
         return enchantmentDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "enchantments";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultsArray = new JsonArray();
+        Registry<Enchantment> enchantmentRegistry = Registry.ENCHANTMENT;
+        enchantmentRegistry.stream()
+                .forEach(enchantment -> resultsArray.add(generateEnchantment(enchantmentRegistry, enchantment)));
+        return resultsArray;
     }
 }

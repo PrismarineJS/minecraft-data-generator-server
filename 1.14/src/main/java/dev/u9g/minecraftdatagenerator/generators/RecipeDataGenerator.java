@@ -7,6 +7,10 @@ import net.minecraft.util.registry.Registry;
 
 public class RecipeDataGenerator implements IDataGenerator {
 
+    private static int getRawIdFor(Item item) {
+        return Registry.ITEM.getRawId(item);
+    }
+
     @Override
     public String getDataName() {
         return "recipes";
@@ -113,9 +117,5 @@ public class RecipeDataGenerator implements IDataGenerator {
 //        });
 //        return finalObj;
         return JsonNull.INSTANCE;
-    }
-
-    private static int getRawIdFor (Item item) {
-        return Registry.ITEM.getRawId(item);
     }
 }

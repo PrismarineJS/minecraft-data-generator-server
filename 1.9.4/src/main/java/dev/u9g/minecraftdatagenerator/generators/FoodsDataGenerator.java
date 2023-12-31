@@ -4,32 +4,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.Registries;
-import net.minecraft.item.FishItem;
 import net.minecraft.item.FoodItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
-import java.util.Iterator;
 import java.util.Objects;
 
 public class FoodsDataGenerator implements IDataGenerator {
-
-    @Override
-    public String getDataName() {
-        return "foods";
-    }
-
-    public JsonArray generateDataJson() {
-        JsonArray resultsArray = new JsonArray();
-        for (Item item : Registries.ITEMS) {
-            if (item instanceof FoodItem) {
-                resultsArray.add(generateFoodDescriptor((FoodItem)item));
-            }
-        }
-        return resultsArray;
-    }
 
     public static JsonObject generateFoodDescriptor(FoodItem foodItem) {
         JsonObject foodDesc = new JsonObject();
@@ -50,5 +31,20 @@ public class FoodsDataGenerator implements IDataGenerator {
         foodDesc.addProperty("effectiveQuality", foodPoints + saturation);
         foodDesc.addProperty("saturationRatio", saturationRatio);
         return foodDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "foods";
+    }
+
+    public JsonArray generateDataJson() {
+        JsonArray resultsArray = new JsonArray();
+        for (Item item : Registries.ITEMS) {
+            if (item instanceof FoodItem) {
+                resultsArray.add(generateFoodDescriptor((FoodItem) item));
+            }
+        }
+        return resultsArray;
     }
 }

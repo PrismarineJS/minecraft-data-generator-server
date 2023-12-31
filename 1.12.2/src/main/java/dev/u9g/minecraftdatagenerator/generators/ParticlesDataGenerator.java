@@ -6,6 +6,14 @@ import net.minecraft.client.particle.ParticleType;
 
 public class ParticlesDataGenerator implements IDataGenerator {
 
+    public static JsonObject generateParticleType(int id, ParticleType particleType) {
+        JsonObject effectDesc = new JsonObject();
+
+        effectDesc.addProperty("id", id);
+        effectDesc.addProperty("name", particleType.getName());
+        return effectDesc;
+    }
+
     @Override
     public String getDataName() {
         return "particles";
@@ -19,13 +27,5 @@ public class ParticlesDataGenerator implements IDataGenerator {
             resultsArray.add(generateParticleType(i++, particleType));
         }
         return resultsArray;
-    }
-
-    public static JsonObject generateParticleType(int id, ParticleType particleType) {
-        JsonObject effectDesc = new JsonObject();
-
-        effectDesc.addProperty("id", id);
-        effectDesc.addProperty("name", particleType.getName());
-        return effectDesc;
     }
 }

@@ -5,9 +5,9 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ClientPlayerInteractionManagerMixin",
+    "EULAMixin",
     "MiningToolItemAccessor",
-    "ReadyMixin",
-    "EULAMixin"
+    "ReadyMixin"
   ],
   "client": [
   ],

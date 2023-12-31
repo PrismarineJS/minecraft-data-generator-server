@@ -4,23 +4,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import dev.u9g.minecraftdatagenerator.mixin.accessor.LanguageAccessor;
-import dev.u9g.minecraftdatagenerator.util.Registries;
 import net.minecraft.block.Material;
-import net.minecraft.block.NoteBlock;
-import net.minecraft.block.entity.NoteBlockBlockEntity;
-import net.minecraft.item.MusicDiscItem;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class InstrumentsDataGenerator implements IDataGenerator {
     public static Material currentMaterial = null;
     public static int LAST_WORLD_BLOCKDATA = -1;
+
     @Override
     public String getDataName() {
         return "instruments";

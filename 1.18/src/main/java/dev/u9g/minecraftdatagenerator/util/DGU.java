@@ -14,58 +14,13 @@ import net.minecraft.util.Language;
 import net.minecraft.world.World;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.Map;
 
 public class DGU {
 
-    @Environment(EnvType.CLIENT)
-    private static MinecraftServer getCurrentlyRunningServerClient() {
-        return MinecraftClient.getInstance().getServer();
-    }
-
-    @SuppressWarnings("deprecation")
-    private static MinecraftServer getCurrentlyRunningServerDedicated() {
-        return (MinecraftServer) FabricLoader.getInstance().getGameInstance();
-    }
-
-    public static MinecraftServer getCurrentlyRunningServer() {
-        EnvType environmentType = FabricLoader.getInstance().getEnvironmentType();
-        if (environmentType == EnvType.CLIENT) {
-            return getCurrentlyRunningServerClient();
-        } else if (environmentType == EnvType.SERVER) {
-            return getCurrentlyRunningServerDedicated();
-        }
-        throw new UnsupportedOperationException();
-    }
-
-    @Environment(EnvType.CLIENT)
-    private static String translateTextClient(String translationKey) {
-        return I18n.translate(translationKey);
-    }
-    private static Language language = Language.getInstance();
-
-    private static String translateTextFallback(String translationKey) {
-        try {
-            return language.get(translationKey);
-        } catch (Exception ignored) {}
-        throw new RuntimeException("Failed to translate: '" + translationKey + "'");
-    }
-
-    public static String translateText(String translationKey) {
-        EnvType environmentType = FabricLoader.getInstance().getEnvironmentType();
-        if (environmentType == EnvType.CLIENT) {
-            return translateTextClient(translationKey);
-        }
-        return translateTextFallback(translationKey);
-    }
-
-    public static World getWorld() {
-        return getCurrentlyRunningServer().getOverworld();
-    }
-
     public static final TypeAdapter<JsonElement> JSON_ELEMENT = new TypeAdapter<JsonElement>() {
-        @Override public JsonElement read(JsonReader in) throws IOException {
+        @Override
+        public JsonElement read(JsonReader in) throws IOException {
             switch (in.peek()) {
                 case STRING:
                     return new JsonPrimitive(in.nextString());
@@ -102,7 +57,8 @@ public class DGU {
             }
         }
 
-        @Override public void write(JsonWriter out, JsonElement value) throws IOException {
+        @Override
+        public void write(JsonWriter out, JsonElement value) throws IOException {
             if (value == null || value.isJsonNull()) {
                 out.nullValue();
             } else if (value.isJsonPrimitive()) {
@@ -139,7 +95,52 @@ public class DGU {
             }
         }
     };
-
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(JsonElement.class, JSON_ELEMENT).setPrettyPrinting().create();
+    private static Language language = Language.getInstance();
+
+    @Environment(EnvType.CLIENT)
+    private static MinecraftServer getCurrentlyRunningServerClient() {
+        return MinecraftClient.getInstance().getServer();
+    }
+
+    @SuppressWarnings("deprecation")
+    private static MinecraftServer getCurrentlyRunningServerDedicated() {
+        return (MinecraftServer) FabricLoader.getInstance().getGameInstance();
+    }
+
+    public static MinecraftServer getCurrentlyRunningServer() {
+        EnvType environmentType = FabricLoader.getInstance().getEnvironmentType();
+        if (environmentType == EnvType.CLIENT) {
+            return getCurrentlyRunningServerClient();
+        } else if (environmentType == EnvType.SERVER) {
+            return getCurrentlyRunningServerDedicated();
+        }
+        throw new UnsupportedOperationException();
+    }
+
+    @Environment(EnvType.CLIENT)
+    private static String translateTextClient(String translationKey) {
+        return I18n.translate(translationKey);
+    }
+
+    private static String translateTextFallback(String translationKey) {
+        try {
+            return language.get(translationKey);
+        } catch (Exception ignored) {
+        }
+        throw new RuntimeException("Failed to translate: '" + translationKey + "'");
+    }
+
+    public static String translateText(String translationKey) {
+        EnvType environmentType = FabricLoader.getInstance().getEnvironmentType();
+        if (environmentType == EnvType.CLIENT) {
+            return translateTextClient(translationKey);
+        }
+        return translateTextFallback(translationKey);
+    }
+
+    public static World getWorld() {
+        return getCurrentlyRunningServer().getOverworld();
+    }
 }

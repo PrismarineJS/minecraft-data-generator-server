@@ -6,14 +6,33 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.Registries;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class BlockCollisionShapesDataGenerator implements IDataGenerator {
     private static final Box ENTITY_BOX = new Box(0.0D, 0.0D, 0.0D, 1.0D, 2.0D, 1.0D);
+
+    private static String nameOf(Block block) {
+        return Objects.requireNonNull(Registries.BLOCKS.getIdentifier(block)).getPath();
+    }
+
+    private static JsonArray jsonOf(Box box) {
+        JsonArray arr = new JsonArray();
+        if (box == null) return arr;
+        arr.add(new JsonPrimitive(box.minX));
+        arr.add(new JsonPrimitive(box.minY));
+        arr.add(new JsonPrimitive(box.minZ));
+        arr.add(new JsonPrimitive(box.maxX));
+        arr.add(new JsonPrimitive(box.maxY));
+        arr.add(new JsonPrimitive(box.maxZ));
+        return arr;
+    }
 
     @Override
     public String getDataName() {
@@ -36,22 +55,6 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
         resultObject.add("blocks", blocksObject);
         resultObject.add("shapes", shapeCache.toJSON());
         return resultObject;
-    }
-
-    private static String nameOf(Block block) {
-        return Objects.requireNonNull(Registries.BLOCKS.getIdentifier(block)).getPath();
-    }
-
-    private static JsonArray jsonOf(Box box) {
-        JsonArray arr = new JsonArray();
-        if (box == null) return arr;
-        arr.add(new JsonPrimitive(box.minX));
-        arr.add(new JsonPrimitive(box.minY));
-        arr.add(new JsonPrimitive(box.minZ));
-        arr.add(new JsonPrimitive(box.maxX));
-        arr.add(new JsonPrimitive(box.maxY));
-        arr.add(new JsonPrimitive(box.maxZ));
-        return arr;
     }
 
     public static class ShapeCache {

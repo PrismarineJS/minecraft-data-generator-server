@@ -4,8 +4,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.Registries;
-import net.minecraft.entity.*;
-import net.minecraft.entity.mob.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.AmbientEntity;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,20 +24,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {
-
-    @Override
-    public String getDataName() {
-        return "entities";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultArray = new JsonArray();
-        for (Class<? extends Entity> entityType : Registries.ENTITY_TYPES) {
-            resultArray.add(generateEntity(entityType));
-        }
-        return resultArray;
-    }
 
     public static JsonObject generateEntity(Class<? extends Entity> entityClass) {
         JsonObject entityDesc = new JsonObject();
@@ -89,7 +81,8 @@ public class EntitiesDataGenerator implements IDataGenerator {
                 break;
             default:
                 throw new Error("Unexpected entity type: " + packageName);
-        };
+        }
+        ;
         return category;
     }
 
@@ -145,5 +138,19 @@ public class EntitiesDataGenerator implements IDataGenerator {
             }
         }
         return rawId;
+    }
+
+    @Override
+    public String getDataName() {
+        return "entities";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultArray = new JsonArray();
+        for (Class<? extends Entity> entityType : Registries.ENTITY_TYPES) {
+            resultArray.add(generateEntity(entityType));
+        }
+        return resultArray;
     }
 }

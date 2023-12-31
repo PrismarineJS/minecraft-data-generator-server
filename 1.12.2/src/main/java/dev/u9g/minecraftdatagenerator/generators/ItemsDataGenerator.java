@@ -6,14 +6,11 @@ import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.Registries;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class ItemsDataGenerator implements IDataGenerator {
 
@@ -34,20 +31,6 @@ public class ItemsDataGenerator implements IDataGenerator {
             targets.add(target);
         }
         return targets;
-    }
-
-    @Override
-    public String getDataName() {
-        return "items";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultArray = new JsonArray();
-        for (Item item : Registries.ITEMS) {
-            resultArray.add(generateItem(item));
-        }
-        return resultArray;
     }
 
     public static JsonObject generateItem(Item item) {
@@ -86,5 +69,19 @@ public class ItemsDataGenerator implements IDataGenerator {
             itemDesc.addProperty("maxDurability", maxDurability);
         }
         return itemDesc;
+    }
+
+    @Override
+    public String getDataName() {
+        return "items";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultArray = new JsonArray();
+        for (Item item : Registries.ITEMS) {
+            resultArray.add(generateItem(item));
+        }
+        return resultArray;
     }
 }

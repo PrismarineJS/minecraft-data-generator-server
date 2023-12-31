@@ -20,6 +20,10 @@ import java.util.Objects;
 
 public class RecipeDataGenerator implements IDataGenerator {
 
+    private static int getRawIdFor(Item item) {
+        return Registry.ITEM.getRawId(item);
+    }
+
     @Override
     public String getDataName() {
         return "recipes";
@@ -124,9 +128,5 @@ public class RecipeDataGenerator implements IDataGenerator {
             finalObj.get(a.toString()).getAsJsonArray().add(b);
         });
         return finalObj;
-    }
-
-    private static int getRawIdFor (Item item) {
-        return Registry.ITEM.getRawId(item);
     }
 }

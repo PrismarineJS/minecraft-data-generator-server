@@ -1,10 +1,7 @@
 package dev.u9g.minecraftdatagenerator.ClientSideAnnoyances;
 
 import dev.u9g.minecraftdatagenerator.util.EmptyBlockView;
-import net.minecraft.client.color.world.GrassColors;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.biome.Biome;
 
 import java.util.Iterator;
@@ -32,8 +29,8 @@ public class BiomeColors {
         int k = 0;
 
         int l;
-        for(Iterator iterator = BlockPos.mutableIterate(pos.add(-1, 0, -1), pos.add(1, 0, 1)).iterator(); iterator.hasNext(); k += l & 255) {
-            BlockPos.Mutable mutable = (BlockPos.Mutable)iterator.next();
+        for (Iterator iterator = BlockPos.mutableIterate(pos.add(-1, 0, -1), pos.add(1, 0, 1)).iterator(); iterator.hasNext(); k += l & 255) {
+            BlockPos.Mutable mutable = (BlockPos.Mutable) iterator.next();
             l = provider.getColorAtPos(view.getBiome(mutable), mutable);
             i += (l & 16711680) >> 16;
             j += (l & '\uff00') >> 8;

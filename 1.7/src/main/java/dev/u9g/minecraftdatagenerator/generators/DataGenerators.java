@@ -21,6 +21,22 @@ public class DataGenerators {
     private static final List<IDataGenerator> GENERATORS = new ArrayList<>();
     private static final Logger logger = Main.LOGGER;
 
+    static {
+        register(new BiomesDataGenerator());
+//        register(new BlockCollisionShapesDataGenerator()); - Needs to be finished
+        register(new BlocksDataGenerator());
+        register(new EffectsDataGenerator());
+        register(new EnchantmentsDataGenerator());
+        register(new EntitiesDataGenerator());
+        register(new FoodsDataGenerator());
+        register(new ItemsDataGenerator());
+//        register(new ParticlesDataGenerator()); - See WorldRenderer#spawnParticle
+        register(new TintsDataGenerator());
+        register(new LanguageDataGenerator());
+        register(new InstrumentsDataGenerator());
+        register(new AttributesDataGenerator());
+    }
+
     public static void register(IDataGenerator generator) {
         GENERATORS.add(generator);
     }
@@ -60,21 +76,5 @@ public class DataGenerators {
 
         logger.log(Level.INFO, "Finishing running data generators");
         return generatorsFailed == 0;
-    }
-
-    static {
-        register(new BiomesDataGenerator());
-//        register(new BlockCollisionShapesDataGenerator()); - Needs to be finished
-        register(new BlocksDataGenerator());
-        register(new EffectsDataGenerator());
-        register(new EnchantmentsDataGenerator());
-        register(new EntitiesDataGenerator());
-        register(new FoodsDataGenerator());
-        register(new ItemsDataGenerator());
-//        register(new ParticlesDataGenerator()); - See WorldRenderer#spawnParticle
-        register(new TintsDataGenerator());
-        register(new LanguageDataGenerator());
-        register(new InstrumentsDataGenerator());
-        register(new AttributesDataGenerator());
     }
 }

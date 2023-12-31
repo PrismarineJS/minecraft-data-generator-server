@@ -9,10 +9,6 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(SkeletonSkullBlock.class)
 public class SkeletonSkullBlockOverwrite {
-    public Box getCollisionBox(World world, BlockPos pos, BlockState state) {
-        return boundingBox(state);
-    }
-
     private static Box boundingBox(BlockState state) {
         switch (state.get(SkeletonSkullBlock.FACING)) {
             default: {
@@ -31,5 +27,9 @@ public class SkeletonSkullBlockOverwrite {
                 return new Box(0.0f, 0.25f, 0.25f, 0.5f, 0.75f, 0.75f);
             }
         }
+    }
+
+    public Box getCollisionBox(World world, BlockPos pos, BlockState state) {
+        return boundingBox(state);
     }
 }

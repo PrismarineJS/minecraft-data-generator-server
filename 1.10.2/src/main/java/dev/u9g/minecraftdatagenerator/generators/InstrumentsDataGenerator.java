@@ -22,7 +22,7 @@ public class InstrumentsDataGenerator implements IDataGenerator {
         for (SoundEvent sound : Objects.requireNonNull(NoteBlockAccessor.TUNES())) {
             JsonObject object = new JsonObject();
             object.addProperty("id", i++);
-            object.addProperty("name", ((SoundAccessor)sound).id().getPath().split("\\.")[2]);
+            object.addProperty("name", ((SoundAccessor) sound).id().getPath().split("\\.")[2]);
             array.add(object);
         }
         return array;

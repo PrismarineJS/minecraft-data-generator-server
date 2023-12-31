@@ -4,8 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.BlockColors;
 import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.FoliageColors;
-import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.ServerSideRedstoneWireBlock;
 import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.GrassColors;
+import dev.u9g.minecraftdatagenerator.ClientSideAnnoyances.ServerSideRedstoneWireBlock;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -18,12 +18,6 @@ import net.minecraft.world.biome.Biome;
 import java.util.*;
 
 public class TintsDataGenerator implements IDataGenerator {
-
-    public static class BiomeTintColors {
-        Map<Integer, List<Biome>> grassColoursMap = new HashMap<>();
-        Map<Integer, List<Biome>> foliageColoursMap = new HashMap<>();
-        Map<Integer, List<Biome>> waterColourMap = new HashMap<>();
-    }
 
     public static BiomeTintColors generateBiomeTintColors(Registry<Biome> biomeRegistry) {
         BiomeTintColors colors = new BiomeTintColors();
@@ -154,5 +148,11 @@ public class TintsDataGenerator implements IDataGenerator {
         resultObject.add("constant", encodeBlocksColorMap(blockRegistry, constantTintColors));
 
         return resultObject;
+    }
+
+    public static class BiomeTintColors {
+        Map<Integer, List<Biome>> grassColoursMap = new HashMap<>();
+        Map<Integer, List<Biome>> foliageColoursMap = new HashMap<>();
+        Map<Integer, List<Biome>> waterColourMap = new HashMap<>();
     }
 }

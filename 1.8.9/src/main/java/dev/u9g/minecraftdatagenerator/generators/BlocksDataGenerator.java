@@ -84,20 +84,6 @@ public class BlocksDataGenerator implements IDataGenerator {
         return propertyObject;
     }
 
-    @Override
-    public String getDataName() {
-        return "blocks";
-    }
-
-    @Override
-    public JsonArray generateDataJson() {
-        JsonArray resultBlocksArray = new JsonArray();
-        for (Block block : Registries.BLOCKS) {
-            resultBlocksArray.add(generateBlock(block));
-        }
-        return resultBlocksArray;
-    }
-
     public static JsonObject generateBlock(Block block) {
         JsonObject blockDesc = new JsonObject();
 
@@ -115,12 +101,12 @@ public class BlocksDataGenerator implements IDataGenerator {
         float hardness = block.getStrength(null, null);
 
         blockDesc.addProperty("hardness", hardness);
-        blockDesc.addProperty("resistance", ((BlockAccessor)block).getBlastResistance());
+        blockDesc.addProperty("resistance", ((BlockAccessor) block).getBlastResistance());
         blockDesc.addProperty("diggable", hardness != -1.0f && !(block instanceof AirBlock));
         JsonObject effTools = new JsonObject();
         effectiveTools.forEach(item -> effTools.addProperty(
-            String.valueOf(Registries.ITEMS.getRawId(item)), // key
-            item.getMiningSpeedMultiplier(DGU.stackFor(item), block) // value
+                String.valueOf(Registries.ITEMS.getRawId(item)), // key
+                item.getMiningSpeedMultiplier(DGU.stackFor(item), block) // value
         ));
         blockDesc.add("effectiveTools", effTools);
         blockDesc.addProperty("transparent", block instanceof TransparentBlock);
@@ -147,5 +133,19 @@ public class BlocksDataGenerator implements IDataGenerator {
 
     private static Item getItemFromBlock(Block block) {
         return Registries.ITEMS.get(Registries.BLOCKS.getIdentifier(block));
+    }
+
+    @Override
+    public String getDataName() {
+        return "blocks";
+    }
+
+    @Override
+    public JsonArray generateDataJson() {
+        JsonArray resultBlocksArray = new JsonArray();
+        for (Block block : Registries.BLOCKS) {
+            resultBlocksArray.add(generateBlock(block));
+        }
+        return resultBlocksArray;
     }
 }

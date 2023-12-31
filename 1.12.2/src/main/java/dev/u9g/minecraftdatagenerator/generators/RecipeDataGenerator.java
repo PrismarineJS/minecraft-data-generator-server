@@ -2,8 +2,6 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
-import net.minecraft.item.Item;
-import net.minecraft.util.registry.Registry;
 
 public class RecipeDataGenerator implements IDataGenerator {
 

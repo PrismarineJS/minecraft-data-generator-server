@@ -12,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class DGU {
 
+    private static Language language = Language.getInstance();
+
     @Environment(EnvType.CLIENT)
     private static MinecraftServer getCurrentlyRunningServerClient() {
         return MinecraftClient.getInstance().getServer();
@@ -36,12 +38,12 @@ public class DGU {
     private static String translateTextClient(String translationKey) {
         return I18n.translate(translationKey);
     }
-    private static Language language = Language.getInstance();
 
     private static String translateTextFallback(String translationKey) {
         try {
             return language.get(translationKey);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         throw new RuntimeException("Failed to translate: '" + translationKey + "'");
     }
 
