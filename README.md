@@ -1,7 +1,7 @@
 # minecraft-data-generator-server
 
 This tool generates minecraft-data files based on a running server using a fabric mod.
-The supported versions can be read in the directory structured.
+The supported versions can be read in the directory structure.
 Every version has its own directory.
 
 ## Usage
