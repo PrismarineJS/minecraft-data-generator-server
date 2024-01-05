@@ -41,10 +41,6 @@ public class EntitiesDataGenerator implements IDataGenerator {
 
         if (minecraftServer != null) {
             Entity entityObject = entityType.create(minecraftServer.getOverworld());
-            if(entityObject == null){
-                // If simple create failed, attempt to just spawn it normally at world spawn. This fixes issues with FeatureSet related mobs
-                entityObject = entityType.spawn(minecraftServer.getOverworld(),minecraftServer.getOverworld().getSpawnPos(), SpawnReason.SPAWN_EGG);
-            }
             entityTypeString = entityObject != null ? getEntityTypeForClass(entityObject.getClass()) : "unknown";
         }
         if(entityType == EntityType.PLAYER){
