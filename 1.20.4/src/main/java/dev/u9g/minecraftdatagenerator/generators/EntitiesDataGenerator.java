@@ -40,7 +40,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         MinecraftServer minecraftServer = DGU.getCurrentlyRunningServer();
 
         if (minecraftServer != null) {
-            Entity entityObject = entityType.create(minecraftServer.getOverworld());
+            Entity entityObject = ((EntityTypeAccessor) entityType).factory().create(minecraftServer.getOverworld());
             entityTypeString = entityObject != null ? getEntityTypeForClass(entityObject.getClass()) : "unknown";
         }
         if(entityType == EntityType.PLAYER){
