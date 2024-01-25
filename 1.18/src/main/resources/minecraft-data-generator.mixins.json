@@ -7,7 +7,8 @@
     "ClientPlayerInteractionManagerMixin",
     "EULAMixin",
     "MiningToolItemAccessor",
-    "ReadyMixin"
+    "ReadyMixin",
+    "SoundAccessor"
   ],
   "client": [
   ],

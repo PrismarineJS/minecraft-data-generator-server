@@ -33,6 +33,7 @@ public class DataGenerators {
 //        register(new RecipeDataGenerator()); - On hold until mcdata supports multiple materials for a recipe
         register(new LanguageDataGenerator());
         register(new InstrumentsDataGenerator());
+        register(new SoundsDataGenerator());
     }
 
     public static void register(IDataGenerator generator) {
