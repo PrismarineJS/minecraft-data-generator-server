@@ -11,7 +11,7 @@ public class SoundsDataGenerator implements IDataGenerator {
     public static JsonObject generateSound(Registry<SoundEvent> registry, SoundEvent soundEvent) {
         JsonObject soundDesc = new JsonObject();
 
-        soundDesc.addProperty("id", registry.getRawId(soundEvent));
+        soundDesc.addProperty("id", registry.getRawId(soundEvent)+1); // the plus 1 is required for 1.19.2+ due to Mojang using 0 in the packet to say that you should read a string id instead.
         soundDesc.addProperty("name", soundEvent.getId().getPath());
 
         return soundDesc;
