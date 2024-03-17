@@ -35,6 +35,7 @@ public class DataGenerators {
         register(new LanguageDataGenerator());
         register(new InstrumentsDataGenerator());
         register(new AttributesDataGenerator());
+        register(new SoundsDataGenerator());
     }
 
     public static void register(IDataGenerator generator) {

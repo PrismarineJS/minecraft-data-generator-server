@@ -3,6 +3,7 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.gson.JsonElement;
 import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonWriter;
+import org.lwjgl.system.CallbackI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +35,7 @@ public class DataGenerators {
 //        register(new RecipeDataGenerator()); - On hold until mcdata supports multiple materials for a recipe
         register(new LanguageDataGenerator());
         register(new InstrumentsDataGenerator());
+        register(new SoundsDataGenerator());
     }
 
     public static void register(IDataGenerator generator) {
