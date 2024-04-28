@@ -25,16 +25,16 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
       - name: Generate ${{ matrix.version }}
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: :${{ matrix.version }}:runServer
+          arguments: :mc-${{ matrix.version }}:runServer
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
