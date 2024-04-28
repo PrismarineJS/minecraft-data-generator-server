@@ -34,7 +34,7 @@ jobs:
       - name: Generate ${{ matrix.version }}
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: :mc-${{ matrix.version }}:runServer
+          arguments: :${{ matrix.version }}:runServer
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
