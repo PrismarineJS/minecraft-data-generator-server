@@ -8,7 +8,6 @@ import dev.u9g.minecraftdatagenerator.clientsideannoyances.ServerSideRedstoneWir
 import dev.u9g.minecraftdatagenerator.mixin.BiomeEffectsAccessor;
 import dev.u9g.minecraftdatagenerator.util.EmptyRenderBlockView;
 import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -48,12 +47,10 @@ public class TintsDataGenerator implements IDataGenerator {
         return resultColors;
     }
 
-    @Environment(EnvType.CLIENT)
     private static int getBlockColor(Block block, BlockColors blockColors) {
         return blockColors.getColor(block.getDefaultState(), EmptyRenderBlockView.INSTANCE, BlockPos.ORIGIN, 0xFFFFFF);
     }
 
-    @Environment(EnvType.CLIENT)
     public static Map<Block, Integer> generateConstantTintColors() {
         Map<Block, Integer> resultColors = new HashMap<>();
         BlockColors blockColors = BlockColors.create();
