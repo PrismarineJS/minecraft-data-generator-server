@@ -118,4 +118,8 @@ public class RecipeDataGenerator implements IDataGenerator {
 //        return finalObj;
         return JsonNull.INSTANCE;
     }
-}
+
+    @Override
+    public boolean isEnabled() {
+        return false; // TODO: Implement this
+    }}

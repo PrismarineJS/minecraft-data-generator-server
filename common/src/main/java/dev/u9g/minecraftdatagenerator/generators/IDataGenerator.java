@@ -6,4 +6,8 @@ public interface IDataGenerator {
     String getDataName();
 
     JsonElement generateDataJson();
+
+    default boolean isEnabled() {
+        return true;
+    }
 }

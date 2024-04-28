@@ -23,10 +23,12 @@ public class DataGenerators {
 
     static {
         List<Class<IDataGenerator>> generators;
-        try (ScanResult scanResult = new ClassGraph().acceptPackages("dev.u9g.minecraftdatagenerator.generators")
+        try (ScanResult scanResult = new ClassGraph()
+                .acceptPackages("dev.u9g.minecraftdatagenerator.generators")
+                .overrideClassLoaders(IDataGenerator.class.getClassLoader())
                 .enableClassInfo().scan()) {
             generators = scanResult
-                    .getSubclasses(IDataGenerator.class.getName())
+                    .getClassesImplementing(IDataGenerator.class)
                     .loadClasses(IDataGenerator.class);
         }
 
@@ -53,6 +55,11 @@ public class DataGenerators {
         logger.info(MessageFormat.format("Running minecraft data generators, output at {0}", outputDirectory));
 
         for (IDataGenerator dataGenerator : GENERATORS) {
+            if (!dataGenerator.isEnabled()) {
+                logger.info(MessageFormat.format("Skipping disabled generator {0}", dataGenerator.getDataName()));
+                continue;
+            }
+
             logger.info(MessageFormat.format("Running generator {0}", dataGenerator.getDataName()));
             try {
                 String outputFileName = String.format("%s.json", dataGenerator.getDataName());
@@ -64,8 +71,8 @@ public class DataGenerators {
                     jsonWriter.setIndent("  ");
                     Streams.write(outputElement, jsonWriter);
                 }
-                logger.info(MessageFormat.format("Generator: {0} -> {1}", dataGenerator.getDataName(), outputFileName));
 
+                logger.info(MessageFormat.format("Generator: {0} -> {1}", dataGenerator.getDataName(), outputFileName));
             } catch (Throwable exception) {
                 logger.info(MessageFormat.format("Failed to run data generator {0}", dataGenerator.getDataName()));
                 exception.printStackTrace();
