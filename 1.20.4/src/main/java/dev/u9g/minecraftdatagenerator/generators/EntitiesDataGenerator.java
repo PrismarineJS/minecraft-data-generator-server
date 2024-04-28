@@ -7,7 +7,6 @@ import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.AmbientEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
@@ -17,7 +16,6 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 
@@ -43,7 +41,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
             Entity entityObject = ((EntityTypeAccessor) entityType).factory().create(entityType, minecraftServer.getOverworld());
             entityTypeString = entityObject != null ? getEntityTypeForClass(entityObject.getClass()) : "unknown";
         }
-        if(entityType == EntityType.PLAYER){
+        if (entityType == EntityType.PLAYER) {
             entityTypeString = "player";
         }
 

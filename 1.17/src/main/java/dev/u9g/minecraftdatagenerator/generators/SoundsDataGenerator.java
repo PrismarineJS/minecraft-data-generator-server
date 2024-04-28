@@ -13,7 +13,7 @@ public class SoundsDataGenerator implements IDataGenerator {
         JsonObject soundDesc = new JsonObject();
 
         soundDesc.addProperty("id", registry.getRawId(soundEvent));
-        soundDesc.addProperty("name", ((SoundAccessor)soundEvent).id().getPath());
+        soundDesc.addProperty("name", ((SoundAccessor) soundEvent).id().getPath());
 
         return soundDesc;
     }

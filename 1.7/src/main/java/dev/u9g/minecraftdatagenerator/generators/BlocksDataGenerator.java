@@ -16,7 +16,6 @@ import net.minecraft.item.ToolItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 public class BlocksDataGenerator implements IDataGenerator {
     private static List<Item> getItemsEffectiveForBlock(Block block) {

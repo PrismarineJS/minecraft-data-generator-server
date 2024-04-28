@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class BlocksDataGenerator implements IDataGenerator {private static List<Item> getItemsEffectiveForBlock(Block block) {
+public class BlocksDataGenerator implements IDataGenerator {
+    private static List<Item> getItemsEffectiveForBlock(Block block) {
         return Registry.ITEM.stream()
                 .filter(item -> item instanceof ToolItem)
                 .filter(item -> ((MiningToolItemAccessor) item).getEffectiveBlocks().contains(block))

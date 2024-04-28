@@ -6,11 +6,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.Registries;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class BlockCollisionShapesDataGenerator implements IDataGenerator {
     private static final Box ENTITY_BOX = new Box(0.0D, 0.0D, 0.0D, 1.0D, 2.0D, 1.0D);
@@ -96,18 +99,18 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
         private record Shapes(List<Box> boxes) {
 
             public JsonArray toJSON() {
-                        JsonArray arr = new JsonArray();
-                        boxes.forEach(box -> arr.add(jsonOf(box)));
-                        return arr;
-                    }
+                JsonArray arr = new JsonArray();
+                boxes.forEach(box -> arr.add(jsonOf(box)));
+                return arr;
+            }
 
-                    @Override
-                    public boolean equals(Object o) {
-                        if (this == o) return true;
-                        if (o == null || getClass() != o.getClass()) return false;
-                        Shapes shapes = (Shapes) o;
-                        return Objects.equals(boxes, shapes.boxes);
-                    }
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Shapes shapes = (Shapes) o;
+                return Objects.equals(boxes, shapes.boxes);
+            }
 
         }
     }

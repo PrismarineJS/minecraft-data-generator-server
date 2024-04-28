@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 
-public class BlocksDataGenerator implements IDataGenerator {private static List<Item> getItemsEffectiveForBlock(Block block) {
+public class BlocksDataGenerator implements IDataGenerator {
+    private static List<Item> getItemsEffectiveForBlock(Block block) {
         List<Item> items = new ArrayList<>();
         for (Item item : Registries.ITEMS) {
             if (item instanceof ToolItem && ((MiningToolItemAccessor) item).getEffectiveBlocks().contains(block)) {
