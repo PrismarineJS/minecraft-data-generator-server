@@ -11,8 +11,6 @@ pluginManagement {
     }
 }
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
 dependencyResolutionManagement  {
     repositories {
         maven {
@@ -51,8 +49,4 @@ include "common"
         "1.19.2",
         "1.20",
         "1.20.4",
-].forEach {
-    var projectName = "mc-" + it.replace(".", "-")
-    include(projectName)
-    project(":$projectName").projectDir = file(it)
-}
+].forEach { include it }

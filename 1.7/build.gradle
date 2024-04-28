@@ -32,7 +32,7 @@ dependencies {
 //        exclude module: "legacy-fabric-entity-events-v1"
 //    }
 
-    implementation(projects.common)
+    implementation(project(":common"))
 
     if (System.getProperty("os.name").toLowerCase().contains("mac")) {
         implementation 'org.lwjgl.lwjgl:lwjgl_util:2.9.4-nightly-20150209'
