@@ -4,7 +4,6 @@ import com.google.common.base.CaseFormat;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import dev.u9g.minecraftdatagenerator.Main;
 import dev.u9g.minecraftdatagenerator.mixin.BlockAccessor;
 import dev.u9g.minecraftdatagenerator.mixin.MiningToolItemAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
@@ -30,9 +29,6 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 public class BlocksDataGenerator implements IDataGenerator {
-
-    private static final Logger logger = Main.LOGGER;
-
     private static List<Item> getItemsEffectiveForBlock(Block block) {
         List<Item> items = new ArrayList<>();
         for (Item item : Registries.ITEMS) {

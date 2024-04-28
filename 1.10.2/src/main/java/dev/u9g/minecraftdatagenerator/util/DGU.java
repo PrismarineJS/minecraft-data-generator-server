@@ -38,7 +38,6 @@ public class DGU {
         }
     })).create();
 
-    @Environment(EnvType.CLIENT)
     private static MinecraftServer getCurrentlyRunningServerClient() {
         return MinecraftClient.getInstance().getServer();
     }
@@ -58,7 +57,6 @@ public class DGU {
         throw new UnsupportedOperationException();
     }
 
-    @Environment(EnvType.CLIENT)
     private static String translateTextClient(String translationKey) {
         return I18n.translate(translationKey);
     }

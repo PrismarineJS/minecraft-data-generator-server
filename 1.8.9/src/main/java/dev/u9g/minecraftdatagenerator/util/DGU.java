@@ -15,7 +15,6 @@ public class DGU {
         return (MinecraftServer) FabricLoader.getInstance().getGameInstance();
     }
 
-    @Environment(EnvType.CLIENT)
     private static String translateTextClient(String translationKey) {
         return I18n.translate(translationKey);
     }

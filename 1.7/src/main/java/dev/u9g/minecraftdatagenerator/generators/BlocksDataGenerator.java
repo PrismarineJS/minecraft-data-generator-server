@@ -2,7 +2,6 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.Main;
 import dev.u9g.minecraftdatagenerator.mixin.accessor.BlockAccessor;
 import dev.u9g.minecraftdatagenerator.mixin.accessor.MiningToolItemAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
@@ -20,9 +19,6 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 public class BlocksDataGenerator implements IDataGenerator {
-
-    private static final Logger logger = Main.LOGGER;
-
     private static List<Item> getItemsEffectiveForBlock(Block block) {
         List<Item> items = new ArrayList<>();
         for (Item item : Registries.ITEMS) {

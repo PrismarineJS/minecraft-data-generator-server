@@ -21,14 +21,8 @@ public class TintsDataGenerator implements IDataGenerator {
         BiomeTintColors colors = new BiomeTintColors();
 
         for (Biome biome : Registries.BIOMES) {
-            EmptyBlockView bv = new EmptyBlockView() {
-                @Override
-                public Biome getBiome(int x, int z) {
-                    return biome;
-                }
-            };
-            int biomeGrassColor = GrassColors.getGrassColor(bv.getBiome(0, 0));
-            int biomeFoliageColor = FoliageColors.getColor(bv.getBiome(0, 0));
+            int biomeGrassColor = GrassColors.getGrassColor(biome);
+            int biomeFoliageColor = FoliageColors.getColor(biome);
             int biomeWaterColor = ((BiomeAccessor) biome).waterColor();
 
             colors.grassColoursMap.computeIfAbsent(biomeGrassColor, k -> new ArrayList<>()).add(biome);

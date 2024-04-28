@@ -21,8 +21,7 @@ import java.io.IOException;
 
 public class DGU {
 
-//    @Environment(EnvType.CLIENT)
-//    private static MinecraftServer getCurrentlyRunningServerClient() {
+////    private static MinecraftServer getCurrentlyRunningServerClient() {
 //        return MinecraftClient.getInstance().getServer();
 //    }
 //
@@ -51,7 +50,6 @@ public class DGU {
         return (MinecraftServer) FabricLoader.getInstance().getGameInstance();
     }
 
-    @Environment(EnvType.CLIENT)
     private static String translateTextClient(String translationKey) {
         return I18n.translate(translationKey);
     }

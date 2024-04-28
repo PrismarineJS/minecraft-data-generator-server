@@ -3,7 +3,9 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.gson.JsonElement;
 import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonWriter;
-import dev.u9g.minecraftdatagenerator.Main;
+import dev.u9g.minecraftdatagenerator.MinecraftDataGenerator;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ScanResult;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -13,32 +15,29 @@ import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DataGenerators {
-
     private static final List<IDataGenerator> GENERATORS = new ArrayList<>();
-    private static final Logger logger = Main.LOGGER;
+    private static final Logger logger = MinecraftDataGenerator.LOGGER;
 
     static {
-        register(new BiomesDataGenerator());
-        register(new BlockCollisionShapesDataGenerator());
-        register(new BlocksDataGenerator());
-        register(new EffectsDataGenerator());
-        register(new EnchantmentsDataGenerator());
-        register(new EntitiesDataGenerator());
-        register(new FoodsDataGenerator());
-        register(new ItemsDataGenerator());
-        register(new ParticlesDataGenerator());
-        register(new TintsDataGenerator());
-        register(new LanguageDataGenerator());
-        register(new InstrumentsDataGenerator());
-        register(new AttributesDataGenerator());
-    }
+        List<Class<IDataGenerator>> generators;
+        try (ScanResult scanResult = new ClassGraph().acceptPackages("dev.u9g.minecraftdatagenerator.generators")
+                .enableClassInfo().scan()) {
+            generators = scanResult
+                    .getSubclasses(IDataGenerator.class.getName())
+                    .loadClasses(IDataGenerator.class);
+        }
 
-    public static void register(IDataGenerator generator) {
-        GENERATORS.add(generator);
+        for (Class<IDataGenerator> generatorClass : generators) {
+            try {
+                GENERATORS.add(generatorClass.getDeclaredConstructor().newInstance());
+            } catch (ReflectiveOperationException exception) {
+                logger.info(MessageFormat.format("Failed to instantiate data generator {0}", generatorClass.getName()));
+                exception.printStackTrace();
+            }
+        }
     }
 
     public static boolean runDataGenerators(Path outputDirectory) {

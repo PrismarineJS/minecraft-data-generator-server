@@ -11,17 +11,12 @@
   "contact": {},
   "license": "MIT",
   "environment": "server",
-  "entrypoints": {
-    "main": [
-      "dev.u9g.minecraftdatagenerator.Main"
-    ]
-  },
   "mixins": [
     "minecraft-data-generator.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.5",
+    "fabricloader": "*",
     "fabric": "*",
-    "minecraft": ">=1.18"
+    "minecraft": "*"
   }
 }

@@ -3,7 +3,6 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.common.base.CaseFormat;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.Main;
 import dev.u9g.minecraftdatagenerator.mixin.MiningToolItemAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.block.AirBlock;
@@ -29,11 +28,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class BlocksDataGenerator implements IDataGenerator {
-
-    private static final Logger logger = Main.LOGGER;
-
-    private static List<Item> getItemsEffectiveForBlock(Block block) {
+public class BlocksDataGenerator implements IDataGenerator {private static List<Item> getItemsEffectiveForBlock(Block block) {
         return Registry.ITEM.stream()
                 .filter(item -> item instanceof MiningToolItem)
                 .filter(item -> ((MiningToolItemAccessor) item).getEffectiveBlocks().contains(block))
