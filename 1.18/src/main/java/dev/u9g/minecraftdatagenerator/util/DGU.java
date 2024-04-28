@@ -1,9 +1,5 @@
 package dev.u9g.minecraftdatagenerator.util;
 
-import com.google.gson.*;
-import com.google.gson.internal.LazilyParsedNumber;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
@@ -11,9 +7,6 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Language;
 import net.minecraft.world.World;
-
-import java.io.IOException;
-import java.util.Map;
 
 public class DGU {
     private static final Language language = Language.getInstance();

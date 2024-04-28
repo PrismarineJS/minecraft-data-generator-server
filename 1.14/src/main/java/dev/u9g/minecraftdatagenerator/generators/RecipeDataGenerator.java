@@ -122,4 +122,5 @@ public class RecipeDataGenerator implements IDataGenerator {
     @Override
     public boolean isEnabled() {
         return false; // TODO: Implement this
-    }}
+    }
+}
