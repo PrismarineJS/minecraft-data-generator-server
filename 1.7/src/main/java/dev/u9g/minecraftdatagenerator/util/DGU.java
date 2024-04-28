@@ -1,8 +1,5 @@
 package dev.u9g.minecraftdatagenerator.util;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -14,25 +11,8 @@ public class DGU {
         return MinecraftServer.getServer();
     }
 
-    private static String translateTextClient(String translationKey) {
-        return I18n.translate(translationKey);
-    }
-
-    private static String translateTextFallback(String translationKey) {
-        try {
-            return Registries.LANGUAGE.translate(translationKey);
-        } catch (Exception err) {
-            err.printStackTrace();
-        }
-        throw new RuntimeException("Failed to translate: '" + translationKey + "'");
-    }
-
     public static String translateText(String translationKey) {
-        EnvType environmentType = FabricLoader.getInstance().getEnvironmentType();
-        if (environmentType == EnvType.CLIENT) {
-            return translateTextClient(translationKey);
-        }
-        return translateTextFallback(translationKey);
+        return Registries.LANGUAGE.translate(translationKey);
     }
 
     @NotNull
