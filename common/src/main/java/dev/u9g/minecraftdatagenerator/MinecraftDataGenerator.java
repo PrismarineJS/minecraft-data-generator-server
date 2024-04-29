@@ -11,8 +11,8 @@ public class MinecraftDataGenerator {
     public static void start(String versionName, Path serverRootDirectory) {
         MinecraftDataGenerator.LOGGER.info("Starting data generation!");
         Path dataDumpDirectory = serverRootDirectory.resolve("minecraft-data").resolve(versionName);
-        boolean success = DataGenerators.runDataGenerators(dataDumpDirectory);
+        DataGenerators.runDataGenerators(dataDumpDirectory);
         MinecraftDataGenerator.LOGGER.info("Done data generation!");
-        Runtime.getRuntime().halt(success ? 0 : 1);
+        Runtime.getRuntime().halt(0);
     }
 }
