@@ -4,10 +4,11 @@ pluginManagement {
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'
         }
+        mavenCentral()
         gradlePluginPortal()
     }
     plugins {
-        id 'fabric-loom' version "1.4.5"
+        id 'fabric-loom' version "1.6-SNAPSHOT"
     }
 }
 

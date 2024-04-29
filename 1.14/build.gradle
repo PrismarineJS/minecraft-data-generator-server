@@ -1,5 +1,11 @@
+import net.fabricmc.loom.configuration.providers.minecraft.MinecraftJarConfiguration
+
 plugins {
     id 'fabric-loom'
+}
+
+loom {
+    minecraftJarConfiguration = MinecraftJarConfiguration.MERGED
 }
 
 dependencies {

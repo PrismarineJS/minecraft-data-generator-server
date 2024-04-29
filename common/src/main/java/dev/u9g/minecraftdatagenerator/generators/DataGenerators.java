@@ -22,7 +22,6 @@ public class DataGenerators {
     private static final Logger logger = MinecraftDataGenerator.LOGGER;
 
     static {
-        System.out.println(DataGenerators.class.getClassLoader());
         List<Class<IDataGenerator>> generators;
         try (ScanResult scanResult = new ClassGraph()
                 .acceptPackages("dev.u9g.minecraftdatagenerator.generators")

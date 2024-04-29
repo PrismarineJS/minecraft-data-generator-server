@@ -1,3 +1,5 @@
+import net.fabricmc.loom.configuration.providers.minecraft.MinecraftJarConfiguration
+
 plugins {
     id 'fabric-loom'
 }
@@ -13,12 +15,19 @@ loom {
     setIntermediaryUrl('https://maven.legacyfabric.net/net/fabricmc/intermediary/%1$s/intermediary-%1$s-v2.jar')
     customMinecraftManifest.set("https://legacyfabric.u9g.dev/v2/manifest/${minecraft_version}")
 
-     // Required by 1.7.x
-     runs {
-     	client {
-     		programArgs "--userProperties", "{}"
-     	}
-     }
+    splitMinecraftJar()
+    minecraftJarConfiguration = MinecraftJarConfiguration.MERGED
+
+    runs {
+        mcData {
+            server()
+
+            property("fabric.development", "false")
+            configName = "Generate Minecraft Data"
+            runDir = "run"
+            ideConfigGenerated = true
+        }
+    }
 }
 
 dependencies {
