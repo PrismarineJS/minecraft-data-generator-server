@@ -14,7 +14,6 @@ public class ReadyMixin {
     @Inject(method = "setupServer()Z", at = @At("TAIL"))
     private void init(CallbackInfoReturnable<Boolean> cir) {
         MinecraftDataGenerator.start(
-                ReadyMixin.class.getClassLoader(),
                 MinecraftVersion.create().getName(),
                 DGU.getCurrentlyRunningServer().getRunDirectory().toPath()
         );

@@ -27,6 +27,12 @@ dependencyResolutionManagement  {
         }
         mavenCentral()
     }
+    versionCatalogs {
+        libs {
+            version('fabric-loader', '0.15.10')
+            library('fabric-loader', 'net.fabricmc', 'fabric-loader').versionRef('fabric-loader')
+        }
+    }
 }
 
 include "common"
