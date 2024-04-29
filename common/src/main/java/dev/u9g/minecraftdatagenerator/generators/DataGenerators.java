@@ -35,9 +35,9 @@ public class DataGenerators {
         for (Class<IDataGenerator> generatorClass : generators) {
             try {
                 GENERATORS.add(generatorClass.getDeclaredConstructor().newInstance());
-            } catch (ReflectiveOperationException exception) {
+            } catch (ReflectiveOperationException e) {
                 logger.info(MessageFormat.format("Failed to instantiate data generator {0}", generatorClass.getName()));
-                exception.printStackTrace();
+                e.printStackTrace();
             }
         }
     }
@@ -45,9 +45,9 @@ public class DataGenerators {
     public static boolean runDataGenerators(Path outputDirectory) {
         try {
             Files.createDirectories(outputDirectory);
-        } catch (IOException exception) {
+        } catch (IOException e) {
             logger.info("Failed to create data generator output directory at " + outputDirectory);
-            exception.printStackTrace();
+            e.printStackTrace();
             return false;
         }
 
@@ -73,9 +73,9 @@ public class DataGenerators {
                 }
 
                 logger.info(MessageFormat.format("Generator: {0} -> {1}", dataGenerator.getDataName(), outputFileName));
-            } catch (Throwable exception) {
+            } catch (Throwable e) {
                 logger.info(MessageFormat.format("Failed to run data generator {0}", dataGenerator.getDataName()));
-                exception.printStackTrace();
+                e.printStackTrace();
                 generatorsFailed++;
             }
         }
