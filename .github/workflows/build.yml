@@ -40,5 +40,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: data-${{ matrix.version }}
-          path: ${{ matrix.version }}/run/minecraft-data
+          path: ${{ matrix.version }}/run/server/minecraft-data
           if-no-files-found: error
