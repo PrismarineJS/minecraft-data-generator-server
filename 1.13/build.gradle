@@ -4,18 +4,6 @@ plugins {
     id 'xyz.wagyourtail.unimined'
 }
 
-repositories {
-    maven {
-        name = "wagyourtail releases"
-        url = "https://maven.wagyourtail.xyz/releases"
-    }
-    maven {
-        name = "legacyfabric"
-        url "https://maven.legacyfabric.net/"
-    }
-    mavenCentral()
-}
-
 unimined.minecraft {
     version "1.13.2"
 

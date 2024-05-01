@@ -20,17 +20,9 @@ plugins {
 }
 
 dependencyResolutionManagement  {
-    repositories {
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        mavenCentral()
-    }
     versionCatalogs {
         libs {
             version('fabric-loader', '0.15.10')
-            library('fabric-loader', 'net.fabricmc', 'fabric-loader').versionRef('fabric-loader')
         }
     }
 }
@@ -45,7 +37,7 @@ include "common"
         "1.11.2",
         "1.12.2",
         "1.13",
-        // "1.14",
+        "1.14",
         "1.15",
         "1.16",
         "1.17",

@@ -2,9 +2,6 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.clientsideannoyances.FoliageColors;
-import dev.u9g.minecraftdatagenerator.clientsideannoyances.GrassColors;
-import dev.u9g.minecraftdatagenerator.clientsideannoyances.ServerSideRedstoneWireBlock;
 import dev.u9g.minecraftdatagenerator.mixin.BiomeEffectsAccessor;
 import dev.u9g.minecraftdatagenerator.util.EmptyRenderBlockView;
 import net.fabricmc.api.EnvType;
@@ -13,6 +10,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.RedstoneWireBlock;
 import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.color.world.FoliageColors;
+import net.minecraft.client.color.world.GrassColors;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -41,7 +40,7 @@ public class TintsDataGenerator implements IDataGenerator {
         Map<Integer, Integer> resultColors = new HashMap<>();
 
         for (int redstoneLevel : RedstoneWireBlock.POWER.getValues()) {
-            int color = ServerSideRedstoneWireBlock.getWireColor(redstoneLevel);
+            int color = RedstoneWireBlock.getWireColor(redstoneLevel);
             resultColors.put(redstoneLevel, color);
         }
         return resultColors;

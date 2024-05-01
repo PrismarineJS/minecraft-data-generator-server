@@ -4,20 +4,12 @@ plugins {
     id 'xyz.wagyourtail.unimined'
 }
 
-repositories {
-    maven {
-        name = "wagyourtail releases"
-        url = "https://maven.wagyourtail.xyz/releases"
-    }
-    mavenCentral()
-}
-
 unimined.minecraft {
     version "22w19a"
 
     mappings {
         intermediary()
-        yarn(1)
+        yarn(6)
 
         devFallbackNamespace "intermediary"
     }
