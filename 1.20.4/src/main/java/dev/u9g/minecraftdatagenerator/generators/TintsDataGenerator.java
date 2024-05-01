@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 public class TintsDataGenerator implements IDataGenerator {
-
     public static BiomeTintColors generateBiomeTintColors(Registry<Biome> biomeRegistry) {
         BiomeTintColors colors = new BiomeTintColors();
 

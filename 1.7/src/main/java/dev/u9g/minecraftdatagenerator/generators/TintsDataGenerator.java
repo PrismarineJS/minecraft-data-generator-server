@@ -15,7 +15,6 @@ import net.minecraft.world.biome.Biome;
 import java.util.*;
 
 public class TintsDataGenerator implements IDataGenerator {
-
     public static BiomeTintColors generateBiomeTintColors() {
         BiomeTintColors colors = new BiomeTintColors();
 

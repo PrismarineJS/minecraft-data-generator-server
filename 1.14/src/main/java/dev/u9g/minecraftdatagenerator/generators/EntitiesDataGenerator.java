@@ -22,7 +22,6 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {
-
     public static JsonObject generateEntity(Registry<EntityType<?>> entityRegistry, EntityType<?> entityType) {
         JsonObject entityDesc = new JsonObject();
         Identifier registryKey = entityRegistry.getId(entityType);

@@ -18,7 +18,6 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public class TintsDataGenerator implements IDataGenerator {
-
     public static BiomeTintColors generateBiomeTintColors() {
         BiomeTintColors colors = new BiomeTintColors();
 

@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class EffectsDataGenerator implements IDataGenerator {
-
     public static JsonObject generateEffect(Registry<StatusEffect> registry, StatusEffect statusEffect) {
         JsonObject effectDesc = new JsonObject();
         @NotNull Identifier registryKey = Objects.requireNonNull(registry.getId(statusEffect));

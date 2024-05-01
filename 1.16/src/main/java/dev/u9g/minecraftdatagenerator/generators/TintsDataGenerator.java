@@ -14,19 +14,22 @@ import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.color.world.GrassColors;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 
 import java.util.*;
 
 public class TintsDataGenerator implements IDataGenerator {
-
     public static BiomeTintColors generateBiomeTintColors(Registry<Biome> biomeRegistry) {
         BiomeTintColors colors = new BiomeTintColors();
 
         biomeRegistry.forEach(biome -> {
-            int biomeGrassColor = GrassColors.getGrassColorAt(biome);
-            int biomeFoliageColor = FoliageColors.getFoliageColor(biome);
+            double d = MathHelper.clamp(biome.getTemperature(), 0.0f, 1.0f);
+            double e = MathHelper.clamp(biome.getRainfall(), 0.0f, 1.0f);
+
+            int biomeGrassColor = GrassColors.getColor(d, e);
+            int biomeFoliageColor = FoliageColors.getColor(d, e);
             int biomeWaterColor = ((BiomeEffectsAccessor) biome.getEffects()).waterColor();
 
             colors.grassColoursMap.computeIfAbsent(biomeGrassColor, k -> new ArrayList<>()).add(biome);

@@ -20,7 +20,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 
 public class EntitiesDataGenerator implements IDataGenerator {
-
     public static JsonObject generateEntity(Registry<EntityType<?>> entityRegistry, EntityType<?> entityType) {
         JsonObject entityDesc = new JsonObject();
         Identifier registryKey = entityRegistry.getKey(entityType).orElseThrow().getValue();

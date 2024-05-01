@@ -8,7 +8,6 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.registry.Registry;
 
 public class SoundsDataGenerator implements IDataGenerator {
-
     public static JsonObject generateSound(SoundEvent soundEvent) {
         JsonObject soundDesc = new JsonObject();
 

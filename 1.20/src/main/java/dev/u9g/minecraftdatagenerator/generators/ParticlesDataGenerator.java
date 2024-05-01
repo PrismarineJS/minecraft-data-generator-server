@@ -9,7 +9,6 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 public class ParticlesDataGenerator implements IDataGenerator {
-
     public static JsonObject generateParticleType(Registry<ParticleType<?>> registry, ParticleType<?> particleType) {
         JsonObject effectDesc = new JsonObject();
         Identifier registryKey = registry.getKey(particleType).orElseThrow().getValue();

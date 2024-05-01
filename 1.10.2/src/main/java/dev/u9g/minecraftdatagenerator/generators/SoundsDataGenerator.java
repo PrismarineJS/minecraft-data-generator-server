@@ -6,7 +6,6 @@ import dev.u9g.minecraftdatagenerator.mixin.SoundAccessor;
 import net.minecraft.sound.Sound;
 
 public class SoundsDataGenerator implements IDataGenerator {
-
     public static JsonObject generateSound(Sound soundEvent) {
         JsonObject soundDesc = new JsonObject();
 
