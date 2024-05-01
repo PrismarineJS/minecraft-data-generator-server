@@ -9,10 +9,7 @@ unimined.minecraft {
 
     mappings {
         intermediary()
-        yarn(21) {
-            mapNamespace("named", "intermediary")
-            mapNamespace("intermediary", "yarn")
-        }
+        yarnv1(21)
 
         devFallbackNamespace "intermediary"
     }
