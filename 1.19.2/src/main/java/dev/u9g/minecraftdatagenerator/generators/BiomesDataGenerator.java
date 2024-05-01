@@ -2,35 +2,25 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.mixin.TheEndBiomeDataAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-import net.fabricmc.fabric.api.biome.v1.NetherBiomes;
+import net.minecraft.tag.BiomeTags;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class BiomesDataGenerator implements IDataGenerator {
-    private static final Set<RegistryKey<Biome>> END_BIOMES = new HashSet<>();
-
-    static {
-        END_BIOMES.addAll(TheEndBiomeDataAccessor.END_BIOMES_MAP().keySet());
-        END_BIOMES.addAll(TheEndBiomeDataAccessor.END_BARRENS_MAP().keySet());
-        END_BIOMES.addAll(TheEndBiomeDataAccessor.END_MIDLANDS_MAP().keySet());
-    }
-
-    private static String guessBiomeDimensionFromCategory(Biome biome, String biomeName) {
-        var key = DynamicRegistryManager.BUILTIN.get().get(Registry.BIOME_KEY).getKey(biome).orElseThrow();
-        if (NetherBiomes.canGenerateInNether(key)) {
+    private static String guessBiomeDimensionFromCategory(RegistryKey<Biome> biome) {
+        var biomeRegistry = BuiltinRegistries.BIOME;
+        if (biomeRegistry.getEntry(biome).orElseThrow().isIn(BiomeTags.IS_NETHER)) {
             return "nether";
-        } else if (END_BIOMES.contains(key) || biomeName.startsWith("end_")) {
+        } else if (biomeRegistry.getEntry(biome).orElseThrow().isIn(BiomeTags.IS_END)) {
             return "end";
+        } else {
+            return "overworld";
         }
-        return "overworld";
     }
 
     private static String guessCategoryBasedOnName(String name, String dimension) {
@@ -86,211 +76,22 @@ public class BiomesDataGenerator implements IDataGenerator {
         }
     }
 
-    private static int getBiomeColorFor(String biomeName) {
-        switch (biomeName) {
-            case "the_void" -> {
-                return 0;
-            }
-            case "plains" -> {
-                return 9286496;
-            }
-            case "sunflower_plains" -> {
-                return 11918216;
-            }
-            case "snowy_plains" -> {
-                return 16777215;
-            }
-            case "ice_spikes" -> {
-                return 11853020;
-            }
-            case "desert" -> {
-                return 16421912;
-            }
-            case "swamp" -> {
-                return 522674;
-            }
-            case "forest" -> {
-                return 353825;
-            }
-            case "flower_forest" -> {
-                return 2985545;
-            }
-            case "birch_forest" -> {
-                return 3175492;
-            }
-            case "dark_forest" -> {
-                return 4215066;
-            }
-            case "old_growth_birch_forest" -> {
-                return 5807212;
-            }
-            case "old_growth_pine_taiga" -> {
-                return 5858897;
-            }
-            case "old_growth_spruce_taiga" -> {
-                return 8490617;
-            }
-            case "taiga" -> {
-                return 747097;
-            }
-            case "snowy_taiga" -> {
-                return 3233098;
-            }
-            case "savanna" -> {
-                return 12431967;
-            }
-            case "savanna_plateau" -> {
-                return 10984804;
-            }
-            case "windswept_hills" -> {
-                return 6316128;
-            }
-            case "windswept_gravelly_hills" -> {
-                return 8947848;
-            }
-            case "windswept_forest" -> {
-                return 2250012;
-            }
-            case "windswept_savanna" -> {
-                return 15063687;
-            }
-            case "jungle" -> {
-                return 5470985;
-            }
-            case "sparse_jungle" -> {
-                return 6458135;
-            }
-            case "bamboo_jungle" -> {
-                return 7769620;
-            }
-            case "badlands" -> {
-                return 14238997;
-            }
-            case "eroded_badlands" -> {
-                return 16739645;
-            }
-            case "wooded_badlands" -> {
-                return 11573093;
-            }
-            case "meadow" -> {
-                return 9217136;
-            }
-            case "grove" -> {
-                return 14675173;
-            }
-            case "snowy_slopes" -> {
-                return 14348785;
-            }
-            case "frozen_peaks" -> {
-                return 15399931;
-            }
-            case "jagged_peaks" -> {
-                return 14937325;
-            }
-            case "stony_peaks" -> {
-                return 13750737;
-            }
-            case "river" -> {
-                return 255;
-            }
-            case "frozen_river" -> {
-                return 10526975;
-            }
-            case "beach" -> {
-                return 16440917;
-            }
-            case "snowy_beach" -> {
-                return 16445632;
-            }
-            case "stony_shore" -> {
-                return 10658436;
-            }
-            case "warm_ocean" -> {
-                return 172;
-            }
-            case "lukewarm_ocean" -> {
-                return 144;
-            }
-            case "deep_lukewarm_ocean" -> {
-                return 64;
-            }
-            case "ocean" -> {
-                return 112;
-            }
-            case "deep_ocean" -> {
-                return 48;
-            }
-            case "cold_ocean" -> {
-                return 2105456;
-            }
-            case "deep_cold_ocean" -> {
-                return 2105400;
-            }
-            case "frozen_ocean" -> {
-                return 7368918;
-            }
-            case "deep_frozen_ocean" -> {
-                return 4210832;
-            }
-            case "mushroom_fields" -> {
-                return 16711935;
-            }
-            case "dripstone_caves" -> {
-                return 12690831;
-            }
-            case "lush_caves" -> {
-                return 14652980;
-            }
-            case "nether_wastes" -> {
-                return 12532539;
-            }
-            case "warped_forest" -> {
-                return 4821115;
-            }
-            case "crimson_forest" -> {
-                return 14485512;
-            }
-            case "soul_sand_valley" -> {
-                return 6174768;
-            }
-            case "basalt_deltas" -> {
-                return 4208182;
-            }
-            case "the_end" -> {
-                return 8421631;
-            }
-            case "end_highlands" -> {
-                return 12828041;
-            }
-            case "end_midlands" -> {
-                return 15464630;
-            }
-            case "small_end_islands" -> {
-                return 42;
-            }
-            case "end_barrens" -> {
-                return 9474162;
-            }
-        }
-        System.out.println("Don't know the color of biome: '" + biomeName + "'");
-        return 0;
-    }
-
     public static JsonObject generateBiomeInfo(Registry<Biome> registry, Biome biome) {
         JsonObject biomeDesc = new JsonObject();
-        Identifier registryKey = registry.getKey(biome).orElseThrow().getValue();
-        String localizationKey = String.format("biome.%s.%s", registryKey.getNamespace(), registryKey.getPath());
-        String name = registryKey.getPath();
+        RegistryKey<Biome> registryKey = registry.getKey(biome).orElseThrow();
+        Identifier identifier = registryKey.getValue();
+        String localizationKey = String.format("biome.%s.%s", identifier.getNamespace(), identifier.getPath());
+        String name = identifier.getPath();
         biomeDesc.addProperty("id", registry.getRawId(biome));
         biomeDesc.addProperty("name", name);
-        String dimension = guessBiomeDimensionFromCategory(biome, name);
+        String dimension = guessBiomeDimensionFromCategory(registryKey);
         biomeDesc.addProperty("category", guessCategoryBasedOnName(name, dimension));
         biomeDesc.addProperty("temperature", biome.getTemperature());
         biomeDesc.addProperty("precipitation", biome.getPrecipitation().getName());
         //biomeDesc.addProperty("depth", biome.getDepth()); - Doesn't exist anymore in minecraft source
         biomeDesc.addProperty("dimension", dimension);
         biomeDesc.addProperty("displayName", DGU.translateText(localizationKey));
-        biomeDesc.addProperty("color", getBiomeColorFor(registryKey.getPath()));
+        biomeDesc.addProperty("color", biome.getSkyColor());
         biomeDesc.addProperty("rainfall", biome.getDownfall());
 
         return biomeDesc;

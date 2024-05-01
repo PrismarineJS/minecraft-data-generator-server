@@ -1,53 +1,44 @@
-import net.fabricmc.loom.configuration.providers.minecraft.MinecraftJarConfiguration
+import xyz.wagyourtail.unimined.internal.minecraft.MinecraftProvider
 
 plugins {
-    id 'fabric-loom'
+    id 'xyz.wagyourtail.unimined'
 }
 
 repositories {
     maven {
-        name = "legacy-fabric"
-        url = "https://maven.legacyfabric.net"
+        name = "wagyourtail releases"
+        url = "https://maven.wagyourtail.xyz/releases"
     }
+    maven {
+        name = "legacyfabric"
+        url "https://maven.legacyfabric.net/"
+    }
+    mavenCentral()
 }
 
-loom {
-    setIntermediaryUrl('https://maven.legacyfabric.net/net/fabricmc/intermediary/%1$s/intermediary-%1$s-v2.jar')
-    customMinecraftManifest.set("https://meta.legacyfabric.net/v2/manifest/${minecraft_version}")
+unimined.minecraft {
+    version "1.13.2"
 
-    minecraftJarConfiguration = MinecraftJarConfiguration.MERGED
+    mappings {
+        legacyIntermediary()
+        legacyYarn(541)
+
+        devFallbackNamespace "intermediary"
+    }
+
+    runs.config("server") {
+        javaVersion = JavaVersion.VERSION_21
+    }
+
+    customPatcher(new CustomLegacyFabricMinecraftTransformer(project, delegate as MinecraftProvider)) {
+        it.loader libs.versions.fabric.loader.get()
+    }
+
+    defaultRemapJar = true
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation libs.fabric.loader
-
-    // Fabric API provides hooks for events, item registration, and more. As most mods will need this, it's included by default.
-    // If you know for a fact you don't, it's not required and can be safely removed.
-//    modImplementation ("net.legacyfabric.legacy-fabric-api:legacy-fabric-api:${fabric_version}") {
-//        exclude module: "legacy-fabric-entity-events-v1"
-//    }
-
-    implementation(project(":common"))
-
-    if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-        implementation 'org.lwjgl.lwjgl:lwjgl_util:2.9.4-nightly-20150209'
-        implementation 'org.lwjgl.lwjgl:lwjgl:2.9.4-nightly-20150209'
-        implementation 'org.lwjgl.lwjgl:lwjgl-platform:2.9.4-nightly-20150209'
-    }
-}
-
-if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-    configurations.configureEach {
-        resolutionStrategy {
-            dependencySubstitution {
-                substitute module('org.lwjgl.lwjgl:lwjgl_util:2.9.2-nightly-201408222') with module('org.lwjgl.lwjgl:lwjgl_util:2.9.4-nightly-20150209')
-                substitute module('org.lwjgl.lwjgl:lwjgl:2.9.2-nightly-201408222') with module('org.lwjgl.lwjgl:lwjgl:2.9.4-nightly-20150209')
-            }
-            force 'org.lwjgl.lwjgl:lwjgl-platform:2.9.4-nightly-20150209'
-        }
-    }
+    implementation project(":common")
 }
 
 processResources {
@@ -60,10 +51,4 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
 }

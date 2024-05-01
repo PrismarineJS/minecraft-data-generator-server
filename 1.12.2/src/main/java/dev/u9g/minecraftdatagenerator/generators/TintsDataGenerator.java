@@ -2,32 +2,32 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.clientsideannoyances.BlockColors;
-import dev.u9g.minecraftdatagenerator.clientsideannoyances.FoliageColors;
-import dev.u9g.minecraftdatagenerator.clientsideannoyances.GrassColors;
-import dev.u9g.minecraftdatagenerator.clientsideannoyances.ServerSideRedstoneWireBlock;
 import dev.u9g.minecraftdatagenerator.mixin.BiomeAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.Registries;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.RedstoneWireBlock;
+import net.minecraft.client.BlockColors;
+import net.minecraft.client.color.world.FoliageColors;
+import net.minecraft.client.color.world.GrassColors;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
 
 import java.util.*;
 
 public class TintsDataGenerator implements IDataGenerator {
-
-    private static final BlockColors blockColors = BlockColors.create();
-
     public static BiomeTintColors generateBiomeTintColors() {
         BiomeTintColors colors = new BiomeTintColors();
 
         for (Biome biome : Registries.BIOMES) {
-            int biomeGrassColor = GrassColors.getGrassColor(biome);
-            int biomeFoliageColor = FoliageColors.getFoliageColor(biome);
+            double d = MathHelper.clamp(biome.getTemperature(), 0.0f, 1.0f);
+            double e = MathHelper.clamp(biome.getRainfall(), 0.0f, 1.0f);
+
+            int biomeGrassColor = GrassColors.getColor(d, e);
+            int biomeFoliageColor = FoliageColors.getColor(d, e);
             int biomeWaterColor = ((BiomeAccessor) biome).waterColor();
 
             colors.grassColoursMap.computeIfAbsent(biomeGrassColor, k -> new ArrayList<>()).add(biome);
@@ -41,19 +41,18 @@ public class TintsDataGenerator implements IDataGenerator {
         Map<Integer, Integer> resultColors = new HashMap<>();
 
         for (int redstoneLevel : RedstoneWireBlock.POWER.getValues()) {
-            int color = ServerSideRedstoneWireBlock.getWireColor(redstoneLevel);
+            int color = RedstoneWireBlock.getColorIntensity(redstoneLevel);
             resultColors.put(redstoneLevel, color);
         }
         return resultColors;
     }
 
     private static int getBlockColor(Block block) {
-        return blockColors.method_13410(block.getDefaultState(), DGU.getWorld(), BlockPos.ORIGIN);
+        return BlockColors.create().method_13410(block.getDefaultState(), DGU.getWorld(), BlockPos.ORIGIN);
     }
 
     public static Map<Block, Integer> generateConstantTintColors() {
         Map<Block, Integer> resultColors = new HashMap<>();
-        BlockColors blockColors = BlockColors.create();
         // FIXME: ?
         // resultColors.put(Blocks.BIRCH_LEAVES, FoliageColors.getBirchColor());
         // resultColors.put(Blocks.SPRUCE_LEAVES, FoliageColors.getSpruceColor());

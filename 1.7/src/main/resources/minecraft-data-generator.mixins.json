@@ -17,8 +17,6 @@
     "accessor.StatusEffectAccessor",
     "overwrite.ItemEntityOverwrite"
   ],
-  "client": [
-  ],
   "injectors": {
     "defaultRequire": 1
   }

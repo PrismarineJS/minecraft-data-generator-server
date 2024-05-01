@@ -7,8 +7,7 @@
     "EntityTypeAccessor",
     "EULAMixin",
     "MiningToolItemAccessor",
-    "ReadyMixin",
-    "TheEndBiomeDataAccessor"
+    "ReadyMixin"
   ],
   "client": [
   ],

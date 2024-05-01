@@ -5,8 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "MiningToolItemAccessor",
-    "ReadyMixin",
-    "TheEndBiomeDataAccessor"
+    "ReadyMixin"
   ],
   "client": [
   ],

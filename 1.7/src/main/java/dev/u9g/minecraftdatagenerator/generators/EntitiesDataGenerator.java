@@ -31,7 +31,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         entityDesc.addProperty("id", id);
         entityDesc.addProperty("internalId", id);
         entityDesc.addProperty("name", Objects.requireNonNull(registryKey));
-        String displayName = entity != null ? entity.getTranslatedName() : null;
+        String displayName = entity != null ? entity.getTranslationKey() : null;
         if (displayName != null && !displayName.startsWith("entity.")) {
             entityDesc.addProperty("displayName", displayName);
         }

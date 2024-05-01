@@ -1,15 +1,22 @@
 pluginManagement {
     repositories {
         maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
+            name = 'WagYourReleases'
+            url = 'https://maven.wagyourtail.xyz/releases'
         }
-        mavenCentral()
+        maven {
+            name = 'WagYourSnapshots'
+            url = 'https://maven.wagyourtail.xyz/snapshots'
+        }
         gradlePluginPortal()
     }
     plugins {
-        id 'fabric-loom' version "1.6-SNAPSHOT"
+        id "xyz.wagyourtail.unimined" version "1.2.3"
     }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
 
 dependencyResolutionManagement  {
@@ -17,14 +24,6 @@ dependencyResolutionManagement  {
         maven {
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'
-        }
-        maven {
-            name = "legacy-fabric"
-            url = "https://maven.legacyfabric.net"
-        }
-        maven {
-            name = "u9g"
-            url = "https://maven.u9g.dev"
         }
         mavenCentral()
     }
@@ -46,7 +45,7 @@ include "common"
         "1.11.2",
         "1.12.2",
         "1.13",
-        "1.14",
+        // "1.14",
         "1.15",
         "1.16",
         "1.17",

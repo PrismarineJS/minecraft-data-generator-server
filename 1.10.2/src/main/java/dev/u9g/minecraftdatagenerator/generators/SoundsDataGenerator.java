@@ -3,15 +3,14 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.mixin.SoundAccessor;
-import net.minecraft.client.sound.SoundEvent;
-
+import net.minecraft.sound.Sound;
 
 public class SoundsDataGenerator implements IDataGenerator {
 
-    public static JsonObject generateSound(SoundEvent soundEvent) {
+    public static JsonObject generateSound(Sound soundEvent) {
         JsonObject soundDesc = new JsonObject();
 
-        soundDesc.addProperty("id", SoundEvent.REGISTRY.getRawId(soundEvent));
+        soundDesc.addProperty("id", Sound.REGISTRY.getRawId(soundEvent));
         soundDesc.addProperty("name", ((SoundAccessor) soundEvent).id().getPath());
 
         return soundDesc;
@@ -25,7 +24,7 @@ public class SoundsDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultsArray = new JsonArray();
-        SoundEvent.REGISTRY.forEach(sound -> resultsArray.add(generateSound(sound)));
+        Sound.REGISTRY.forEach(sound -> resultsArray.add(generateSound(sound)));
         return resultsArray;
     }
 }

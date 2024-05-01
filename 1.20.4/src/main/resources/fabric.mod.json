@@ -10,13 +10,11 @@
   ],
   "contact": {},
   "license": "MIT",
-  "environment": "server",
   "mixins": [
     "minecraft-data-generator.mixins.json"
   ],
   "depends": {
     "fabricloader": "*",
-    "fabric": "*",
     "minecraft": "*"
   }
 }

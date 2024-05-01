@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ReadyMixin {
     @Inject(method = "setupServer()Z", at = @At("TAIL"))
     private void init(CallbackInfoReturnable<Boolean> cir) {
+        net.minecraft.server.
         MinecraftDataGenerator.start(
                 MinecraftVersion.create().getName(),
                 DGU.getCurrentlyRunningServer().getRunDirectory().toPath()

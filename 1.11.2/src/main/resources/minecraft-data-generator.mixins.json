@@ -15,8 +15,6 @@
     "SoundAccessor",
     "StatusEffectAccessor"
   ],
-  "client": [
-  ],
   "injectors": {
     "defaultRequire": 1
   },

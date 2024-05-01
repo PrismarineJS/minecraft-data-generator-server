@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import net.minecraft.block.Material;
+import net.minecraft.block.material.Material;
 
 public class InstrumentsDataGenerator implements IDataGenerator {
     public static Material currentMaterial = null;

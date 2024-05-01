@@ -44,7 +44,7 @@ public class BlocksDataGenerator implements IDataGenerator {
             blockDesc.addProperty("displayName", block.getTranslatedName());
         }
 
-        float hardness = block.getHardness(null, 0, 0, 0);
+        float hardness = block.method_471(null, 0, 0, 0);
 
         blockDesc.addProperty("hardness", hardness);
         blockDesc.addProperty("resistance", ((BlockAccessor) block).getBlastResistance());
@@ -65,7 +65,7 @@ public class BlocksDataGenerator implements IDataGenerator {
     }
 
     private static String boundingBox(Block block) {
-        if (block.getCollisionBox(DGU.getWorld(), 0, 0, 0) == null) {
+        if (block.getBoundingBox(DGU.getWorld(), 0, 0, 0) == null) {
             return "empty";
         }
         return "block";
