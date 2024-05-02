@@ -2,12 +2,12 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.mojangannoyances.BlockColors;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.EmptyRenderBlockView;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.RedstoneWireBlock;
+import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registry;
@@ -47,24 +47,23 @@ public class TintsDataGenerator implements IDataGenerator {
         return resultColors;
     }
 
-    private static int getBlockColor(Block block, BlockColors blockColors) {
-        return blockColors.getColor(block.getDefaultState(), EmptyRenderBlockView.INSTANCE, BlockPos.ORIGIN, 0xFFFFFF);
+    private static int getBlockColor(Block block) {
+        return BlockColors.create().getColor(block.getDefaultState(), EmptyRenderBlockView.INSTANCE, BlockPos.ORIGIN, 0xFFFFFF);
     }
 
     public static Map<Block, Integer> generateConstantTintColors() {
         Map<Block, Integer> resultColors = new HashMap<>();
-        BlockColors blockColors = BlockColors.create();
 
         resultColors.put(Blocks.BIRCH_LEAVES, FoliageColors.getBirchColor());
         resultColors.put(Blocks.SPRUCE_LEAVES, FoliageColors.getSpruceColor());
 
-        resultColors.put(Blocks.LILY_PAD, getBlockColor(Blocks.LILY_PAD, blockColors));
-        resultColors.put(Blocks.ATTACHED_MELON_STEM, getBlockColor(Blocks.ATTACHED_MELON_STEM, blockColors));
-        resultColors.put(Blocks.ATTACHED_PUMPKIN_STEM, getBlockColor(Blocks.ATTACHED_PUMPKIN_STEM, blockColors));
+        resultColors.put(Blocks.LILY_PAD, getBlockColor(Blocks.LILY_PAD));
+        resultColors.put(Blocks.ATTACHED_MELON_STEM, getBlockColor(Blocks.ATTACHED_MELON_STEM));
+        resultColors.put(Blocks.ATTACHED_PUMPKIN_STEM, getBlockColor(Blocks.ATTACHED_PUMPKIN_STEM));
 
         //not really constant, depend on the block age, but kinda have to be handled since textures are literally white without them
-        resultColors.put(Blocks.MELON_STEM, getBlockColor(Blocks.MELON_STEM, blockColors));
-        resultColors.put(Blocks.PUMPKIN_STEM, getBlockColor(Blocks.PUMPKIN_STEM, blockColors));
+        resultColors.put(Blocks.MELON_STEM, getBlockColor(Blocks.MELON_STEM));
+        resultColors.put(Blocks.PUMPKIN_STEM, getBlockColor(Blocks.PUMPKIN_STEM));
 
         return resultColors;
     }

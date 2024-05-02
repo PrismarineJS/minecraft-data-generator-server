@@ -62,8 +62,8 @@ public class TintsDataGenerator implements IDataGenerator {
 
         resultColors.put(Blocks.LILY_PAD, Blocks.LILY_PAD.getColor());
         // FIXME: ?
-        // resultColors.put(Blocks.ATTACHED_MELON_STEM, getBlockColor(Blocks.ATTACHED_MELON_STEM, blockColors));
-        // resultColors.put(Blocks.ATTACHED_PUMPKIN_STEM, getBlockColor(Blocks.ATTACHED_PUMPKIN_STEM, blockColors));
+        // resultColors.put(Blocks.ATTACHED_MELON_STEM, getBlockColor(Blocks.ATTACHED_MELON_STEM));
+        // resultColors.put(Blocks.ATTACHED_PUMPKIN_STEM, getBlockColor(Blocks.ATTACHED_PUMPKIN_STEM));
 
         //not really constant, depend on the block age, but kinda have to be handled since textures are literally white without them
         resultColors.put(Blocks.MELON_STEM, Blocks.MELON_STEM.getColor());
