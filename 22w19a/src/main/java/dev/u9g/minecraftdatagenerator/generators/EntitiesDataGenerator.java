@@ -2,7 +2,6 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -17,8 +16,6 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-
-import java.lang.reflect.ParameterizedType;
 
 public class EntitiesDataGenerator implements IDataGenerator {
     public static JsonObject generateEntity(Registry<EntityType<?>> entityRegistry, EntityType<?> entityType) {
@@ -49,17 +46,11 @@ public class EntitiesDataGenerator implements IDataGenerator {
 
     private static String getCategoryFrom(EntityType<?> entityType) {
         if (entityType == EntityType.PLAYER) return "other"; // fail early for player entities
-        Class<? extends Entity> entityClazz = null;
-        try {
-            for (var field : EntityType.class.getFields())
-                if (entityType == field.get(EntityType.class))
-                    entityClazz = (Class<? extends Entity>) ((ParameterizedType) TypeToken.get(field.getGenericType()).getType()).getActualTypeArguments()[0];
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        if (entityClazz == null) throw new RuntimeException("Shouldn't be null...");
-        return switch (entityClazz.getPackageName()) {
+        Entity entity = entityType.create(DGU.getWorld());
+        if (entity == null)
+            throw new Error("Entity was null after trying to create a: " + DGU.translateText(entityType.getTranslationKey()));
+        entity.discard();
+        return switch (entity.getClass().getPackageName()) {
             case "net.minecraft.entity.decoration", "net.minecraft.entity.decoration.painting" -> "Immobile";
             case "net.minecraft.entity.boss", "net.minecraft.entity.mob", "net.minecraft.entity.boss.dragon" ->
                     "Hostile mobs";
@@ -67,7 +58,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
             case "net.minecraft.entity.passive" -> "Passive mobs";
             case "net.minecraft.entity.vehicle" -> "Vehicles";
             case "net.minecraft.entity" -> "UNKNOWN";
-            default -> throw new Error("Unexpected entity type: " + entityClazz.getPackageName());
+            default -> throw new Error("Unexpected entity type: " + entity.getClass().getPackageName());
         };
     }
 

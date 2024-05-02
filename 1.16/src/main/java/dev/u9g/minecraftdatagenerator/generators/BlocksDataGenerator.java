@@ -87,16 +87,16 @@ public class BlocksDataGenerator implements IDataGenerator {
         return propertyObject;
     }
 
-    public static JsonObject generateBlock(Registry<Block> blockRegistry, Block block) {
+    public static JsonObject generateBlock(Block block) {
         JsonObject blockDesc = new JsonObject();
 
         List<BlockState> blockStates = block.getStateManager().getStates();
         BlockState defaultState = block.getDefaultState();
-        Identifier registryKey = blockRegistry.getKey(block).orElseThrow().getValue();
+        Identifier registryKey = Registry.BLOCK.getKey(block).orElseThrow().getValue();
         String localizationKey = block.getTranslationKey();
         List<Item> effectiveTools = getItemsEffectiveForBlock(block);
 
-        blockDesc.addProperty("id", blockRegistry.getRawId(block));
+        blockDesc.addProperty("id", Registry.BLOCK.getRawId(block));
         blockDesc.addProperty("name", registryKey.getPath());
         blockDesc.addProperty("displayName", DGU.translateText(localizationKey));
 
@@ -146,9 +146,8 @@ public class BlocksDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultBlocksArray = new JsonArray();
-        Registry<Block> blockRegistry = Registry.BLOCK;
 
-        blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(blockRegistry, block)));
+        Registry.BLOCK.forEach(block -> resultBlocksArray.add(generateBlock(block)));
         return resultBlocksArray;
     }
 }

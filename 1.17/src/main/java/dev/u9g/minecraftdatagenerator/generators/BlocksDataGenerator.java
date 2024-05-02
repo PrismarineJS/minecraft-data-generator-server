@@ -118,16 +118,16 @@ public class BlocksDataGenerator implements IDataGenerator {
         return matchingMaterials.getFirst().getMaterialName();
     }
 
-    public static JsonObject generateBlock(Registry<Block> blockRegistry, List<MaterialsDataGenerator.MaterialInfo> materials, Block block) {
+    public static JsonObject generateBlock(List<MaterialsDataGenerator.MaterialInfo> materials, Block block) {
         JsonObject blockDesc = new JsonObject();
 
         List<BlockState> blockStates = block.getStateManager().getStates();
         BlockState defaultState = block.getDefaultState();
-        Identifier registryKey = blockRegistry.getKey(block).orElseThrow().getValue();
+        Identifier registryKey = Registry.BLOCK.getKey(block).orElseThrow().getValue();
         String localizationKey = block.getTranslationKey();
         List<Item> effectiveTools = getItemsEffectiveForBlock(defaultState);
 
-        blockDesc.addProperty("id", blockRegistry.getRawId(block));
+        blockDesc.addProperty("id", Registry.BLOCK.getRawId(block));
         blockDesc.addProperty("name", registryKey.getPath());
         blockDesc.addProperty("displayName", DGU.translateText(localizationKey));
 
@@ -192,7 +192,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         Registry<Block> blockRegistry = Registry.BLOCK;
         List<MaterialsDataGenerator.MaterialInfo> availableMaterials = MaterialsDataGenerator.getGlobalMaterialInfo();
 
-        blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(blockRegistry, availableMaterials, block)));
+        blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(availableMaterials, block)));
         return resultBlocksArray;
     }
 }
