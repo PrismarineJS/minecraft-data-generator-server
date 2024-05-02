@@ -105,7 +105,7 @@ public class BlocksDataGenerator implements IDataGenerator {
                 .collect(Collectors.toList());
 
         if (matchingMaterials.size() > 1) {
-            var firstMaterial = matchingMaterials.get(0);
+            var firstMaterial = matchingMaterials.getFirst();
             var otherMaterials = matchingMaterials.subList(1, matchingMaterials.size());
 
             if (!otherMaterials.stream().allMatch(firstMaterial::includesMaterial)) {
@@ -115,7 +115,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         if (matchingMaterials.isEmpty()) {
             return "default";
         }
-        return matchingMaterials.get(0).getMaterialName();
+        return matchingMaterials.getFirst().getMaterialName();
     }
 
     public static JsonObject generateBlock(Registry<Block> blockRegistry, List<MaterialsDataGenerator.MaterialInfo> materials, Block block) {
@@ -148,8 +148,8 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("filterLight", defaultState.getOpacity(EmptyBlockView.INSTANCE, BlockPos.ORIGIN));
 
         blockDesc.addProperty("defaultState", Block.getRawIdFromState(defaultState));
-        blockDesc.addProperty("minStateId", Block.getRawIdFromState(blockStates.get(0)));
-        blockDesc.addProperty("maxStateId", Block.getRawIdFromState(blockStates.get(blockStates.size() - 1)));
+        blockDesc.addProperty("minStateId", Block.getRawIdFromState(blockStates.getFirst()));
+        blockDesc.addProperty("maxStateId", Block.getRawIdFromState(blockStates.getLast()));
 
         JsonArray stateProperties = new JsonArray();
         for (Property<?> property : block.getStateManager().getProperties()) {
@@ -167,7 +167,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         }
 
         List<ItemStack> actualBlockDrops = new ArrayList<>();
-        populateDropsIfPossible(defaultState, effectiveTools.isEmpty() ? Items.AIR : effectiveTools.get(0), actualBlockDrops);
+        populateDropsIfPossible(defaultState, effectiveTools.isEmpty() ? Items.AIR : effectiveTools.getFirst(), actualBlockDrops);
 
         JsonArray dropsArray = new JsonArray();
         for (ItemStack dropStack : actualBlockDrops) {

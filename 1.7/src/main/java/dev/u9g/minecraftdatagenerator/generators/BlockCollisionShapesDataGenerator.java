@@ -93,7 +93,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
 //                }
 //            }
 //            if (indexesOfBoxesInTheShapesCache.stream().distinct().count() < 2) {
-//                return indexesOfBoxesInTheShapesCache.get(0);
+//                return indexesOfBoxesInTheShapesCache.getFirst();
 //            } else {
 //                JsonArray shapeIndexes = new JsonArray();
 //                indexesOfBoxesInTheShapesCache.forEach(shapeIndex -> shapeIndexes.add(new JsonPrimitive(shapeIndex)));

@@ -72,7 +72,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
                 long distinctShapesCount = blockCollisions.stream().distinct().count();
                 JsonElement blockCollision;
                 if (distinctShapesCount == 1L) {
-                    blockCollision = new JsonPrimitive(blockCollisions.get(0));
+                    blockCollision = new JsonPrimitive(blockCollisions.getFirst());
                 } else {
                     blockCollision = new JsonArray();
                     for (int collisionId : blockCollisions) {

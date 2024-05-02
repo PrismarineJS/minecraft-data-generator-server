@@ -104,7 +104,7 @@ public class BlocksDataGenerator implements IDataGenerator {
                 .collect(Collectors.toList());
 
         if (matchingMaterials.size() > 1) {
-            var firstMaterial = matchingMaterials.get(0);
+            var firstMaterial = matchingMaterials.getFirst();
             var otherMaterials = matchingMaterials.subList(1, matchingMaterials.size());
 
             if (!otherMaterials.stream().allMatch(firstMaterial::includesMaterial)) {
@@ -114,7 +114,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         if (matchingMaterials.isEmpty()) {
             return "default";
         }
-        return matchingMaterials.get(0).getMaterialName();
+        return matchingMaterials.getFirst().getMaterialName();
     }
 
     public static JsonObject generateBlock(Registry<Block> blockRegistry, List<MaterialsDataGenerator.MaterialInfo> materials, Block block) {
@@ -131,8 +131,8 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("name", registryKey.getPath());
         blockDesc.addProperty("hardness", block.getHardness());
         blockDesc.addProperty("resistance", block.getBlastResistance());
-        blockDesc.addProperty("minStateId", Block.getRawIdFromState(blockStates.get(0)));
-        blockDesc.addProperty("maxStateId", Block.getRawIdFromState(blockStates.get(blockStates.size() - 1)));
+        blockDesc.addProperty("minStateId", Block.getRawIdFromState(blockStates.getFirst()));
+        blockDesc.addProperty("maxStateId", Block.getRawIdFromState(blockStates.getLast()));
         JsonArray stateProperties = new JsonArray();
         for (Property<?> property : block.getStateManager().getProperties()) {
             stateProperties.add(generateStateProperty(property));
@@ -140,7 +140,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.add("states", stateProperties);
         // Let's not generate block drops...
         // List<ItemStack> actualBlockDrops = new ArrayList<>();
-        // populateDropsIfPossible(defaultState, effectiveTools.isEmpty() ? Items.AIR : effectiveTools.get(0), actualBlockDrops);
+        // populateDropsIfPossible(defaultState, effectiveTools.isEmpty() ? Items.AIR : effectiveTools.getFirst(), actualBlockDrops);
 
         // for (ItemStack dropStack : actualBlockDrops) {
         //     dropsArray.add(Item.getRawId(dropStack.getItem()));

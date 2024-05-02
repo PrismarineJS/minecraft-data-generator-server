@@ -111,8 +111,8 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("filterLight", defaultState.getOpacity(EmptyBlockView.INSTANCE, BlockPos.ORIGIN));
 
         blockDesc.addProperty("defaultState", Block.getRawIdFromState(defaultState));
-        blockDesc.addProperty("minStateId", Block.getRawIdFromState(blockStates.get(0)));
-        blockDesc.addProperty("maxStateId", Block.getRawIdFromState(blockStates.get(blockStates.size() - 1)));
+        blockDesc.addProperty("minStateId", Block.getRawIdFromState(blockStates.getFirst()));
+        blockDesc.addProperty("maxStateId", Block.getRawIdFromState(blockStates.getLast()));
         JsonArray stateProperties = new JsonArray();
         for (Property<?> property : block.getStateManager().getProperties()) {
             stateProperties.add(generateStateProperty(property));
