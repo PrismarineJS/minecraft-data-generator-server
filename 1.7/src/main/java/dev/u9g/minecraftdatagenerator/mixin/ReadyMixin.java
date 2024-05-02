@@ -2,7 +2,6 @@ package dev.u9g.minecraftdatagenerator.mixin;
 
 import dev.u9g.minecraftdatagenerator.MinecraftDataGenerator;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-import net.fabricmc.loader.impl.util.SystemProperties;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -2,11 +2,7 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.client.sound.Sound;
 import net.minecraft.sound.SoundEvent;
 
 public class SoundsDataGenerator implements IDataGenerator {

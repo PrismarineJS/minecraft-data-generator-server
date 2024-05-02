@@ -104,7 +104,7 @@ public class BiomesDataGenerator implements IDataGenerator {
     public JsonArray generateDataJson() {
         JsonArray biomesArray = new JsonArray();
         BuiltinRegistries.BIOME.stream()
-                .map(biome -> generateBiomeInfo(biome))
+                .map(BiomesDataGenerator::generateBiomeInfo)
                 .forEach(biomesArray::add);
         return biomesArray;
     }

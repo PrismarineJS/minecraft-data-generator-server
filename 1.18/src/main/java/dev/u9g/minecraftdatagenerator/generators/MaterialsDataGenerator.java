@@ -53,7 +53,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
                 mappedMaterials.stream().allMatch(it -> it.getPredicate().test(blockState));
 
         MaterialInfo materialInfo = new MaterialInfo(compositeMaterialName, compositePredicate).includes(mappedMaterials);
-        allMaterials.add(0, materialInfo);
+        allMaterials.addFirst(materialInfo);
     }
 
     private static void createCompositeMaterial(Map<String, Map<Item, Float>> allMaterials, List<String> combinedMaterials) {

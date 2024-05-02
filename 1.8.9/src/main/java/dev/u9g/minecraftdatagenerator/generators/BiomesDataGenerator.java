@@ -4,9 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.mixin.BiomeAccessor;
 import dev.u9g.minecraftdatagenerator.util.Registries;
-import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.world.biome.*;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Locale;
 

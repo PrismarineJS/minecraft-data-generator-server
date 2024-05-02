@@ -3,7 +3,6 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.mixin.SoundAccessor;
-import net.minecraft.client.sound.Sound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.registry.Registry;
 
