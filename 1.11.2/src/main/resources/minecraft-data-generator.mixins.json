@@ -12,7 +12,6 @@
     "MiningToolItemAccessor",
     "NoteBlockAccessor",
     "ReadyMixin",
-    "SoundAccessor",
     "StatusEffectAccessor"
   ],
   "injectors": {
