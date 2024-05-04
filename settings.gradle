@@ -30,4 +30,5 @@ include "common"
         "1.19.2",
         "1.20",
         "1.20.4",
+        "1.20.5",
 ].forEach { include it }

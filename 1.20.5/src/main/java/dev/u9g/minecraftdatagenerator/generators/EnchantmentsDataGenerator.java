@@ -1,21 +1,21 @@
 package dev.u9g.minecraftdatagenerator.generators;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentTarget;
+import net.minecraft.item.Item;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
-import java.util.Locale;
 
 public class EnchantmentsDataGenerator implements IDataGenerator {
-
-    public static String getEnchantmentTargetName(EnchantmentTarget target) {
-        return target.name().toLowerCase(Locale.ROOT);
+    public static String getEnchantmentTargetName(TagKey<Item> target) {
+        return target.id().getPath().split("/")[1];
     }
 
     //Equation enchantment costs follow is a * level + b, so we can easily retrieve a and b by passing zero level
@@ -66,8 +66,8 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         }
         enchantmentDesc.add("exclude", excludes);
 
-        enchantmentDesc.addProperty("category", getEnchantmentTargetName(enchantment.target));
-        enchantmentDesc.addProperty("weight", enchantment.getRarity().getWeight());
+        enchantmentDesc.addProperty("category", getEnchantmentTargetName(enchantment.getApplicableItems()));
+        enchantmentDesc.addProperty("weight", enchantment.getWeight());
         enchantmentDesc.addProperty("tradeable", enchantment.isAvailableForEnchantedBookOffer());
         enchantmentDesc.addProperty("discoverable", enchantment.isAvailableForRandomSelection());
 
