@@ -38,8 +38,12 @@ abstract class CustomFabricLikeMinecraftTransformer(
     providerName: String,
     val modJsonName: String,
     val accessWidenerJsonKey: String,
-    private val accessWidenerTransformer: AccessWidenerMinecraftTransformer = AccessWidenerMinecraftTransformer(project, provider, providerName),
-): AbstractMinecraftTransformer(
+    private val accessWidenerTransformer: AccessWidenerMinecraftTransformer = AccessWidenerMinecraftTransformer(
+        project,
+        provider,
+        providerName
+    ),
+) : AbstractMinecraftTransformer(
     project,
     provider,
     providerName
@@ -49,9 +53,10 @@ abstract class CustomFabricLikeMinecraftTransformer(
         val GSON: Gson = GsonBuilder().setPrettyPrinting().create()
     }
 
-    val fabric: Configuration = project.configurations.maybeCreate(providerName.withSourceSet(provider.sourceSet)).also {
-        provider.minecraftLibraries.extendsFrom(it)
-    }
+    val fabric: Configuration =
+        project.configurations.maybeCreate(providerName.withSourceSet(provider.sourceSet)).also {
+            provider.minecraftLibraries.extendsFrom(it)
+        }
 
     private val fabricJson: Configuration = project.configurations.detachedConfiguration()
 
@@ -93,7 +98,9 @@ abstract class CustomFabricLikeMinecraftTransformer(
     }
 
     override fun prodNamespace(namespace: String) {
-        val delegate: FinalizeOnRead<MappingNamespaceTree.Namespace> = CustomFabricLikeMinecraftTransformer::class.getField("prodNamespace")!!.getDelegate(this) as FinalizeOnRead<MappingNamespaceTree.Namespace>
+        val delegate: FinalizeOnRead<MappingNamespaceTree.Namespace> =
+            CustomFabricLikeMinecraftTransformer::class.getField("prodNamespace")!!
+                .getDelegate(this) as FinalizeOnRead<MappingNamespaceTree.Namespace>
         delegate.setValueIntl(LazyMutable { provider.mappings.getNamespace(namespace) })
     }
 
@@ -203,7 +210,8 @@ abstract class CustomFabricLikeMinecraftTransformer(
         provider.minecraftLibraries.dependencies.add(dep)
     }
 
-    override fun afterRemap(baseMinecraft: MinecraftJar): MinecraftJar = applyInterfaceInjection(accessWidenerTransformer.afterRemap(baseMinecraft))
+    override fun afterRemap(baseMinecraft: MinecraftJar): MinecraftJar =
+        applyInterfaceInjection(accessWidenerTransformer.afterRemap(baseMinecraft))
 
     private fun applyInterfaceInjection(baseMinecraft: MinecraftJar): MinecraftJar {
         val injections = hashMapOf<String, List<String>>()
@@ -234,7 +242,11 @@ abstract class CustomFabricLikeMinecraftTransformer(
     }
 
     abstract fun collectInterfaceInjections(baseMinecraft: MinecraftJar, injections: HashMap<String, List<String>>)
-    fun collectInterfaceInjections(baseMinecraft: MinecraftJar, injections: HashMap<String, List<String>>, interfaces: JsonObject) {
+    fun collectInterfaceInjections(
+        baseMinecraft: MinecraftJar,
+        injections: HashMap<String, List<String>>,
+        interfaces: JsonObject
+    ) {
         injections.putAll(interfaces.entrySet()
             .filterNotNull()
             .filter { it.key != null && it.value != null && it.value.isJsonArray }
@@ -254,10 +266,12 @@ abstract class CustomFabricLikeMinecraftTransformer(
                 )
 
                 if (clazz != null) {
-                    var newTarget = clazz.getName(provider.mappings.mappingTree.getNamespaceId(baseMinecraft.mappingNamespace.name))
+                    var newTarget =
+                        clazz.getName(provider.mappings.mappingTree.getNamespaceId(baseMinecraft.mappingNamespace.name))
 
                     if (newTarget == null) {
-                        newTarget = clazz.getName(provider.mappings.mappingTree.getNamespaceId(baseMinecraft.fallbackNamespace.name))
+                        newTarget =
+                            clazz.getName(provider.mappings.mappingTree.getNamespaceId(baseMinecraft.fallbackNamespace.name))
                     }
 
                     if (newTarget != null) {
@@ -270,7 +284,8 @@ abstract class CustomFabricLikeMinecraftTransformer(
         )
     }
 
-    val intermediaryClasspath: Path = provider.localCache.resolve("remapClasspath.txt".withSourceSet(provider.sourceSet))
+    val intermediaryClasspath: Path =
+        provider.localCache.resolve("remapClasspath.txt".withSourceSet(provider.sourceSet))
 
     override fun afterEvaluate() {
         project.logger.lifecycle("[Unimined/Fabric] Generating intermediary classpath.")
@@ -281,7 +296,10 @@ abstract class CustomFabricLikeMinecraftTransformer(
             provider.sourceSet.runtimeClasspath.filter { !provider.isMinecraftJar(it.toPath()) }.toSet()
         ) + provider.getMinecraft(prodNamespace, prodNamespace).toFile()).filter { it.exists() && !it.isDirectory }
         // write to file
-        intermediaryClasspath.writeText(classpath.joinToString(File.pathSeparator), options = arrayOf(StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING))
+        intermediaryClasspath.writeText(
+            classpath.joinToString(File.pathSeparator),
+            options = arrayOf(StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
+        )
     }
 
     override fun afterRemapJarTask(remapJarTask: RemapJarTask, output: Path) {
@@ -387,8 +405,18 @@ abstract class CustomFabricLikeMinecraftTransformer(
                 groups.remove(proj to sourceSet)
             }
         }
-        project.logger.info("[Unimined/FabricLike] Classpath groups: ${groups.map { it.key.toPath() + " -> " + it.value.joinToString(", ") { it.toPath() } }.joinToString("\n    ")}")
-        groups.map { entry -> entry.value.flatMap { it.second.output }.joinToString(File.pathSeparator) { it.absolutePath } }.joinToString(File.pathSeparator.repeat(2))
+        project.logger.info(
+            "[Unimined/FabricLike] Classpath groups: ${
+                groups.map {
+                    it.key.toPath() + " -> " + it.value.joinToString(
+                        ", "
+                    ) { it.toPath() }
+                }.joinToString("\n    ")
+            }"
+        )
+        groups.map { entry ->
+            entry.value.flatMap { it.second.output }.joinToString(File.pathSeparator) { it.absolutePath }
+        }.joinToString(File.pathSeparator.repeat(2))
     }
 
     override fun applyClientRunTransform(config: RunConfig) {

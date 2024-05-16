@@ -1,6 +1,5 @@
 package dev.u9g.minecraftdatagenerator.generators;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;

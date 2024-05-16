@@ -14,7 +14,7 @@ import java.nio.file.Files
 abstract class CustomFabricMinecraftTransformer(
     project: Project,
     provider: MinecraftProvider
-): CustomFabricLikeMinecraftTransformer(
+) : CustomFabricLikeMinecraftTransformer(
     project,
     provider,
     "fabric",
@@ -69,7 +69,8 @@ abstract class CustomFabricMinecraftTransformer(
         val modJsonPath = this.getModJsonPath()
 
         if (modJsonPath != null && modJsonPath.exists()) {
-            val json = JsonParser.parseReader(InputStreamReader(Files.newInputStream(modJsonPath.toPath()))).asJsonObject
+            val json =
+                JsonParser.parseReader(InputStreamReader(Files.newInputStream(modJsonPath.toPath()))).asJsonObject
 
             val custom = json.getAsJsonObject("custom")
 

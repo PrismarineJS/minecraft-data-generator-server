@@ -3,7 +3,6 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-import net.minecraft.component.DataComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;

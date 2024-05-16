@@ -8,13 +8,14 @@ import xyz.wagyourtail.unimined.util.SemVerUtils
 class CustomLegacyFabricMinecraftTransformer(
     project: Project,
     provider: MinecraftProvider
-): CustomFabricMinecraftTransformer(project, provider) {
+) : CustomFabricMinecraftTransformer(project, provider) {
 
     override fun addIntermediaryMappings() {
         provider.mappings {
             legacyIntermediary()
         }
     }
+
     override fun loader(dep: Any, action: Dependency.() -> Unit) {
         fabric.dependencies.add(
             (if (dep is String && !dep.contains(":")) {

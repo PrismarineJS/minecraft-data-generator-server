@@ -15,8 +15,6 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.resource.featuretoggle.FeatureFlags;
-import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 
