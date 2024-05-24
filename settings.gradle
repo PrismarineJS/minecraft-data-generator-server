@@ -7,7 +7,7 @@ pluginManagement {
         gradlePluginPortal()
     }
     plugins {
-        id 'fabric-loom' version "1.4.5"
+        id 'fabric-loom' version "1.6-SNAPSHOT"
     }
 }
 
@@ -47,4 +47,5 @@ dependencyResolutionManagement  {
         "1.19.2",
         "1.20",
         "1.20.4",
-].forEach { include it }
+        "1.20.5"
+].forEach() { include it }
