@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation("xyz.wagyourtail.unimined:xyz.wagyourtail.unimined.gradle.plugin:1.2.14")
+    implementation("xyz.wagyourtail.unimined:xyz.wagyourtail.unimined.gradle.plugin:1.2.15-SNAPSHOT")
 
     // guava
     implementation("com.google.guava:guava:31.1-jre")
