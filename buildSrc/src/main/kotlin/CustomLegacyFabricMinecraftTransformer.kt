@@ -1,40 +1,13 @@
 import org.gradle.api.Project
-import org.gradle.api.artifacts.Dependency
-import xyz.wagyourtail.unimined.api.minecraft.task.RemapJarTask
-import xyz.wagyourtail.unimined.api.unimined
 import xyz.wagyourtail.unimined.internal.minecraft.MinecraftProvider
-import xyz.wagyourtail.unimined.util.SemVerUtils
+import xyz.wagyourtail.unimined.internal.minecraft.patch.fabric.LegacyFabricMinecraftTransformer
+import xyz.wagyourtail.unimined.internal.minecraft.transform.merge.ClassMerger
 
 class CustomLegacyFabricMinecraftTransformer(
     project: Project,
     provider: MinecraftProvider
-) : CustomFabricMinecraftTransformer(project, provider) {
-
-    override fun addIntermediaryMappings() {
-        provider.mappings {
-            legacyIntermediary()
-        }
-    }
-
-    override fun loader(dep: Any, action: Dependency.() -> Unit) {
-        fabric.dependencies.add(
-            (if (dep is String && !dep.contains(":")) {
-                project.dependencies.create("net.fabricmc:fabric-loader:$dep")
-            } else project.dependencies.create(dep)).apply(action)
-        )
-    }
-
-    override fun addMavens() {
-        super.addMavens()
-        project.unimined.legacyFabricMaven()
-    }
-
-    override fun configureRemapJar(task: RemapJarTask) {
-        if (fabricDep.version?.let { SemVerUtils.matches(it, ">=0.15.0") } == true) {
-            project.logger.info("enabling mixin extra")
-            task.mixinRemap {
-                enableMixinExtra()
-            }
-        }
-    }
+) : LegacyFabricMinecraftTransformer(project, provider) {
+    // Strip @Environment annotation from the classes
+    @Suppress("UnstableApiUsage")
+    override val merger: ClassMerger = ClassMerger()
 }
