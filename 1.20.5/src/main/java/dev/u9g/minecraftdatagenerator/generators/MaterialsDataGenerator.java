@@ -1,6 +1,5 @@
 package dev.u9g.minecraftdatagenerator.generators;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
@@ -41,7 +40,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
     }
 
     private static void createCompositeMaterialInfo(List<MaterialInfo> allMaterials, List<String> combinedMaterials) {
-        String compositeMaterialName = Joiner.on(';').join(combinedMaterials);
+        String compositeMaterialName = String.join(";", combinedMaterials);
 
         List<MaterialInfo> mappedMaterials = combinedMaterials.stream()
                 .map(otherName -> allMaterials.stream()
@@ -53,11 +52,11 @@ public class MaterialsDataGenerator implements IDataGenerator {
                 mappedMaterials.stream().allMatch(it -> it.getPredicate().test(blockState));
 
         MaterialInfo materialInfo = new MaterialInfo(compositeMaterialName, compositePredicate).includes(mappedMaterials);
-        allMaterials.add(0, materialInfo);
+        allMaterials.addFirst(materialInfo);
     }
 
     private static void createCompositeMaterial(Map<String, Map<Item, Float>> allMaterials, List<String> combinedMaterials) {
-        String compositeMaterialName = Joiner.on(';').join(combinedMaterials);
+        String compositeMaterialName = String.join(";", combinedMaterials);
 
         Map<Item, Float> resultingToolSpeeds = new HashMap<>();
         combinedMaterials.stream()
