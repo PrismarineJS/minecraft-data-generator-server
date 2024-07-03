@@ -58,7 +58,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
     private static void createCompositeMaterial(Map<String, Map<Item, Float>> allMaterials, List<String> combinedMaterials) {
         String compositeMaterialName = String.join(";", combinedMaterials);
 
-        Map<Item, Float> resultingToolSpeeds = new HashMap<>();
+        Map<Item, Float> resultingToolSpeeds = new LinkedHashMap<>();
         combinedMaterials.stream()
                 .map(allMaterials::get)
                 .forEach(resultingToolSpeeds::putAll);
@@ -113,14 +113,14 @@ public class MaterialsDataGenerator implements IDataGenerator {
     public JsonElement generateDataJson() {
         Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM);
 
-        Map<String, Map<Item, Float>> materialMiningSpeeds = new HashMap<>();
+        Map<String, Map<Item, Float>> materialMiningSpeeds = new LinkedHashMap<>();
         materialMiningSpeeds.put("default", ImmutableMap.of());
 
         //Special materials used for shears and swords special mining speed logic
-        Map<Item, Float> leavesMaterialSpeeds = new HashMap<>();
-        Map<Item, Float> cowebMaterialSpeeds = new HashMap<>();
-        Map<Item, Float> plantMaterialSpeeds = new HashMap<>();
-        Map<Item, Float> gourdMaterialSpeeds = new HashMap<>();
+        Map<Item, Float> leavesMaterialSpeeds = new LinkedHashMap<>();
+        Map<Item, Float> cowebMaterialSpeeds = new LinkedHashMap<>();
+        Map<Item, Float> plantMaterialSpeeds = new LinkedHashMap<>();
+        Map<Item, Float> gourdMaterialSpeeds = new LinkedHashMap<>();
 
         materialMiningSpeeds.put(makeMaterialNameForTag(BlockTags.LEAVES), leavesMaterialSpeeds);
         materialMiningSpeeds.put("coweb", cowebMaterialSpeeds);
@@ -143,7 +143,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
                                     if (tagKey.isPresent()) {
                                         String materialName = makeMaterialNameForTag(tagKey.get());
 
-                                        Map<Item, Float> materialSpeeds = materialMiningSpeeds.computeIfAbsent(materialName, k -> new HashMap<>());
+                                        Map<Item, Float> materialSpeeds = materialMiningSpeeds.computeIfAbsent(materialName, k -> new LinkedHashMap<>());
                                         float miningSpeed = item.getComponents().get(DataComponentTypes.TOOL).defaultMiningSpeed();
                                         materialSpeeds.put(item, miningSpeed);
                                     }

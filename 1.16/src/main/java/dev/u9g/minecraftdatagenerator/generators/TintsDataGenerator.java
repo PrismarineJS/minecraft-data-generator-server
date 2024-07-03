@@ -40,7 +40,7 @@ public class TintsDataGenerator implements IDataGenerator {
     }
 
     public static Map<Integer, Integer> generateRedstoneTintColors() {
-        Map<Integer, Integer> resultColors = new HashMap<>();
+        Map<Integer, Integer> resultColors = new LinkedHashMap<>();
 
         for (int redstoneLevel : RedstoneWireBlock.POWER.getValues()) {
             int color = RedstoneWireBlock.getWireColor(redstoneLevel);
@@ -54,7 +54,7 @@ public class TintsDataGenerator implements IDataGenerator {
     }
 
     public static Map<Block, Integer> generateConstantTintColors() {
-        Map<Block, Integer> resultColors = new HashMap<>();
+        Map<Block, Integer> resultColors = new LinkedHashMap<>();
 
         resultColors.put(Blocks.BIRCH_LEAVES, FoliageColors.getBirchColor());
         resultColors.put(Blocks.SPRUCE_LEAVES, FoliageColors.getSpruceColor());
@@ -161,8 +161,8 @@ public class TintsDataGenerator implements IDataGenerator {
     }
 
     public static class BiomeTintColors {
-        final Map<Integer, List<Biome>> grassColoursMap = new HashMap<>();
-        final Map<Integer, List<Biome>> foliageColoursMap = new HashMap<>();
-        final Map<Integer, List<Biome>> waterColourMap = new HashMap<>();
+        final Map<Integer, List<Biome>> grassColoursMap = new LinkedHashMap<>();
+        final Map<Integer, List<Biome>> foliageColoursMap = new LinkedHashMap<>();
+        final Map<Integer, List<Biome>> waterColourMap = new LinkedHashMap<>();
     }
 }
