@@ -4,8 +4,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.Registries;
-import net.minecraft.entity.*;
-import net.minecraft.entity.mob.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.AmbientEntity;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,7 +24,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {
-
     public static JsonObject generateEntity(Class<? extends Entity> entityClass) {
         JsonObject entityDesc = new JsonObject();
         Identifier registryKey = Registries.ENTITY_TYPES.getIdentifier(entityClass);

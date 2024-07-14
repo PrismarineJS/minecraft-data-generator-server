@@ -2,7 +2,6 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.Main;
 import dev.u9g.minecraftdatagenerator.mixin.accessor.BlockAccessor;
 import dev.u9g.minecraftdatagenerator.mixin.accessor.MiningToolItemAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
@@ -17,12 +16,8 @@ import net.minecraft.item.ToolItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 public class BlocksDataGenerator implements IDataGenerator {
-
-    private static final Logger logger = Main.LOGGER;
-
     private static List<Item> getItemsEffectiveForBlock(Block block) {
         List<Item> items = new ArrayList<>();
         for (Item item : Registries.ITEMS) {
@@ -49,7 +44,7 @@ public class BlocksDataGenerator implements IDataGenerator {
             blockDesc.addProperty("displayName", block.getTranslatedName());
         }
 
-        float hardness = block.getHardness(null, 0, 0, 0);
+        float hardness = block.method_471(null, 0, 0, 0);
 
         blockDesc.addProperty("hardness", hardness);
         blockDesc.addProperty("resistance", ((BlockAccessor) block).getBlastResistance());
@@ -70,7 +65,7 @@ public class BlocksDataGenerator implements IDataGenerator {
     }
 
     private static String boundingBox(Block block) {
-        if (block.getCollisionBox(DGU.getWorld(), 0, 0, 0) == null) {
+        if (block.getBoundingBox(DGU.getWorld(), 0, 0, 0) == null) {
             return "empty";
         }
         return "block";

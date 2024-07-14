@@ -10,11 +10,13 @@ You can put any version that has a directory into the command below.
 Just replace `<version>` with the version you want to generate.
 
 For Linux/Mac OS:
+
 ```bash
 ./gradlew :<version>:runServer
 ```
 
 For Windows:
+
 ```bash
 gradlew.bat :<version>:runServer
 ```

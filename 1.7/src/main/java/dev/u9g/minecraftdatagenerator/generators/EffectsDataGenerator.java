@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class EffectsDataGenerator implements IDataGenerator {
-
     public static JsonObject generateEffect(StatusEffect statusEffect) {
         JsonObject effectDesc = new JsonObject();
         @NotNull String name = Objects.requireNonNull(Registries.STATUS_EFFECTS.getId(statusEffect));

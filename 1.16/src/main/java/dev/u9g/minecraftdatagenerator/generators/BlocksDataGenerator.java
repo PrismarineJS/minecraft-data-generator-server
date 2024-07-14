@@ -3,7 +3,6 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.common.base.CaseFormat;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.Main;
 import dev.u9g.minecraftdatagenerator.mixin.MiningToolItemAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.block.AirBlock;
@@ -29,13 +28,9 @@ import net.minecraft.world.EmptyBlockView;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class BlocksDataGenerator implements IDataGenerator {
-
-    private static final Logger logger = Main.LOGGER;
-
     private static List<Item> getItemsEffectiveForBlock(Block block) {
         return Registry.ITEM.stream()
                 .filter(item -> item instanceof MiningToolItem)
@@ -92,16 +87,16 @@ public class BlocksDataGenerator implements IDataGenerator {
         return propertyObject;
     }
 
-    public static JsonObject generateBlock(Registry<Block> blockRegistry, Block block) {
+    public static JsonObject generateBlock(Block block) {
         JsonObject blockDesc = new JsonObject();
 
         List<BlockState> blockStates = block.getStateManager().getStates();
         BlockState defaultState = block.getDefaultState();
-        Identifier registryKey = blockRegistry.getKey(block).orElseThrow().getValue();
+        Identifier registryKey = Registry.BLOCK.getKey(block).orElseThrow().getValue();
         String localizationKey = block.getTranslationKey();
         List<Item> effectiveTools = getItemsEffectiveForBlock(block);
 
-        blockDesc.addProperty("id", blockRegistry.getRawId(block));
+        blockDesc.addProperty("id", Registry.BLOCK.getRawId(block));
         blockDesc.addProperty("name", registryKey.getPath());
         blockDesc.addProperty("displayName", DGU.translateText(localizationKey));
 
@@ -123,8 +118,8 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("filterLight", defaultState.getOpacity(EmptyBlockView.INSTANCE, BlockPos.ORIGIN));
 
         blockDesc.addProperty("defaultState", Block.getRawIdFromState(defaultState));
-        blockDesc.addProperty("minStateId", Block.getRawIdFromState(blockStates.get(0)));
-        blockDesc.addProperty("maxStateId", Block.getRawIdFromState(blockStates.get(blockStates.size() - 1)));
+        blockDesc.addProperty("minStateId", Block.getRawIdFromState(blockStates.getFirst()));
+        blockDesc.addProperty("maxStateId", Block.getRawIdFromState(blockStates.getLast()));
         JsonArray stateProperties = new JsonArray();
         for (Property<?> property : block.getStateManager().getProperties()) {
             stateProperties.add(generateStateProperty(property));
@@ -151,9 +146,8 @@ public class BlocksDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultBlocksArray = new JsonArray();
-        Registry<Block> blockRegistry = Registry.BLOCK;
 
-        blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(blockRegistry, block)));
+        Registry.BLOCK.forEach(block -> resultBlocksArray.add(generateBlock(block)));
         return resultBlocksArray;
     }
 }

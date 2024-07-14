@@ -12,7 +12,6 @@ import net.minecraft.util.registry.Registry;
 import java.util.Objects;
 
 public class FoodsDataGenerator implements IDataGenerator {
-
     public static JsonObject generateFoodDescriptor(Registry<Item> registry, FoodItem foodItem) {
         JsonObject foodDesc = new JsonObject();
         Identifier registryKey = registry.getId(foodItem);

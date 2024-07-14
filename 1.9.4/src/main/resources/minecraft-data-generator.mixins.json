@@ -14,10 +14,7 @@
     "MiningToolItemAccessor",
     "NoteBlockAccessor",
     "ReadyMixin",
-    "SoundAccessor",
     "StatusEffectAccessor"
-  ],
-  "client": [
   ],
   "injectors": {
     "defaultRequire": 1

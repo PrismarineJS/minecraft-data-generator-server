@@ -6,24 +6,13 @@ import net.minecraft.util.Language;
 import net.minecraft.world.World;
 
 public class DGU {
-
-    private static final Language language = Language.getInstance();
-
     @SuppressWarnings("deprecation")
-    private static MinecraftServer getCurrentlyRunningServerDedicated() {
+    public static MinecraftServer getCurrentlyRunningServer() {
         return (MinecraftServer) FabricLoader.getInstance().getGameInstance();
     }
 
-    public static MinecraftServer getCurrentlyRunningServer() {
-        return getCurrentlyRunningServerDedicated();
-    }
-
-    private static String translateTextFallback(String translationKey) {
-        return language.get(translationKey);
-    }
-
     public static String translateText(String translationKey) {
-        return translateTextFallback(translationKey);
+        return Language.getInstance().get(translationKey);
     }
 
     public static World getWorld() {

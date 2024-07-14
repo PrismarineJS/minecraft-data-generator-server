@@ -12,10 +12,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.EmptyBlockView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BlockCollisionShapesDataGenerator implements IDataGenerator {
 
@@ -40,8 +37,8 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
     }
 
     private static class BlockShapesCache {
-        public final Map<VoxelShape, Integer> uniqueBlockShapes = new HashMap<>();
-        public final Map<Block, List<Integer>> blockCollisionShapes = new HashMap<>();
+        public final Map<VoxelShape, Integer> uniqueBlockShapes = new LinkedHashMap<>();
+        public final Map<Block, List<Integer>> blockCollisionShapes = new LinkedHashMap<>();
         private int lastCollisionShapeId = 0;
 
         public void processBlock(Block block) {
@@ -70,7 +67,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
                 long distinctShapesCount = blockCollisions.stream().distinct().count();
                 JsonElement blockCollision;
                 if (distinctShapesCount == 1L) {
-                    blockCollision = new JsonPrimitive(blockCollisions.get(0));
+                    blockCollision = new JsonPrimitive(blockCollisions.getFirst());
                 } else {
                     blockCollision = new JsonArray();
                     for (int collisionId : blockCollisions) {

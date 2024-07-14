@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class EffectsDataGenerator implements IDataGenerator {
-
     public static JsonObject generateEffect(Registry<StatusEffect> registry, StatusEffect statusEffect) {
         JsonObject effectDesc = new JsonObject();
         Identifier registryKey = registry.getKey(statusEffect).orElseThrow().getValue();

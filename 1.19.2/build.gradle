@@ -1,15 +1,33 @@
+import xyz.wagyourtail.unimined.api.minecraft.task.RemapJarTask
+import xyz.wagyourtail.unimined.internal.minecraft.MinecraftProvider
+
 plugins {
-    id 'fabric-loom'
+    id 'xyz.wagyourtail.unimined'
+}
+
+unimined.minecraft {
+    version "1.19.2"
+
+    mappings {
+        intermediary()
+        yarn(9)
+
+        devFallbackNamespace "intermediary"
+    }
+
+    runs.config("server") {
+        javaVersion = JavaVersion.VERSION_21
+    }
+
+    customPatcher(new CustomOfficialFabricMinecraftTransformer(project, delegate as MinecraftProvider)) {
+        it.loader libs.versions.fabric.loader.get()
+    }
+
+    defaultRemapJar = true
 }
 
 dependencies {
-    // To change the versions see the gradle.properties file
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-    // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    implementation project(":common")
 }
 
 processResources {
@@ -20,12 +38,10 @@ processResources {
     }
 }
 
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
+tasks.withType(RemapJarTask).configureEach {
+    onlyIf { false}
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
 }

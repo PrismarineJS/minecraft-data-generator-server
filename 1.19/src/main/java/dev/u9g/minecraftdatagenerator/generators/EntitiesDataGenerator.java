@@ -2,7 +2,6 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.mixin.EntityTypeAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -19,7 +18,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class EntitiesDataGenerator implements IDataGenerator {
-
     public static JsonObject generateEntity(Registry<EntityType<?>> entityRegistry, EntityType<?> entityType) {
         JsonObject entityDesc = new JsonObject();
         Identifier registryKey = entityRegistry.getKey(entityType).orElseThrow().getValue();
@@ -47,11 +45,8 @@ public class EntitiesDataGenerator implements IDataGenerator {
     }
 
     private static String getCategoryFrom(EntityType<?> entityType) {
-        if (entityType == EntityType.PLAYER) return "UNKNOWN"; // fail early for player entities
-        /*public T create(World world) {
-            return this.factory.create(this, world);
-        }*/
-        Entity entity = ((EntityTypeAccessor) entityType).factory().create(entityType, DGU.getWorld());
+        if (entityType == EntityType.PLAYER) return "UNKNOWN";
+        Entity entity = entityType.create(DGU.getWorld());
         if (entity == null)
             throw new Error("Entity was null after trying to create a: " + DGU.translateText(entityType.getTranslationKey()));
         entity.discard();

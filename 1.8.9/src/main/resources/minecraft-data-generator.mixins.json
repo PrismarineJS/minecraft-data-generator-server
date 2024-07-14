@@ -12,14 +12,7 @@
     "MiningToolItemAccessor",
     "NoteBlockAccessor",
     "ReadyMixin",
-    "StatusEffectAccessor",
-    "overwrite.CocoaBlockOverwrite",
-    "overwrite.EndPortalFrameBlockOverwrite",
-    "overwrite.ItemEntityOverwrite",
-    "overwrite.SkeletonSkullBlockOverwrite",
-    "overwrite.StairBlockOverwrite"
-  ],
-  "client": [
+    "StatusEffectAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -2,7 +2,6 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.clientsideannoyances.SkyColor;
 import dev.u9g.minecraftdatagenerator.mixin.BiomeAccessor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.SimpleRegistry;
@@ -23,7 +22,6 @@ public class BiomesDataGenerator implements IDataGenerator {
 
     public static JsonObject generateBiomeInfo(SimpleRegistry<Identifier, Biome> registry, Biome biome) {
         JsonObject biomeDesc = new JsonObject();
-        Identifier registryKey = registry.getIdentifier(biome);
 
         biomeDesc.addProperty("id", registry.getRawId(biome));
         biomeDesc.addProperty("name", String.join("_", ((BiomeAccessor) biome).name().toLowerCase(Locale.ENGLISH).split(" ")));
@@ -33,7 +31,7 @@ public class BiomesDataGenerator implements IDataGenerator {
         biomeDesc.addProperty("depth", biome.getDepth());
         biomeDesc.addProperty("dimension", guessBiomeDimensionFromCategory(biome));
         biomeDesc.addProperty("displayName", ((BiomeAccessor) biome).name());
-        biomeDesc.addProperty("color", SkyColor.getSkyColor(biome));
+        biomeDesc.addProperty("color", biome.getSkyColor(biome.getTemperature()));
         biomeDesc.addProperty("rainfall", biome.getRainfall());
 
         return biomeDesc;

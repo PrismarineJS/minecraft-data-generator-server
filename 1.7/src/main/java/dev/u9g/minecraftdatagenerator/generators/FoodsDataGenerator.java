@@ -10,7 +10,6 @@ import net.minecraft.item.Item;
 import java.util.Objects;
 
 public class FoodsDataGenerator implements IDataGenerator {
-
     public static JsonObject generateFoodDescriptor(FoodItem foodItem) {
         JsonObject foodDesc = new JsonObject();
         String registryKey = Registries.ITEMS.getId(foodItem);

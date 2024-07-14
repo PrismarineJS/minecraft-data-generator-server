@@ -112,6 +112,11 @@ public class RecipeDataGenerator implements IDataGenerator {
 //        return finalObj;
         return JsonNull.INSTANCE;
     }
+
+    @Override
+    public boolean isEnabled() {
+        return false; // TODO: Implement this
+    }
 //
 //    private static int getRawIdFor (Item item) {
 //        return Registry.ITEM.getRawId(item);

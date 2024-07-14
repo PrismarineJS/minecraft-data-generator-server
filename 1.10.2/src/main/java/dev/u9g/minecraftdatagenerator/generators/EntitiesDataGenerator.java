@@ -21,7 +21,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {
-
     public static JsonObject generateEntity(Class<? extends Entity> entityClass) {
         JsonObject entityDesc = new JsonObject();
         Identifier registryKey = Registries.ENTITY_TYPES.getIdentifier(entityClass);

@@ -20,13 +20,23 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Registries {
-    public static Language LANGUAGE;
-    public static RegistryView<String, Biome> BIOMES;
-    public static RegistryView<String, Block> BLOCKS;
-    public static RegistryView<String, Item> ITEMS;
-    public static RegistryView<String, StatusEffect> STATUS_EFFECTS;
-    public static RegistryView<String, Enchantment> ENCHANTMENTS;
-    public static RegistryView<String, Class<? extends Entity>> ENTITY_TYPES;
+    public static final Language LANGUAGE;
+    public static final RegistryView<String, Biome> BIOMES;
+    public static final RegistryView<String, Block> BLOCKS;
+    public static final RegistryView<String, Item> ITEMS;
+    public static final RegistryView<String, StatusEffect> STATUS_EFFECTS;
+    public static final RegistryView<String, Enchantment> ENCHANTMENTS;
+    public static final RegistryView<String, Class<? extends Entity>> ENTITY_TYPES;
+
+    static {
+        LANGUAGE = new Language();
+        BIOMES = setupBiomeRegistry();
+        BLOCKS = new RegistryBackedRegistryView<>(Block.REGISTRY);
+        ITEMS = new RegistryBackedRegistryView<>(Item.REGISTRY);
+        STATUS_EFFECTS = setupStatusEffectRegistry();
+        ENCHANTMENTS = setupEnchantmentRegistry();
+        ENTITY_TYPES = setupEntityTypesRegistry();
+    }
 
     private static RegistryView<String, Class<? extends Entity>> setupEntityTypesRegistry() {
         TableBackedRegistryView.Builder<String, Class<? extends Entity>> registry = new TableBackedRegistryView.Builder<>();
@@ -67,15 +77,5 @@ public class Registries {
             builder.add(StringUtils.join(words, ""), effect.id, effect);
         }
         return builder.build();
-    }
-
-    public static void init() {
-        LANGUAGE = new Language();
-        BIOMES = setupBiomeRegistry();
-        BLOCKS = new RegistryBackedRegistryView<>(Block.REGISTRY);
-        ITEMS = new RegistryBackedRegistryView<>(Item.REGISTRY);
-        STATUS_EFFECTS = setupStatusEffectRegistry();
-        ENCHANTMENTS = setupEnchantmentRegistry();
-        ENTITY_TYPES = setupEntityTypesRegistry();
     }
 }

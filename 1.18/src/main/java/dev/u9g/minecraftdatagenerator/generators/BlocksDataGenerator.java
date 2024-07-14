@@ -104,7 +104,7 @@ public class BlocksDataGenerator implements IDataGenerator {
                 .collect(Collectors.toList());
 
         if (matchingMaterials.size() > 1) {
-            var firstMaterial = matchingMaterials.get(0);
+            var firstMaterial = matchingMaterials.getFirst();
             var otherMaterials = matchingMaterials.subList(1, matchingMaterials.size());
 
             if (!otherMaterials.stream().allMatch(firstMaterial::includesMaterial)) {
@@ -114,25 +114,25 @@ public class BlocksDataGenerator implements IDataGenerator {
         if (matchingMaterials.isEmpty()) {
             return "default";
         }
-        return matchingMaterials.get(0).getMaterialName();
+        return matchingMaterials.getFirst().getMaterialName();
     }
 
-    public static JsonObject generateBlock(Registry<Block> blockRegistry, List<MaterialsDataGenerator.MaterialInfo> materials, Block block) {
+    public static JsonObject generateBlock(List<MaterialsDataGenerator.MaterialInfo> materials, Block block) {
         JsonObject blockDesc = new JsonObject();
 
         List<BlockState> blockStates = block.getStateManager().getStates();
         BlockState defaultState = block.getDefaultState();
-        Identifier registryKey = blockRegistry.getKey(block).orElseThrow().getValue();
+        Identifier registryKey = Registry.BLOCK.getKey(block).orElseThrow().getValue();
         String localizationKey = block.getTranslationKey();
         List<Item> effectiveTools = getItemsEffectiveForBlock(defaultState);
 
-        blockDesc.addProperty("id", blockRegistry.getRawId(block));
+        blockDesc.addProperty("id", Registry.BLOCK.getRawId(block));
         blockDesc.addProperty("displayName", DGU.translateText(localizationKey));
         blockDesc.addProperty("name", registryKey.getPath());
         blockDesc.addProperty("hardness", block.getHardness());
         blockDesc.addProperty("resistance", block.getBlastResistance());
-        blockDesc.addProperty("minStateId", Block.getRawIdFromState(blockStates.get(0)));
-        blockDesc.addProperty("maxStateId", Block.getRawIdFromState(blockStates.get(blockStates.size() - 1)));
+        blockDesc.addProperty("minStateId", Block.getRawIdFromState(blockStates.getFirst()));
+        blockDesc.addProperty("maxStateId", Block.getRawIdFromState(blockStates.getLast()));
         JsonArray stateProperties = new JsonArray();
         for (Property<?> property : block.getStateManager().getProperties()) {
             stateProperties.add(generateStateProperty(property));
@@ -140,7 +140,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.add("states", stateProperties);
         // Let's not generate block drops...
         // List<ItemStack> actualBlockDrops = new ArrayList<>();
-        // populateDropsIfPossible(defaultState, effectiveTools.isEmpty() ? Items.AIR : effectiveTools.get(0), actualBlockDrops);
+        // populateDropsIfPossible(defaultState, effectiveTools.isEmpty() ? Items.AIR : effectiveTools.getFirst(), actualBlockDrops);
 
         // for (ItemStack dropStack : actualBlockDrops) {
         //     dropsArray.add(Item.getRawId(dropStack.getItem()));
@@ -184,7 +184,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         Registry<Block> blockRegistry = Registry.BLOCK;
         List<MaterialsDataGenerator.MaterialInfo> availableMaterials = MaterialsDataGenerator.getGlobalMaterialInfo();
 
-        blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(blockRegistry, availableMaterials, block)));
+        blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(availableMaterials, block)));
         return resultBlocksArray;
     }
 }

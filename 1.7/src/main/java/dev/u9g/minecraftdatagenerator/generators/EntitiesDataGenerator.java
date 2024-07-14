@@ -20,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {
-
     public static JsonObject generateEntity(Class<? extends Entity> entityClass) {
         JsonObject entityDesc = new JsonObject();
         String registryKey = Registries.ENTITY_TYPES.getId(entityClass);
@@ -31,7 +30,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         entityDesc.addProperty("id", id);
         entityDesc.addProperty("internalId", id);
         entityDesc.addProperty("name", Objects.requireNonNull(registryKey));
-        String displayName = entity != null ? entity.getTranslatedName() : null;
+        String displayName = entity != null ? entity.getTranslationKey() : null;
         if (displayName != null && !displayName.startsWith("entity.")) {
             entityDesc.addProperty("displayName", displayName);
         }

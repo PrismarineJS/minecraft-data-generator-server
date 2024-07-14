@@ -1,33 +1,16 @@
-pluginManagement {
-    repositories {
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+}
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            version('fabric-loader', '0.15.10')
         }
-        gradlePluginPortal()
-    }
-    plugins {
-        id 'fabric-loom' version "1.4.5"
     }
 }
 
-dependencyResolutionManagement  {
-    repositories {
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        maven {
-            name = "legacy-fabric"
-            url = "https://maven.legacyfabric.net"
-        }
-        maven {
-            name = "u9g"
-            url = "https://maven.u9g.dev"
-        }
-        mavenCentral()
-    }
-}
+include "common"
 
 [
         "1.7",
@@ -47,4 +30,5 @@ dependencyResolutionManagement  {
         "1.19.2",
         "1.20",
         "1.20.4",
+        "1.20.5",
 ].forEach { include it }

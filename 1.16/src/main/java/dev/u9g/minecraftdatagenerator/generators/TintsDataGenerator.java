@@ -2,33 +2,34 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.clientsideannoyances.FoliageColors;
-import dev.u9g.minecraftdatagenerator.clientsideannoyances.GrassColors;
-import dev.u9g.minecraftdatagenerator.clientsideannoyances.ServerSideRedstoneWireBlock;
 import dev.u9g.minecraftdatagenerator.mixin.BiomeEffectsAccessor;
 import dev.u9g.minecraftdatagenerator.util.EmptyRenderBlockView;
 import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.RedstoneWireBlock;
 import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.color.world.FoliageColors;
+import net.minecraft.client.color.world.GrassColors;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 
 import java.util.*;
 
 public class TintsDataGenerator implements IDataGenerator {
-
     public static BiomeTintColors generateBiomeTintColors(Registry<Biome> biomeRegistry) {
         BiomeTintColors colors = new BiomeTintColors();
 
         biomeRegistry.forEach(biome -> {
-            int biomeGrassColor = GrassColors.getGrassColorAt(biome);
-            int biomeFoliageColor = FoliageColors.getFoliageColor(biome);
+            double d = MathHelper.clamp(biome.getTemperature(), 0.0f, 1.0f);
+            double e = MathHelper.clamp(biome.getRainfall(), 0.0f, 1.0f);
+
+            int biomeGrassColor = GrassColors.getColor(d, e);
+            int biomeFoliageColor = FoliageColors.getColor(d, e);
             int biomeWaterColor = ((BiomeEffectsAccessor) biome.getEffects()).waterColor();
 
             colors.grassColoursMap.computeIfAbsent(biomeGrassColor, k -> new ArrayList<>()).add(biome);
@@ -39,35 +40,32 @@ public class TintsDataGenerator implements IDataGenerator {
     }
 
     public static Map<Integer, Integer> generateRedstoneTintColors() {
-        Map<Integer, Integer> resultColors = new HashMap<>();
+        Map<Integer, Integer> resultColors = new LinkedHashMap<>();
 
         for (int redstoneLevel : RedstoneWireBlock.POWER.getValues()) {
-            int color = ServerSideRedstoneWireBlock.getWireColor(redstoneLevel);
+            int color = RedstoneWireBlock.getWireColor(redstoneLevel);
             resultColors.put(redstoneLevel, color);
         }
         return resultColors;
     }
 
-    @Environment(EnvType.CLIENT)
-    private static int getBlockColor(Block block, BlockColors blockColors) {
-        return blockColors.getColor(block.getDefaultState(), EmptyRenderBlockView.INSTANCE, BlockPos.ORIGIN, 0xFFFFFF);
+    private static int getBlockColor(Block block) {
+        return BlockColors.create().getColor(block.getDefaultState(), EmptyRenderBlockView.INSTANCE, BlockPos.ORIGIN, 0xFFFFFF);
     }
 
-    @Environment(EnvType.CLIENT)
     public static Map<Block, Integer> generateConstantTintColors() {
-        Map<Block, Integer> resultColors = new HashMap<>();
-        BlockColors blockColors = BlockColors.create();
+        Map<Block, Integer> resultColors = new LinkedHashMap<>();
 
         resultColors.put(Blocks.BIRCH_LEAVES, FoliageColors.getBirchColor());
         resultColors.put(Blocks.SPRUCE_LEAVES, FoliageColors.getSpruceColor());
 
-        resultColors.put(Blocks.LILY_PAD, getBlockColor(Blocks.LILY_PAD, blockColors));
-        resultColors.put(Blocks.ATTACHED_MELON_STEM, getBlockColor(Blocks.ATTACHED_MELON_STEM, blockColors));
-        resultColors.put(Blocks.ATTACHED_PUMPKIN_STEM, getBlockColor(Blocks.ATTACHED_PUMPKIN_STEM, blockColors));
+        resultColors.put(Blocks.LILY_PAD, getBlockColor(Blocks.LILY_PAD));
+        resultColors.put(Blocks.ATTACHED_MELON_STEM, getBlockColor(Blocks.ATTACHED_MELON_STEM));
+        resultColors.put(Blocks.ATTACHED_PUMPKIN_STEM, getBlockColor(Blocks.ATTACHED_PUMPKIN_STEM));
 
         //not really constant, depend on the block age, but kinda have to be handled since textures are literally white without them
-        resultColors.put(Blocks.MELON_STEM, getBlockColor(Blocks.MELON_STEM, blockColors));
-        resultColors.put(Blocks.PUMPKIN_STEM, getBlockColor(Blocks.PUMPKIN_STEM, blockColors));
+        resultColors.put(Blocks.MELON_STEM, getBlockColor(Blocks.MELON_STEM));
+        resultColors.put(Blocks.PUMPKIN_STEM, getBlockColor(Blocks.PUMPKIN_STEM));
 
         return resultColors;
     }
@@ -163,8 +161,8 @@ public class TintsDataGenerator implements IDataGenerator {
     }
 
     public static class BiomeTintColors {
-        final Map<Integer, List<Biome>> grassColoursMap = new HashMap<>();
-        final Map<Integer, List<Biome>> foliageColoursMap = new HashMap<>();
-        final Map<Integer, List<Biome>> waterColourMap = new HashMap<>();
+        final Map<Integer, List<Biome>> grassColoursMap = new LinkedHashMap<>();
+        final Map<Integer, List<Biome>> foliageColoursMap = new LinkedHashMap<>();
+        final Map<Integer, List<Biome>> waterColourMap = new LinkedHashMap<>();
     }
 }

@@ -38,8 +38,8 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
     }
 
     private static class BlockShapesCache {
-        public final Map<VoxelShape, Integer> uniqueBlockShapes = new HashMap<>();
-        public final Map<Block, List<Integer>> blockCollisionShapes = new HashMap<>();
+        public final Map<VoxelShape, Integer> uniqueBlockShapes = new LinkedHashMap<>();
+        public final Map<Block, List<Integer>> blockCollisionShapes = new LinkedHashMap<>();
         private int lastCollisionShapeId = 0;
 
         public void processBlock(Block block) {
@@ -68,7 +68,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
                 long distinctShapesCount = blockCollisions.stream().distinct().count();
                 JsonElement blockCollision;
                 if (distinctShapesCount == 1L) {
-                    blockCollision = new JsonPrimitive(blockCollisions.get(0));
+                    blockCollision = new JsonPrimitive(blockCollisions.getFirst());
                 } else {
                     blockCollision = new JsonArray();
                     for (int collisionId : blockCollisions) {

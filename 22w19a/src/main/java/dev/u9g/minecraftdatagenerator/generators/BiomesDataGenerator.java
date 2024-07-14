@@ -2,42 +2,42 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.mixin.TheEndBiomeDataAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-import net.fabricmc.fabric.api.biome.v1.NetherBiomes;
+import net.minecraft.tag.BiomeTags;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 
 public class BiomesDataGenerator implements IDataGenerator {
-
-    private static String guessBiomeDimensionFromCategory(Biome biome) {
-        // FIND A WAY TO FIND WHAT CATEGORY THE BIOME IS
-        var key = DynamicRegistryManager.BUILTIN.get().get(Registry.BIOME_KEY).getKey(biome).orElseThrow();
-        System.out.println(DynamicRegistryManager.BUILTIN.get().get(Registry.BIOME_KEY).getKey(biome).orElseThrow());
-        if (NetherBiomes.canGenerateInNether(key)) {
+    private static String guessBiomeDimensionFromCategory(RegistryKey<Biome> biome) {
+        var biomeRegistry = BuiltinRegistries.BIOME;
+        if (biomeRegistry.getEntry(biome).orElseThrow().isIn(BiomeTags.IS_NETHER)) {
             return "nether";
-        } else if (TheEndBiomeDataAccessor.END_BARRENS_MAP().containsKey(key) || TheEndBiomeDataAccessor.END_BIOMES_MAP().containsKey(key) || TheEndBiomeDataAccessor.END_MIDLANDS_MAP().containsKey(key)) {
+        } else if (biomeRegistry.getEntry(biome).orElseThrow().isIn(BiomeTags.IS_END)) {
             return "end";
+        } else {
+            return "overworld";
         }
-        return "overworld";
     }
 
     public static JsonObject generateBiomeInfo(Registry<Biome> registry, Biome biome) {
         JsonObject biomeDesc = new JsonObject();
-        Identifier registryKey = registry.getKey(biome).orElseThrow().getValue();
-        String localizationKey = String.format("biome.%s.%s", registryKey.getNamespace(), registryKey.getPath());
+        RegistryKey<Biome> registryKey = registry.getKey(biome).orElseThrow();
+        Identifier identifier = registryKey.getValue();
+        String localizationKey = String.format("biome.%s.%s", identifier.getNamespace(), identifier.getPath());
 
         biomeDesc.addProperty("id", registry.getRawId(biome));
-        biomeDesc.addProperty("name", registryKey.getPath());
+        biomeDesc.addProperty("name", identifier.getPath());
 
         //FIXME: this...
         biomeDesc.addProperty("category", "");
         biomeDesc.addProperty("temperature", biome.getTemperature());
         biomeDesc.addProperty("precipitation", biome.getPrecipitation().getName());
         //biomeDesc.addProperty("depth", biome.getDepth()); - Doesn't exist anymore in minecraft source
-        biomeDesc.addProperty("dimension", guessBiomeDimensionFromCategory(biome));
+        biomeDesc.addProperty("dimension", guessBiomeDimensionFromCategory(registryKey));
         biomeDesc.addProperty("displayName", DGU.translateText(localizationKey));
         biomeDesc.addProperty("color", biome.getSkyColor());
         biomeDesc.addProperty("rainfall", biome.getDownfall());

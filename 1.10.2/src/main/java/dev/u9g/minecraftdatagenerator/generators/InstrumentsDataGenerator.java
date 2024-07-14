@@ -4,8 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.mixin.NoteBlockAccessor;
-import dev.u9g.minecraftdatagenerator.mixin.SoundAccessor;
-import net.minecraft.client.sound.SoundEvent;
+import net.minecraft.sound.Sound;
 
 import java.util.Objects;
 
@@ -19,10 +18,10 @@ public class InstrumentsDataGenerator implements IDataGenerator {
     public JsonElement generateDataJson() {
         JsonArray array = new JsonArray();
         int i = 0;
-        for (SoundEvent sound : Objects.requireNonNull(NoteBlockAccessor.TUNES())) {
+        for (Sound sound : Objects.requireNonNull(NoteBlockAccessor.TUNES())) {
             JsonObject object = new JsonObject();
             object.addProperty("id", i++);
-            object.addProperty("name", ((SoundAccessor) sound).id().getPath().split("\\.")[2]);
+            object.addProperty("name", sound.getId().getPath().split("\\.")[2]);
             array.add(object);
         }
         return array;

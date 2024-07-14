@@ -10,18 +10,11 @@
   ],
   "contact": {},
   "license": "MIT",
-  "environment": "server",
-  "entrypoints": {
-    "main": [
-      "dev.u9g.minecraftdatagenerator.Main"
-    ]
-  },
   "mixins": [
     "minecraft-data-generator.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.4",
-    "fabric": "*",
+    "fabricloader": "*",
     "minecraft": "1.19"
   }
 }

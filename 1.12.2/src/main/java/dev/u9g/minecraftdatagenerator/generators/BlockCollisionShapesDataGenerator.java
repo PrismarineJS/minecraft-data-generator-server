@@ -78,7 +78,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
                 }
             }
             if (indexesOfBoxesInTheShapesCache.stream().distinct().count() < 2) {
-                return indexesOfBoxesInTheShapesCache.get(0);
+                return indexesOfBoxesInTheShapesCache.getFirst();
             } else {
                 JsonArray shapeIndexes = new JsonArray();
                 indexesOfBoxesInTheShapesCache.forEach(shapeIndexes::add);
@@ -98,18 +98,18 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
         private record Shapes(List<Box> boxes) {
 
             public JsonArray toJSON() {
-                        JsonArray arr = new JsonArray();
-                        boxes.forEach(box -> arr.add(jsonOf(box)));
-                        return arr;
-                    }
+                JsonArray arr = new JsonArray();
+                boxes.forEach(box -> arr.add(jsonOf(box)));
+                return arr;
+            }
 
-                    @Override
-                    public boolean equals(Object o) {
-                        if (this == o) return true;
-                        if (o == null || getClass() != o.getClass()) return false;
-                        Shapes shapes = (Shapes) o;
-                        return Objects.equals(boxes, shapes.boxes);
-                    }
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Shapes shapes = (Shapes) o;
+                return Objects.equals(boxes, shapes.boxes);
+            }
 
         }
     }

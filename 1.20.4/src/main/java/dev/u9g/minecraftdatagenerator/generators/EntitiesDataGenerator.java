@@ -2,12 +2,10 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.mixin.EntityTypeAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.AmbientEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
@@ -17,12 +15,10 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 
 public class EntitiesDataGenerator implements IDataGenerator {
-
     public static JsonObject generateEntity(Registry<EntityType<?>> entityRegistry, EntityType<?> entityType) {
         JsonObject entityDesc = new JsonObject();
         Identifier registryKey = entityRegistry.getKey(entityType).orElseThrow().getValue();
@@ -40,10 +36,10 @@ public class EntitiesDataGenerator implements IDataGenerator {
         MinecraftServer minecraftServer = DGU.getCurrentlyRunningServer();
 
         if (minecraftServer != null) {
-            Entity entityObject = ((EntityTypeAccessor) entityType).factory().create(entityType, minecraftServer.getOverworld());
+            Entity entityObject = entityType.create(minecraftServer.getOverworld());
             entityTypeString = entityObject != null ? getEntityTypeForClass(entityObject.getClass()) : "unknown";
         }
-        if(entityType == EntityType.PLAYER){
+        if (entityType == EntityType.PLAYER) {
             entityTypeString = "player";
         }
 
@@ -54,11 +50,8 @@ public class EntitiesDataGenerator implements IDataGenerator {
     }
 
     private static String getCategoryFrom(EntityType<?> entityType) {
-        if (entityType == EntityType.PLAYER) return "UNKNOWN"; // fail early for player entities
-        /*public T create(World world) {
-            return this.factory.create(this, world);
-        }*/
-        Entity entity = ((EntityTypeAccessor) entityType).factory().create(entityType, DGU.getWorld());
+        if (entityType == EntityType.PLAYER) return "UNKNOWN";
+        Entity entity = entityType.create(DGU.getWorld());
         if (entity == null)
             throw new Error("Entity was null after trying to create a: " + DGU.translateText(entityType.getTranslationKey()));
         entity.discard();

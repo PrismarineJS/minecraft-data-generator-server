@@ -10,7 +10,6 @@ import net.minecraft.world.biome.Biome;
 import java.util.Objects;
 
 public class BiomesDataGenerator implements IDataGenerator {
-
     private static String guessBiomeDimensionFromCategory(Biome biome) {
         return switch (biome.getCategory()) {
             case NETHER -> "nether";

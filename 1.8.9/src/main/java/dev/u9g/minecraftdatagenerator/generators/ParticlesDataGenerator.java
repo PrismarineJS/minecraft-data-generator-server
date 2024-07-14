@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.particle.ParticleType;
 
 public class ParticlesDataGenerator implements IDataGenerator {
-
     public static JsonObject generateParticleType(int id, ParticleType particleType) {
         JsonObject effectDesc = new JsonObject();
 

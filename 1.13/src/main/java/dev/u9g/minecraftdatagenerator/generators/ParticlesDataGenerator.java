@@ -9,12 +9,11 @@ import net.minecraft.util.registry.Registry;
 import java.util.Objects;
 
 public class ParticlesDataGenerator implements IDataGenerator {
-
-    public static JsonObject generateParticleType(Registry<ParticleType<?>> registry, ParticleType<?> particleType) {
+    public static JsonObject generateParticleType(ParticleType<?> particleType) {
         JsonObject effectDesc = new JsonObject();
-        Identifier registryKey = registry.getId(particleType);
+        Identifier registryKey = Registry.PARTICLE_TYPE.getId(particleType);
 
-        effectDesc.addProperty("id", registry.getRawId(particleType));
+        effectDesc.addProperty("id", Registry.PARTICLE_TYPE.getRawId(particleType));
         effectDesc.addProperty("name", Objects.requireNonNull(registryKey).getPath());
         return effectDesc;
     }
@@ -24,13 +23,12 @@ public class ParticlesDataGenerator implements IDataGenerator {
         return "particles";
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultsArray = new JsonArray();
-        Registry<ParticleType<?>> particleTypeRegistry = Registry.PARTICLE_TYPE;
-        for (ParticleType<?> particleType : (Iterable<ParticleType>) particleTypeRegistry) {
-            resultsArray.add(generateParticleType(particleTypeRegistry, particleType));
-        }
+        Registry.PARTICLE_TYPE.forEach(particleType ->
+                resultsArray.add(generateParticleType((ParticleType<?>) particleType)));
         return resultsArray;
     }
 }
