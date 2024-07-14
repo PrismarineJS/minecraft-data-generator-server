@@ -12,9 +12,13 @@ import java.io.File;
 
 @Mixin(MinecraftDedicatedServer.class)
 public class ReadyMixin {
+    @Inject(method = "setupServer()Z", at = @At("HEAD"))
+    private void updatePort(CallbackInfoReturnable<Boolean> cir) {
+        ((MinecraftDedicatedServer) (Object) this).setServerPort(0);
+    }
+
     @Inject(method = "setupServer()Z", at = @At("TAIL"))
     private void init(CallbackInfoReturnable<Boolean> cir) {
-        System.setProperty("fabric.development", "false");
         MinecraftDataGenerator.start(
                 DGU.getCurrentlyRunningServer().getVersion(),
                 (new File(".")).toPath()

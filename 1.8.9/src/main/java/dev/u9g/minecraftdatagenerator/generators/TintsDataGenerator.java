@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import dev.u9g.minecraftdatagenerator.mixin.BiomeAccessor;
-import dev.u9g.minecraftdatagenerator.util.Registries;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.RedstoneWireBlock;
@@ -21,7 +20,7 @@ public class TintsDataGenerator implements IDataGenerator {
     public static BiomeTintColors generateBiomeTintColors() {
         BiomeTintColors colors = new BiomeTintColors();
 
-        for (Biome biome : Registries.BIOMES) {
+        for (Biome biome : Biome.BIOMESET) {
             double d = MathHelper.clamp(biome.temperature, 0.0F, 1.0F);
             double e = MathHelper.clamp(biome.downfall, 0.0F, 1.0F);
 
@@ -115,7 +114,7 @@ public class TintsDataGenerator implements IDataGenerator {
         for (Map.Entry<Block, Integer> entry : colorsMap.entrySet()) {
             JsonObject entryObject = new JsonObject();
             JsonArray keysArray = new JsonArray();
-            Identifier registryKey = Registries.BLOCKS.getIdentifier(entry.getKey());
+            Identifier registryKey = Block.REGISTRY.getIdentifier(entry.getKey());
             keysArray.add(new JsonPrimitive(Objects.requireNonNull(registryKey).getPath()));
 
             entryObject.add("keys", keysArray);

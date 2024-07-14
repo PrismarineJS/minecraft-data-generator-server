@@ -13,13 +13,15 @@ import net.minecraft.world.biome.Biome;
 
 public class BiomesDataGenerator implements IDataGenerator {
     private static String guessBiomeDimensionFromCategory(RegistryKey<Biome> biome) {
-        var biomeRegistry = BuiltinRegistries.BIOME;
-        if (biomeRegistry.getEntry(biome).orElseThrow().isIn(BiomeTags.IS_NETHER)) {
+        var entry = BuiltinRegistries.BIOME.getEntry(biome).orElseThrow();
+        if (entry.isIn(BiomeTags.IS_OVERWORLD)) {
+            return "overworld";
+        } else if (entry.isIn(BiomeTags.IS_NETHER)) {
             return "nether";
-        } else if (biomeRegistry.getEntry(biome).orElseThrow().isIn(BiomeTags.IS_END)) {
+        } else if (entry.isIn(BiomeTags.IS_END)) {
             return "end";
         } else {
-            return "overworld";
+            throw new IllegalStateException("Biome is not in any dimension: " + biome);
         }
     }
 
@@ -28,10 +30,6 @@ public class BiomesDataGenerator implements IDataGenerator {
             return "nether";
         } else if (dimension.equals("end")) {
             return "the_end";
-        }
-
-        if (name.contains("end")) {
-            System.out.println();
         }
 
         if (name.contains("hills")) {

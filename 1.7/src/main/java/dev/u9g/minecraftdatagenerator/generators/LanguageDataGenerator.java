@@ -22,8 +22,8 @@ public class LanguageDataGenerator implements IDataGenerator {
                 obj.addProperty(entry.getKey(), entry.getValue());
             }
             return obj;
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to generate language file", e);
         }
-        throw new RuntimeException("Failed to generate language file");
     }
 }

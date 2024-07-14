@@ -157,7 +157,8 @@ public class MaterialsDataGenerator implements IDataGenerator {
                     leavesMaterialSpeeds.put(item, 1.5f);
                     gourdMaterialSpeeds.put(item, 1.5f);
                 }
-            }});
+            }
+        });
 
         COMPOSITE_MATERIALS.forEach(values -> createCompositeMaterial(materialMiningSpeeds, values));
 

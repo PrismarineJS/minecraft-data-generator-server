@@ -11,10 +11,10 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.entity.projectile.Projectile;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,22 +24,20 @@ public class EntitiesDataGenerator implements IDataGenerator {
     public static JsonObject generateEntity(Class<? extends Entity> entityClass) {
         JsonObject entityDesc = new JsonObject();
         Identifier registryKey = Registries.ENTITY_TYPES.getIdentifier(entityClass);
-        int entityRawId = Registries.ENTITY_TYPES.getRawId(entityClass);
-        @Nullable Entity entity = makeEntity(entityClass);
+        Entity entity = makeEntity(entityClass);
         // FIXME: ENTITY ID IS WRONG
         int id = entityId(entity);
         entityDesc.addProperty("id", id);
         entityDesc.addProperty("internalId", id);
         entityDesc.addProperty("name", Objects.requireNonNull(registryKey).getPath());
-        String displayName = entity != null ? entity.getTranslationKey() : null;
+        String displayName = entity.getTranslationKey();
         if (displayName != null && !displayName.startsWith("entity.")) {
             entityDesc.addProperty("displayName", displayName);
         }
-        entityDesc.addProperty("width", entity == null ? 0 : entity.width);
-        entityDesc.addProperty("height", entity == null ? 0 : entity.height);
+        entityDesc.addProperty("width", entity.width);
+        entityDesc.addProperty("height", entity.height);
 
-        String entityTypeString = "UNKNOWN";
-        entityTypeString = getEntityTypeForClass(entityClass);
+        String entityTypeString = getEntityTypeForClass(entityClass);
         entityDesc.addProperty("type", entityTypeString);
         entityDesc.addProperty("category", getCategoryFrom(entityClass));
 
@@ -47,12 +45,14 @@ public class EntitiesDataGenerator implements IDataGenerator {
     }
 
     private static Entity makeEntity(Class<? extends Entity> type) {
-        String name = EntityTypeAccessor.CLASS_NAME_MAP().get(type);
-        return EntityType.createInstanceFromName(name, DGU.getWorld());
+        try {
+            return type.getConstructor(World.class).newInstance(DGU.getWorld());
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static String getCategoryFrom(@NotNull Class<?> entityClass) {
-        if (entityClass == PlayerEntity.class) return "other"; // fail early for player entities
         String packageName = entityClass.getPackage().getName();
         return switch (packageName) {
             case "net.minecraft.entity.decoration", "net.minecraft.entity.decoration.painting" -> "Immobile";
@@ -61,8 +61,8 @@ public class EntitiesDataGenerator implements IDataGenerator {
             case "net.minecraft.entity.projectile", "net.minecraft.entity.thrown" -> "Projectiles";
             case "net.minecraft.entity.passive" -> "Passive mobs";
             case "net.minecraft.entity.vehicle" -> "Vehicles";
-            case "net.minecraft.entity" -> "other";
-            default -> throw new Error("Unexpected entity type: " + packageName);
+            case "net.minecraft.entity.player", "net.minecraft.entity" -> "other";
+            default -> throw new IllegalStateException("Unexpected entity type: " + packageName);
         };
     }
 
@@ -105,7 +105,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
 
     private static int entityId(Entity entity) {
         if (!DGU.getCurrentlyRunningServer().getVersion().equals("1.8.9")) {
-            throw new Error("These ids were gotten manually for 1.8.9, remake for " + DGU.getCurrentlyRunningServer().getVersion());
+            throw new IllegalStateException("These ids were gotten manually for 1.8.9, remake for " + DGU.getCurrentlyRunningServer().getVersion());
         }
         int rawId = Registries.ENTITY_TYPES.getRawId(entity.getClass());
         if (rawId == -1) { // see TrackedEntityInstance
@@ -114,7 +114,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
             } else if (entity instanceof FishingBobberEntity) {
                 return 90;
             } else {
-                throw new Error("unable to find rawId for entity: " + entity.getEntity().getClass().getName());
+                throw new IllegalStateException("unable to find rawId for entity: " + entity.getEntity().getClass().getName());
             }
         }
         return rawId;

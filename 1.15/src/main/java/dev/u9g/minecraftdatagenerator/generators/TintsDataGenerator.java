@@ -2,7 +2,6 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.u9g.minecraftdatagenerator.util.EmptyRenderBlockView;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
@@ -49,7 +48,7 @@ public class TintsDataGenerator implements IDataGenerator {
     }
 
     private static int getBlockColor(Block block) {
-        return BlockColors.create().getColor(block.getDefaultState(), EmptyRenderBlockView.INSTANCE, BlockPos.ORIGIN, 0xFFFFFF);
+        return BlockColors.create().getColor(block.getDefaultState(), null, BlockPos.ORIGIN, 0xFFFFFF);
     }
 
     public static Map<Block, Integer> generateConstantTintColors() {

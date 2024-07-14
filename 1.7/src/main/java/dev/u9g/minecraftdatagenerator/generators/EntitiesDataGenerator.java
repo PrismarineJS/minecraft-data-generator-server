@@ -11,34 +11,39 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.entity.projectile.Projectile;
+import net.minecraft.network.Packet;
+import net.minecraft.network.packet.s2c.play.EntityAttributesS2CPacket;
+import net.minecraft.network.packet.s2c.play.EntityS2CPacket;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.network.packet.s2c.play.MobSpawnS2CPacket;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {
     public static JsonObject generateEntity(Class<? extends Entity> entityClass) {
         JsonObject entityDesc = new JsonObject();
         String registryKey = Registries.ENTITY_TYPES.getId(entityClass);
-        int entityRawId = Registries.ENTITY_TYPES.getRawId(entityClass);
-        @Nullable Entity entity = makeEntity(entityClass);
+        Entity entity = makeEntity(entityClass);
         // FIXME: ENTITY ID IS WRONG
         int id = entityId(entity);
         entityDesc.addProperty("id", id);
         entityDesc.addProperty("internalId", id);
         entityDesc.addProperty("name", Objects.requireNonNull(registryKey));
-        String displayName = entity != null ? entity.getTranslationKey() : null;
+        String displayName = entity.getTranslationKey();
         if (displayName != null && !displayName.startsWith("entity.")) {
             entityDesc.addProperty("displayName", displayName);
         }
-        entityDesc.addProperty("width", entity == null ? 0 : entity.width);
-        entityDesc.addProperty("height", entity == null ? 0 : entity.height);
+        entityDesc.addProperty("width", entity.width);
+        entityDesc.addProperty("height", entity.height);
 
-        String entityTypeString = "UNKNOWN";
-        entityTypeString = getEntityTypeForClass(entityClass);
+        String entityTypeString = getEntityTypeForClass(entityClass);
         entityDesc.addProperty("type", entityTypeString);
         entityDesc.addProperty("category", getCategoryFrom(entityClass));
 
@@ -46,12 +51,14 @@ public class EntitiesDataGenerator implements IDataGenerator {
     }
 
     private static Entity makeEntity(Class<? extends Entity> type) {
-        String name = EntityTypeAccessor.CLASS_NAME_MAP().get(type);
-        return EntityType.createInstanceFromName(name, DGU.getWorld());
+        try {
+            return type.getConstructor(World.class).newInstance(DGU.getWorld());
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static String getCategoryFrom(@NotNull Class<?> entityClass) {
-        if (entityClass == PlayerEntity.class) return "other"; // fail early for player entities
         String packageName = entityClass.getPackage().getName();
         return switch (packageName) {
             case "net.minecraft.entity.decoration", "net.minecraft.entity.decoration.painting" -> "Immobile";
@@ -60,8 +67,8 @@ public class EntitiesDataGenerator implements IDataGenerator {
             case "net.minecraft.entity.projectile", "net.minecraft.entity.thrown" -> "Projectiles";
             case "net.minecraft.entity.passive" -> "Passive mobs";
             case "net.minecraft.entity.vehicle" -> "Vehicles";
-            case "net.minecraft.entity" -> "other";
-            default -> throw new Error("Unexpected entity type: " + packageName);
+            case "net.minecraft.entity.player", "net.minecraft.entity" -> "other";
+            default -> throw new IllegalStateException("Unexpected entity type: " + packageName);
         };
     }
 

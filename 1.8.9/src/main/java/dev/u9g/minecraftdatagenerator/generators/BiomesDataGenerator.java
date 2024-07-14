@@ -3,7 +3,6 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.mixin.BiomeAccessor;
-import dev.u9g.minecraftdatagenerator.util.Registries;
 import net.minecraft.world.biome.*;
 
 import java.util.Locale;
@@ -23,7 +22,7 @@ public class BiomesDataGenerator implements IDataGenerator {
         JsonObject biomeDesc = new JsonObject();
 //        Identifier registryKey = registry.getIdentifier(biome);
 
-        biomeDesc.addProperty("id", Registries.BIOMES.getRawId(biome));
+        biomeDesc.addProperty("id", biome.id);
         biomeDesc.addProperty("name", String.join("_", ((BiomeAccessor) biome).name().toLowerCase(Locale.ENGLISH).split(" ")));
         biomeDesc.addProperty("category", category(biome));
         biomeDesc.addProperty("temperature", biome.temperature);
@@ -73,7 +72,7 @@ public class BiomesDataGenerator implements IDataGenerator {
         } else if (biome instanceof StoneBeachBiome) {
             return "none"; // Should StoneBeachBiome be beach too? this is how it is now in mcdata
         }
-        throw new Error("Unable to find biome category for " + biome.getClass().getName());
+        throw new IllegalStateException("Unable to find biome category for " + biome.getClass().getName());
     }
 
     private static String precipitation(Biome biome) {
@@ -96,7 +95,7 @@ public class BiomesDataGenerator implements IDataGenerator {
     public JsonArray generateDataJson() {
         JsonArray biomesArray = new JsonArray();
 
-        for (Biome biome : Registries.BIOMES) {
+        for (Biome biome : Biome.BIOMESET) {
             biomesArray.add(generateBiomeInfo(biome));
         }
         return biomesArray;

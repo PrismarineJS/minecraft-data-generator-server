@@ -20,8 +20,8 @@ public class LanguageDataGenerator implements IDataGenerator {
         try {
             InputStream inputStream = Objects.requireNonNull(this.getClass().getResourceAsStream("/assets/minecraft/lang/en_us.json"));
             return new Gson().fromJson(new InputStreamReader(inputStream, StandardCharsets.UTF_8), JsonObject.class);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to generate language file", e);
         }
-        throw new RuntimeException("Failed to generate language file");
     }
 }

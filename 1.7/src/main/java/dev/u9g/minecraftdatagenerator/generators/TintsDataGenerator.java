@@ -18,7 +18,9 @@ public class TintsDataGenerator implements IDataGenerator {
     public static BiomeTintColors generateBiomeTintColors() {
         BiomeTintColors colors = new BiomeTintColors();
 
-        for (Biome biome : Registries.BIOMES) {
+        for (Object object : Biome.BIOMESET) {
+            Biome biome = (Biome) object;
+
             double d = MathHelper.clamp(biome.temperature, 0.0f, 1.0f);
             double e = MathHelper.clamp(biome.downfall, 0.0f, 1.0f);
 

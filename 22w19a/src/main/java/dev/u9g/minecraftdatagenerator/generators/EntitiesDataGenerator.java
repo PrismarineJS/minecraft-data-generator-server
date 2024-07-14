@@ -45,10 +45,10 @@ public class EntitiesDataGenerator implements IDataGenerator {
     }
 
     private static String getCategoryFrom(EntityType<?> entityType) {
-        if (entityType == EntityType.PLAYER) return "other"; // fail early for player entities
+        if (entityType == EntityType.PLAYER) return "UNKNOWN"; // fail early for player entities
         Entity entity = entityType.create(DGU.getWorld());
         if (entity == null)
-            throw new Error("Entity was null after trying to create a: " + DGU.translateText(entityType.getTranslationKey()));
+            throw new IllegalStateException("Entity was null after trying to create a: " + DGU.translateText(entityType.getTranslationKey()));
         entity.discard();
         return switch (entity.getClass().getPackageName()) {
             case "net.minecraft.entity.decoration", "net.minecraft.entity.decoration.painting" -> "Immobile";
@@ -57,8 +57,8 @@ public class EntitiesDataGenerator implements IDataGenerator {
             case "net.minecraft.entity.projectile", "net.minecraft.entity.projectile.thrown" -> "Projectiles";
             case "net.minecraft.entity.passive" -> "Passive mobs";
             case "net.minecraft.entity.vehicle" -> "Vehicles";
-            case "net.minecraft.entity" -> "UNKNOWN";
-            default -> throw new Error("Unexpected entity type: " + entity.getClass().getPackageName());
+            case "net.minecraft.entity.player", "net.minecraft.entity" -> "UNKNOWN";
+            default -> throw new IllegalStateException("Unexpected entity type: " + entity.getClass().getPackageName());
         };
     }
 

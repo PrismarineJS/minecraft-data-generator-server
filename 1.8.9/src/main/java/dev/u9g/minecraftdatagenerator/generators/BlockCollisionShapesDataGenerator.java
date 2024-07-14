@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-import dev.u9g.minecraftdatagenerator.util.Registries;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -19,7 +18,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
     private static final Box ENTITY_BOX = new Box(0.0D, 0.0D, 0.0D, 1.0D, 2.0D, 1.0D);
 
     private static String nameOf(Block block) {
-        return Objects.requireNonNull(Registries.BLOCKS.getIdentifier(block)).getPath();
+        return Objects.requireNonNull(Block.REGISTRY.getIdentifier(block)).getPath();
     }
 
     private static JsonArray jsonOf(Box box) {
@@ -43,7 +42,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
     public JsonObject generateDataJson() {
         ShapeCache shapeCache = new ShapeCache();
         JsonObject blocksObject = new JsonObject();
-        for (Block block : Registries.BLOCKS) {
+        for (Block block : Block.REGISTRY) {
             Object val = shapeCache.addShapesFrom(block);
             if (val instanceof JsonArray) {
                 blocksObject.add(nameOf(block), (JsonElement) val);

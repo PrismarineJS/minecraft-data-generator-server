@@ -1,10 +1,8 @@
 package dev.u9g.minecraftdatagenerator.util;
 
-import dev.u9g.minecraftdatagenerator.mixin.BiomeAccessor;
 import dev.u9g.minecraftdatagenerator.mixin.EnchantmentAccessor;
 import dev.u9g.minecraftdatagenerator.mixin.EntityTypeAccessor;
 import dev.u9g.minecraftdatagenerator.mixin.StatusEffectAccessor;
-import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -12,13 +10,10 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Language;
 import net.minecraft.util.registry.SimpleRegistry;
-import net.minecraft.world.biome.Biome;
 
 import java.util.Map;
 
 public class Registries {
-    public static final SimpleRegistry<String, Biome> BIOMES = setupBiomeRegistry();
-    public static final SimpleRegistry<Identifier, Block> BLOCKS = Block.REGISTRY;
     public static final SimpleRegistry<Identifier, Item> ITEMS = Item.REGISTRY;
     public static final SimpleRegistry<Identifier, StatusEffect> STATUS_EFFECTS = setupStatusEffectRegistry();
     public static final SimpleRegistry<Identifier, Enchantment> ENCHANTMENTS = setupEnchantmentRegistry();
@@ -42,14 +37,6 @@ public class Registries {
         SimpleRegistry<Identifier, Enchantment> registry = new SimpleRegistry<>();
         for (Map.Entry<Identifier, Enchantment> entry : EnchantmentAccessor.ENCHANTMENT_MAP().entrySet()) {
             registry.add(entry.getValue().id, entry.getKey(), entry.getValue());
-        }
-        return registry;
-    }
-
-    private static SimpleRegistry<String, Biome> setupBiomeRegistry() {
-        SimpleRegistry<String, Biome> registry = new SimpleRegistry<>();
-        for (Biome biome : BiomeAccessor.BIOMESET()) {
-            registry.add(biome.id, biome.name, biome);
         }
         return registry;
     }

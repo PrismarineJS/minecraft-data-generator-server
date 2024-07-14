@@ -14,7 +14,10 @@ import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TintsDataGenerator implements IDataGenerator {
     public static BiomeTintColors generateBiomeTintColors(Registry<Biome> biomeRegistry) {

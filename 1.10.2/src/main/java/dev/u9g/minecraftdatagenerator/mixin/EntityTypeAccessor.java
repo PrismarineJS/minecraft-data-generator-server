@@ -11,26 +11,26 @@ import java.util.Map;
 public interface EntityTypeAccessor {
     @Accessor("NAME_CLASS_MAP")
     static Map<String, Class<? extends Entity>> NAME_CLASS_MAP() {
-        throw new Error();
+        throw new IllegalStateException();
     }
 
     @Accessor("CLASS_NAME_MAP")
     static Map<Class<? extends Entity>, String> CLASS_NAME_MAP() {
-        throw new Error();
+        throw new IllegalStateException();
     }
 
     @Accessor("ID_CLASS_MAP")
     static Map<Integer, Class<? extends Entity>> ID_CLASS_MAP() {
-        throw new Error();
+        throw new IllegalStateException();
     }
 
     @Accessor("CLASS_ID_MAP")
     static Map<Class<? extends Entity>, Integer> CLASS_ID_MAP() {
-        throw new Error();
+        throw new IllegalStateException();
     }
 
     @Accessor("NAME_ID_MAP")
     static Map<String, Integer> NAME_ID_MAP() {
-        throw new Error();
+        throw new IllegalStateException();
     }
 }

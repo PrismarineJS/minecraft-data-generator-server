@@ -16,7 +16,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TintsDataGenerator implements IDataGenerator {
     public static BiomeTintColors generateBiomeTintColors(Registry<Biome> biomeRegistry) {

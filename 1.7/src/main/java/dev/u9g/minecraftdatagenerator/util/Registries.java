@@ -1,7 +1,6 @@
 package dev.u9g.minecraftdatagenerator.util;
 
 import dev.u9g.minecraftdatagenerator.mixin.accessor.BiomeAccessor;
-import dev.u9g.minecraftdatagenerator.mixin.accessor.EnchantmentAccessor;
 import dev.u9g.minecraftdatagenerator.mixin.accessor.EntityTypeAccessor;
 import dev.u9g.minecraftdatagenerator.mixin.accessor.StatusEffectAccessor;
 import dev.u9g.minecraftdatagenerator.registryview.RegistryBackedRegistryView;
@@ -20,8 +19,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Registries {
-    public static final Language LANGUAGE;
-    public static final RegistryView<String, Biome> BIOMES;
+    public static final Language LANGUAGE = new Language();
     public static final RegistryView<String, Block> BLOCKS;
     public static final RegistryView<String, Item> ITEMS;
     public static final RegistryView<String, StatusEffect> STATUS_EFFECTS;
@@ -29,8 +27,6 @@ public class Registries {
     public static final RegistryView<String, Class<? extends Entity>> ENTITY_TYPES;
 
     static {
-        LANGUAGE = new Language();
-        BIOMES = setupBiomeRegistry();
         BLOCKS = new RegistryBackedRegistryView<>(Block.REGISTRY);
         ITEMS = new RegistryBackedRegistryView<>(Item.REGISTRY);
         STATUS_EFFECTS = setupStatusEffectRegistry();
@@ -53,20 +49,12 @@ public class Registries {
 
     private static RegistryView<String, Enchantment> setupEnchantmentRegistry() {
         TableBackedRegistryView.Builder<String, Enchantment> registry = new TableBackedRegistryView.Builder<>();
-        for (Enchantment enchantment : EnchantmentAccessor.ALL_ENCHANTMENTS()) {
+        for (Enchantment enchantment : Enchantment.ALL_ENCHANTMENTS) {
             if (enchantment == null) continue;
             String translatedName = Registries.LANGUAGE.translate(enchantment.getTranslationKey());
             registry.add(String.join("", translatedName.toLowerCase(Locale.ENGLISH).split(" ")), enchantment.id, enchantment);
         }
         return registry.build();
-    }
-
-    private static RegistryView<String, Biome> setupBiomeRegistry() {
-        TableBackedRegistryView.Builder<String, Biome> builder = new TableBackedRegistryView.Builder<>();
-        for (Biome biome : BiomeAccessor.BIOMESET()) {
-            builder.add(biome.name, biome.id, biome);
-        }
-        return builder.build();
     }
 
     private static RegistryView<String, StatusEffect> setupStatusEffectRegistry() {

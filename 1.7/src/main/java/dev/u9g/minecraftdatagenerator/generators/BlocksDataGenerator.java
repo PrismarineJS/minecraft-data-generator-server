@@ -71,10 +71,6 @@ public class BlocksDataGenerator implements IDataGenerator {
         return "block";
     }
 
-    private static Item getItemFromBlock(Block block) {
-        return Registries.ITEMS.get(Registries.BLOCKS.getId(block));
-    }
-
     @Override
     public String getDataName() {
         return "blocks";
