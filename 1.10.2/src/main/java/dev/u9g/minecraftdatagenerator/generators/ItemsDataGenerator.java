@@ -24,9 +24,11 @@ public class ItemsDataGenerator implements IDataGenerator {
         return items;
     }
 
-    private static Set<EnchantmentTarget> getApplicableEnchantmentTargets(Item sourceItem) {
+    private static Set<String> getApplicableEnchantmentTargets(Item sourceItem) {
         return Arrays.stream(EnchantmentTarget.values())
                 .filter(target -> target.isCompatible(sourceItem))
+                .map(EnchantmentsDataGenerator::getEnchantmentTargetName)
+                .sorted()
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
@@ -40,12 +42,8 @@ public class ItemsDataGenerator implements IDataGenerator {
         itemDesc.addProperty("displayName", item.getDisplayName(DGU.stackFor(item)));
         itemDesc.addProperty("stackSize", item.getMaxCount());
 
-        Set<EnchantmentTarget> enchantmentTargets = getApplicableEnchantmentTargets(item);
-
         JsonArray enchantCategoriesArray = new JsonArray();
-        for (EnchantmentTarget target : enchantmentTargets) {
-            enchantCategoriesArray.add(new JsonPrimitive(EnchantmentsDataGenerator.getEnchantmentTargetName(target)));
-        }
+        getApplicableEnchantmentTargets(item).forEach(enchantCategoriesArray::add);
         if (!enchantCategoriesArray.isEmpty()) {
             itemDesc.add("enchantCategories", enchantCategoriesArray);
         }

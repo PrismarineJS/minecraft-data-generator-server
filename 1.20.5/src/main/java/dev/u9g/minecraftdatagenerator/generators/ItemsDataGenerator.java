@@ -5,16 +5,17 @@ import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.BuiltinRegistries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ItemsDataGenerator implements IDataGenerator {
@@ -26,13 +27,13 @@ public class ItemsDataGenerator implements IDataGenerator {
                 .collect(Collectors.toList());
     }
 
-    private static List<TagKey<Item>> getApplicableEnchantmentTargets(Item sourceItem) {
-        return sourceItem.getComponents().get(DataComponentTypes.ENCHANTMENTS)
-                .getEnchantments()
-                .stream()
-                .map(RegistryEntry::value)
+    private static Set<String> getApplicableEnchantmentTargets(RegistryEntry<Item> sourceItem) {
+        return DGU.getWorld().getRegistryManager().get(RegistryKeys.ENCHANTMENT).stream()
                 .map(Enchantment::getApplicableItems)
-                .toList();
+                .filter(sourceItem::isIn)
+                .map(EnchantmentsDataGenerator::getEnchantmentTargetName)
+                .sorted()
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public static JsonObject generateItem(Registry<Item> itemRegistry, Item item) {
@@ -45,12 +46,8 @@ public class ItemsDataGenerator implements IDataGenerator {
         itemDesc.addProperty("displayName", DGU.translateText(item.getTranslationKey()));
         itemDesc.addProperty("stackSize", item.getMaxCount());
 
-        List<TagKey<Item>> enchantmentTargets = getApplicableEnchantmentTargets(item);
-
         JsonArray enchantCategoriesArray = new JsonArray();
-        for (TagKey<Item> target : enchantmentTargets) {
-            enchantCategoriesArray.add(EnchantmentsDataGenerator.getEnchantmentTargetName(target));
-        }
+        getApplicableEnchantmentTargets(itemRegistry.getEntry(item)).forEach(enchantCategoriesArray::add);
         if (!enchantCategoriesArray.isEmpty()) {
             itemDesc.add("enchantCategories", enchantCategoriesArray);
         }
