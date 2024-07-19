@@ -39,8 +39,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         entityDesc.addProperty("width", entity == null ? 0 : entity.width);
         entityDesc.addProperty("height", entity == null ? 0 : entity.height);
 
-        String entityTypeString = "UNKNOWN";
-        entityTypeString = getEntityTypeForClass(entityClass);
+        String entityTypeString = getEntityTypeForClass(entityClass);
         entityDesc.addProperty("type", entityTypeString);
         entityDesc.addProperty("category", getCategoryFrom(entityType));
 

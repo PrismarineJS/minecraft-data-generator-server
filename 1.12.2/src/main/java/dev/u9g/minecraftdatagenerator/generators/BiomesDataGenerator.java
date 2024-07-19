@@ -6,7 +6,6 @@ import dev.u9g.minecraftdatagenerator.mixin.BiomeAccessor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.SimpleRegistry;
 import net.minecraft.world.biome.*;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Locale;
 
