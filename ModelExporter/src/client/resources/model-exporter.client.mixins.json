@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "me.nelonn.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "EntityModelSetMixin",
+    "LayerDefinitionMixin",
+    "ModelPartCubeMixin",
+    "PoseStackMixin",
+    "PoseStackPoseMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

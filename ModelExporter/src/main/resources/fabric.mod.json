@@ -1,0 +1,32 @@
+{
+	"schemaVersion": 1,
+	"id": "model-exporter",
+	"version": "${version}",
+	"name": "Model Exporter",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Nelonn"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/modid/icon.png",
+	"environment": "client",
+	"accessWidener": "model-exporter.accesswidener",
+	"mixins": [
+		{
+			"config": "model-exporter.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.21",
+		"java": ">=21"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

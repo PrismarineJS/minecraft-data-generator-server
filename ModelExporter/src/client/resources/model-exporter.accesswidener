@@ -1,0 +1,4 @@
+accessWidener v2 named
+
+accessible field net/minecraft/client/model/geom/builders/MaterialDefinition xTexSize I
+accessible field net/minecraft/client/model/geom/builders/MaterialDefinition yTexSize I
