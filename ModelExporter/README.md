@@ -1,3 +1,0 @@
-# ModelExporter
-
-MIT License

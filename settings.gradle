@@ -32,3 +32,5 @@ include "common"
         "1.20.4",
         "1.20.5",
 ].forEach { include it }
+
+include ModelExporter
