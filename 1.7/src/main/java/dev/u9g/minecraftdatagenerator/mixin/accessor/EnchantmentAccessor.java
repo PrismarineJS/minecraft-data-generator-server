@@ -8,6 +8,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface EnchantmentAccessor {
     @Accessor("ALL_ENCHANTMENTS")
     static Enchantment[] ALL_ENCHANTMENTS() {
-        throw new Error();
+        throw new IllegalStateException();
     }
 }

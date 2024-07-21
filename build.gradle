@@ -15,6 +15,10 @@ allprojects {
             name = "fabric"
             url = "https://maven.fabricmc.net/"
         }
+        maven {
+            name = "minecraft"
+            url = "https://libraries.minecraft.net/"
+        }
         mavenCentral()
     }
 }

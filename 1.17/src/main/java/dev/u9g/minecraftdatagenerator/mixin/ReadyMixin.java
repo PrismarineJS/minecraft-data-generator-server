@@ -11,6 +11,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MinecraftDedicatedServer.class)
 public class ReadyMixin {
+    @Inject(method = "setupServer()Z", at = @At("HEAD"))
+    private void constructor(CallbackInfoReturnable<Boolean> cir) {
+        ((MinecraftDedicatedServer) (Object) this).setServerPort(0);
+    }
+
     @Inject(method = "setupServer()Z", at = @At("TAIL"))
     private void init(CallbackInfoReturnable<Boolean> cir) {
         MinecraftDataGenerator.start(

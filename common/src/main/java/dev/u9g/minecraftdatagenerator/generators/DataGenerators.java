@@ -5,8 +5,6 @@ import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonWriter;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -15,10 +13,12 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DataGenerators {
     private static final List<IDataGenerator> GENERATORS = new ArrayList<>();
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataGenerators.class);
+    private static final Logger LOGGER = Logger.getLogger(DataGenerators.class.getSimpleName());
 
     static {
         List<Class<IDataGenerator>> generators;
@@ -35,7 +35,7 @@ public class DataGenerators {
             try {
                 GENERATORS.add(generatorClass.getDeclaredConstructor().newInstance());
             } catch (ReflectiveOperationException e) {
-                LOGGER.error("Failed to instantiate data generator {}", generatorClass.getName(), e);
+                LOGGER.log(Level.SEVERE, "Failed to instantiate data generator %s".formatted(generatorClass.getName()), e);
             }
         }
     }
@@ -44,22 +44,22 @@ public class DataGenerators {
         try {
             Files.createDirectories(outputDirectory);
         } catch (IOException e) {
-            LOGGER.error("Failed to create data generator output directory at {}", outputDirectory, e);
+            LOGGER.log(Level.SEVERE, "Failed to create data generator output directory at %s".formatted(outputDirectory), e);
             return false;
         }
 
         int generatorsFailed = 0;
-        LOGGER.info("Running minecraft data generators, output at {}", outputDirectory);
+        LOGGER.info("Running minecraft data generators, output at %s".formatted(outputDirectory));
 
         for (IDataGenerator dataGenerator : GENERATORS) {
             if (!dataGenerator.isEnabled()) {
-                LOGGER.info("Skipping disabled generator {}", dataGenerator.getDataName());
+                LOGGER.info("Skipping disabled generator %s".formatted(dataGenerator.getDataName()));
                 continue;
             }
 
-            LOGGER.info("Running generator {}", dataGenerator.getDataName());
+            LOGGER.info("Running generator %s".formatted(dataGenerator.getDataName()));
             try {
-                String outputFileName = String.format("%s.json", dataGenerator.getDataName());
+                String outputFileName = "%s.json".formatted(dataGenerator.getDataName());
                 JsonElement outputElement = dataGenerator.generateDataJson();
                 Path outputFilePath = outputDirectory.resolve(outputFileName);
 
@@ -69,9 +69,9 @@ public class DataGenerators {
                     Streams.write(outputElement, jsonWriter);
                 }
 
-                LOGGER.info("Generator: {} -> {}", dataGenerator.getDataName(), outputFileName);
+                LOGGER.info("Generator: %s -> %s".formatted(dataGenerator.getDataName(), outputFileName));
             } catch (Throwable e) {
-                LOGGER.error("Failed to run data generator {}", dataGenerator.getDataName(), e);
+                LOGGER.log(Level.SEVERE, "Failed to run data generator %s".formatted(dataGenerator.getDataName()), e);
                 generatorsFailed++;
             }
         }

@@ -11,7 +11,7 @@ import java.util.Map;
 public interface StatusEffectAccessor {
     @Accessor("STATUS_EFFECTS_BY_ID")
     static Map<Identifier, StatusEffect> STATUS_EFFECTS_BY_ID() {
-        throw new Error();
+        throw new IllegalStateException();
     }
 
     @Accessor("negative")

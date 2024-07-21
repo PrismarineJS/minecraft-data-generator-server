@@ -32,10 +32,9 @@ public class EntitiesDataGenerator implements IDataGenerator {
         entityDesc.addProperty("width", entityType.getDimensions().width);
         entityDesc.addProperty("height", entityType.getDimensions().height);
 
-        String entityTypeString = "UNKNOWN";
         MinecraftServer minecraftServer = DGU.getCurrentlyRunningServer();
         Entity entityObject = entityType.create(minecraftServer.getOverworld());
-        entityTypeString = entityObject != null ? getEntityTypeForClass(entityObject.getClass()) : "player";
+        String entityTypeString = entityObject != null ? getEntityTypeForClass(entityObject.getClass()) : "player";
         entityDesc.addProperty("type", entityTypeString);
         entityDesc.addProperty("category", getCategoryFrom(entityType));
 
@@ -46,7 +45,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         if (entityType == EntityType.PLAYER) return "other"; // fail early for player entities
         Entity entity = entityType.create(DGU.getWorld());
         if (entity == null)
-            throw new Error("Entity was null after trying to create a: " + DGU.translateText(entityType.getTranslationKey()));
+            throw new IllegalStateException("Entity was null after trying to create a: " + DGU.translateText(entityType.getTranslationKey()));
         entity.remove();
         return switch (entity.getClass().getPackageName()) {
             case "net.minecraft.entity.decoration", "net.minecraft.entity.decoration.painting" -> "Immobile";
@@ -56,7 +55,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
             case "net.minecraft.entity.passive" -> "Passive mobs";
             case "net.minecraft.entity.vehicle" -> "Vehicles";
             case "net.minecraft.entity" -> "other";
-            default -> throw new Error("Unexpected entity type: " + entity.getClass().getPackageName());
+            default -> throw new IllegalStateException("Unexpected entity type: " + entity.getClass().getPackageName());
         };
     }
 

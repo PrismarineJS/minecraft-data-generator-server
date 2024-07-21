@@ -10,7 +10,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ItemsDataGenerator implements IDataGenerator {
@@ -22,10 +24,12 @@ public class ItemsDataGenerator implements IDataGenerator {
                 .collect(Collectors.toList());
     }
 
-    private static List<EnchantmentTarget> getApplicableEnchantmentTargets(Item sourceItem) {
+    private static Set<String> getApplicableEnchantmentTargets(Item sourceItem) {
         return Arrays.stream(EnchantmentTarget.values())
                 .filter(target -> target.isAcceptableItem(sourceItem))
-                .collect(Collectors.toList());
+                .map(EnchantmentsDataGenerator::getEnchantmentTargetName)
+                .sorted()
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public static JsonObject generateItem(Registry<Item> itemRegistry, Item item) {
@@ -38,15 +42,11 @@ public class ItemsDataGenerator implements IDataGenerator {
 
         itemDesc.addProperty("stackSize", item.getMaxCount());
 
-        List<EnchantmentTarget> enchantmentTargets = getApplicableEnchantmentTargets(item);
-
         JsonArray enchantCategoriesArray = new JsonArray();
-        for (EnchantmentTarget target : enchantmentTargets) {
-            enchantCategoriesArray.add(EnchantmentsDataGenerator.getEnchantmentTargetName(target));
-        }
+        getApplicableEnchantmentTargets(item).forEach(enchantCategoriesArray::add);
 
         if (item.isDamageable()) itemDesc.addProperty("maxDurability", item.getMaxDamage());
-        if (enchantCategoriesArray.size() > 0) {
+        if (!enchantCategoriesArray.isEmpty()) {
             itemDesc.add("enchantCategories", enchantCategoriesArray);
         }
 
@@ -58,7 +58,7 @@ public class ItemsDataGenerator implements IDataGenerator {
                 Identifier repairWithName = itemRegistry.getKey(repairWithItem).orElseThrow().getValue();
                 fixedWithArray.add(repairWithName.getPath());
             }
-            if (fixedWithArray.size() > 0) {
+            if (!fixedWithArray.isEmpty()) {
                 itemDesc.add("repairWith", fixedWithArray);
             }
         }

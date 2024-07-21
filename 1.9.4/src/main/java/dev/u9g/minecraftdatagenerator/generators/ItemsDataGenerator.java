@@ -9,9 +9,8 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ItemsDataGenerator implements IDataGenerator {
 
@@ -25,13 +24,12 @@ public class ItemsDataGenerator implements IDataGenerator {
         return items;
     }
 
-    private static List<EnchantmentTarget> getApplicableEnchantmentTargets(Item sourceItem) {
-        List<EnchantmentTarget> targets = new ArrayList<>();
-        for (EnchantmentTarget target : EnchantmentTarget.values()) {
-            if (!target.isCompatible(sourceItem)) continue;
-            targets.add(target);
-        }
-        return targets;
+    private static Set<String> getApplicableEnchantmentTargets(Item sourceItem) {
+        return Arrays.stream(EnchantmentTarget.values())
+                .filter(target -> target.isCompatible(sourceItem))
+                .map(EnchantmentsDataGenerator::getEnchantmentTargetName)
+                .sorted()
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public static JsonObject generateItem(Item item) {
@@ -44,16 +42,10 @@ public class ItemsDataGenerator implements IDataGenerator {
         itemDesc.addProperty("displayName", item.getDisplayName(DGU.stackFor(item)));
         itemDesc.addProperty("stackSize", item.getMaxCount());
 
-        List<EnchantmentTarget> enchantmentTargets = getApplicableEnchantmentTargets(item);
-
-        if (item.isDamageable()) {
-            JsonArray enchantCategoriesArray = new JsonArray();
-            for (EnchantmentTarget target : enchantmentTargets) {
-                enchantCategoriesArray.add(new JsonPrimitive(EnchantmentsDataGenerator.getEnchantmentTargetName(target)));
-            }
-            if (enchantCategoriesArray.size() > 0) {
-                itemDesc.add("enchantCategories", enchantCategoriesArray);
-            }
+        JsonArray enchantCategoriesArray = new JsonArray();
+        getApplicableEnchantmentTargets(item).forEach(enchantCategoriesArray::add);
+        if (!enchantCategoriesArray.isEmpty()) {
+            itemDesc.add("enchantCategories", enchantCategoriesArray);
         }
 
         if (item.isDamageable()) {
@@ -64,7 +56,7 @@ public class ItemsDataGenerator implements IDataGenerator {
                 Identifier repairWithName = Registries.ITEMS.getIdentifier(repairWithItem);
                 fixedWithArray.add(new JsonPrimitive(Objects.requireNonNull(repairWithName).getPath()));
             }
-            if (fixedWithArray.size() > 0) {
+            if (!fixedWithArray.isEmpty()) {
                 itemDesc.add("repairWith", fixedWithArray);
             }
 

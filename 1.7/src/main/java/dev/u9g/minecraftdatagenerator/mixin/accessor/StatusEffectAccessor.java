@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface StatusEffectAccessor {
     @Accessor("STATUS_EFFECTS")
     static StatusEffect[] STATUS_EFFECTS() {
-        throw new Error();
+        throw new IllegalStateException();
     }
 
     @Accessor("negative")

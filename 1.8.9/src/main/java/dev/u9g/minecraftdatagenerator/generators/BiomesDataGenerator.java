@@ -73,7 +73,7 @@ public class BiomesDataGenerator implements IDataGenerator {
         } else if (biome instanceof StoneBeachBiome) {
             return "none"; // Should StoneBeachBiome be beach too? this is how it is now in mcdata
         }
-        throw new Error("Unable to find biome category for " + biome.getClass().getName());
+        throw new IllegalStateException("Unable to find biome category for " + biome.getClass().getName());
     }
 
     private static String precipitation(Biome biome) {
