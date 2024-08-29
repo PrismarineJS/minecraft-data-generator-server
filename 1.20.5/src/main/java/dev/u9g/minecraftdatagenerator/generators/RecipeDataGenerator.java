@@ -38,13 +38,13 @@ public class RecipeDataGenerator implements IDataGenerator {
                 List<Integer> ingr = new ArrayList<>();
                 for (int i = 0; i < 9; i++) {
                     if (i >= ingredients.size()) {
-                        ingr.add(-1);
+                        ingr.add(null);
                         continue;
                     }
                     var stacks = ingredients.get(i);
                     var matching = stacks.getMatchingStacks();
                     if (matching.length == 0) {
-                        ingr.add(-1);
+                        ingr.add(null);
                     } else {
                         ingr.add(getRawIdFor(matching[0].getItem()));
                     }
