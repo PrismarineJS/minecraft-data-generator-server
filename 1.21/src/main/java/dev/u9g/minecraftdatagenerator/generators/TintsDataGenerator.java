@@ -8,7 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.RedstoneWireBlock;
 import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.color.world.FoliageColors;
+import net.minecraft.world.biome.FoliageColors;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
