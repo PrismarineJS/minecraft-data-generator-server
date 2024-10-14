@@ -8,7 +8,9 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.util.Identifier;
+import net.minecraft.registry.entry.RegistryEntry;
 
 import java.util.List;
 
@@ -44,7 +46,9 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
 
         enchantmentDesc.addProperty("id", registry.getRawId(enchantment));
         enchantmentDesc.addProperty("name", registryKey.getPath());
-        enchantmentDesc.addProperty("displayName", DGU.translateText(enchantment.getTranslationKey()));
+        String displayName = Enchantment.getName(registry.getEntry(enchantment), 1).getString();
+        displayName = displayName.replaceAll(" I$", "");
+        enchantmentDesc.addProperty("displayName", displayName);
 
         enchantmentDesc.addProperty("maxLevel", enchantment.getMaxLevel());
         enchantmentDesc.add("minCost", generateEnchantmentMinPowerCoefficients(enchantment));
