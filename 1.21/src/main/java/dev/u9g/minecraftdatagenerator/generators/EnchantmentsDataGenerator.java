@@ -11,8 +11,8 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.util.Identifier;
 import net.minecraft.registry.entry.RegistryEntry;
-
 import java.util.List;
+import java.util.Set;
 
 public class EnchantmentsDataGenerator implements IDataGenerator {
     public static String getEnchantmentTargetName(TagKey<Item> target) {
@@ -55,7 +55,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         enchantmentDesc.add("maxCost", generateEnchantmentMaxPowerCoefficients(enchantment));
 
         enchantmentDesc.addProperty("treasureOnly", enchantment.isTreasure());
-        enchantmentDesc.addProperty("curse", enchantment.isCursed());
+        enchantmentDesc.addProperty("curse", isCursed(enchantment));
 
         List<Enchantment> incompatibleEnchantments = registry.stream()
                 .filter(other -> !enchantment.canCombine(other))
@@ -90,4 +90,22 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
                 .forEach(enchantment -> resultsArray.add(generateEnchantment(enchantmentRegistry, enchantment)));
         return resultsArray;
     }
+
+
+    
+    // isCursed() removed in 1.21 :(
+    // if you find a better way to get whether a enchantment is cursed that dosn't rely on a manually updated list please update it.
+    public static boolean isCursed(Enchantment enchantment) {
+        Registry<Enchantment> registry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ENCHANTMENT);
+        return registry.getKey(enchantment)
+            .map(key -> CURSE_ENCHANTMENT_NAMES.contains(key.getValue().getPath()))
+            .orElse(false);
+    }
+
+    // for now need to manually add new cursed enchantments
+    private static final Set<String> CURSE_ENCHANTMENT_NAMES = Set.of(
+        "binding_curse",
+        "vanishing_curse"
+    );
+
 }
