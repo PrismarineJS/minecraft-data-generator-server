@@ -54,7 +54,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         enchantmentDesc.add("minCost", generateEnchantmentMinPowerCoefficients(enchantment));
         enchantmentDesc.add("maxCost", generateEnchantmentMaxPowerCoefficients(enchantment));
 
-        enchantmentDesc.addProperty("treasureOnly", enchantment.isTreasure());
+        enchantmentDesc.addProperty("treasureOnly", isTreasure(enchantment));
         enchantmentDesc.addProperty("curse", isCursed(enchantment));
 
         List<Enchantment> incompatibleEnchantments = registry.stream()
@@ -106,6 +106,26 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
     private static final Set<String> CURSE_ENCHANTMENT_NAMES = Set.of(
         "binding_curse",
         "vanishing_curse"
+    );
+
+    // isTreasure() removed in 1.21 :(
+    // if you find a better way to get whether an enchantment is a treasure that doesn't rely on a manually updated list, please update it.
+    public static boolean isTreasure(Enchantment enchantment) {
+        Registry<Enchantment> registry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ENCHANTMENT);
+        return registry.getKey(enchantment)
+            .map(key -> TREASURE_ENCHANTMENT_NAMES.contains(key.getValue().getPath()))
+            .orElse(false);
+    }
+
+    // for now need to manually add new treasure enchantments(enchantments that cant be gotten from enchanting table)
+    private static final Set<String> TREASURE_ENCHANTMENT_NAMES = Set.of(
+        "frost_walker",
+        "binding_curse",
+        "vanishing_curse",
+        "mending",
+        "soul_speed",
+        "swift_sneak",
+        "wind_burst"
     );
 
 }
