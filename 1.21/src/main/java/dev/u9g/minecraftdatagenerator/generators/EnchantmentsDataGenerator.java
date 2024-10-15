@@ -58,7 +58,11 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         enchantmentDesc.addProperty("curse", isCursed(enchantment));
 
         List<Enchantment> incompatibleEnchantments = registry.stream()
-                .filter(other -> !enchantment.canCombine(other))
+                .filter(other -> {
+                    RegistryEntry<Enchantment> enchantmentEntry = registry.getEntry(enchantment);
+                    RegistryEntry<Enchantment> otherEntry = registry.getEntry(other);
+                    return !Enchantment.canBeCombined(enchantmentEntry, otherEntry);
+                })
                 .filter(other -> other != enchantment)
                 .toList();
 
