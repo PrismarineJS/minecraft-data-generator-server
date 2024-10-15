@@ -89,7 +89,9 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         // if you find a better way to get whether an enchantment is tradeable that doesn't rely on a manually updated list, please update it.
         enchantmentDesc.addProperty("tradeable", !NON_TRADEABLE_ENCHANTMENTS.contains(registryKey.getPath()));
         
-        enchantmentDesc.addProperty("discoverable", enchantment.isAvailableForRandomSelection());
+        // isAvailableForRandomSelection() removed in 1.21 :(
+        // if you find a better way to get whether an enchantment is discoverable that doesn't rely on a manually updated list, please update it.
+        enchantmentDesc.addProperty("discoverable", !NON_DISCOVERABLE_ENCHANTMENTS.contains(registryKey.getPath()));
 
         return enchantmentDesc;
     }
@@ -133,4 +135,12 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         "swift_sneak",
         "wind_burst"
     );
+
+    // for now need to manually add non-discoverable enchantments (enchants you cannot find in random loot chests like desert temple, jungle temple, stroghold, etc.)
+    private static final Set<String> NON_DISCOVERABLE_ENCHANTMENTS = Set.of(
+        "soul_speed",
+        "swift_sneak",
+        "wind_burst"
+    );
+
 }
