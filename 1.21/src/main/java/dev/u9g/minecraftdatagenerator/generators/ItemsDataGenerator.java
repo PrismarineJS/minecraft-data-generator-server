@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class ItemsDataGenerator implements IDataGenerator {
                 .collect(Collectors.toList());
     }
 
-    private static List<TagKey<Item>> getApplicableEnchantmentTargets(Item sourceItem) {
+    private static List<RegistryEntryList<Item>> getApplicableEnchantmentTargets(Item sourceItem) {
         return sourceItem.getComponents().get(DataComponentTypes.ENCHANTMENTS)
                 .getEnchantments()
                 .stream()
@@ -45,11 +45,12 @@ public class ItemsDataGenerator implements IDataGenerator {
         itemDesc.addProperty("displayName", DGU.translateText(item.getTranslationKey()));
         itemDesc.addProperty("stackSize", item.getMaxCount());
 
-        List<TagKey<Item>> enchantmentTargets = getApplicableEnchantmentTargets(item);
+        List<RegistryEntryList<Item>> enchantmentTargets = getApplicableEnchantmentTargets(item);
 
         JsonArray enchantCategoriesArray = new JsonArray();
-        for (TagKey<Item> target : enchantmentTargets) {
-            enchantCategoriesArray.add(EnchantmentsDataGenerator.getEnchantmentTargetName(target));
+        for (RegistryEntryList<Item> target : enchantmentTargets) {
+            String category = EnchantmentsDataGenerator.getEnchantmentTargetName(target);
+            enchantCategoriesArray.add(category);
         }
         if (enchantCategoriesArray.size() > 0) {
             itemDesc.add("enchantCategories", enchantCategoriesArray);

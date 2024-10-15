@@ -11,12 +11,15 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.util.Identifier;
 import net.minecraft.registry.entry.RegistryEntry;
+
+
 import java.util.List;
 import java.util.Set;
 
 public class EnchantmentsDataGenerator implements IDataGenerator {
-    public static String getEnchantmentTargetName(TagKey<Item> target) {
-        return target.id().getPath().split("/")[1];
+    public static String getEnchantmentTargetName(RegistryEntryList<Item> target) {
+        TagKey<Item> tagKey = target.getTagKey().orElseThrow();
+        return tagKey.toString();
     }
 
     //Equation enchantment costs follow is a * level + b, so we can easily retrieve a and b by passing zero level
@@ -74,6 +77,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         enchantmentDesc.add("exclude", excludes);
 
         enchantmentDesc.addProperty("category", getEnchantmentTargetName(enchantment.getApplicableItems()));
+
         enchantmentDesc.addProperty("weight", enchantment.getWeight());
         enchantmentDesc.addProperty("tradeable", enchantment.isAvailableForEnchantedBookOffer());
         enchantmentDesc.addProperty("discoverable", enchantment.isAvailableForRandomSelection());
@@ -95,10 +99,8 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         return resultsArray;
     }
 
-
-    
     // isCursed() removed in 1.21 :(
-    // if you find a better way to get whether a enchantment is cursed that dosn't rely on a manually updated list please update it.
+    // if you find a better way to get whether a enchantment is cursed that doesn't rely on a manually updated list please update it.
     public static boolean isCursed(Enchantment enchantment) {
         Registry<Enchantment> registry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ENCHANTMENT);
         return registry.getKey(enchantment)
@@ -121,7 +123,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
             .orElse(false);
     }
 
-    // for now need to manually add new treasure enchantments(enchantments that cant be gotten from enchanting table)
+    // for now need to manually add new treasure enchantments(enchantments that can't be gotten from enchanting table)
     private static final Set<String> TREASURE_ENCHANTMENT_NAMES = Set.of(
         "frost_walker",
         "binding_curse",
@@ -131,5 +133,4 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         "swift_sneak",
         "wind_burst"
     );
-
 }
