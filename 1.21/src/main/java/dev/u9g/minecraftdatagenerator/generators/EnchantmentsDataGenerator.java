@@ -57,8 +57,13 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         enchantmentDesc.add("minCost", generateEnchantmentMinPowerCoefficients(enchantment));
         enchantmentDesc.add("maxCost", generateEnchantmentMaxPowerCoefficients(enchantment));
 
-        enchantmentDesc.addProperty("treasureOnly", isTreasure(enchantment));
-        enchantmentDesc.addProperty("curse", isCursed(enchantment));
+        // isTreasure() removed in 1.21 :(
+        // if you find a better way to get whether an enchantment is treasure that doesn't rely on a manually updated list, please update it.
+        enchantmentDesc.addProperty("treasureOnly", TREASURE_ENCHANTMENT_NAMES.contains(registryKey.getPath()));
+
+        // isCursed() removed in 1.21 :(
+        // if you find a better way to get whether a enchantment is cursed that doesn't rely on a manually updated list please update it.
+        enchantmentDesc.addProperty("curse", CURSE_ENCHANTMENT_NAMES.contains(registryKey.getPath()));
 
         List<Enchantment> incompatibleEnchantments = registry.stream()
                 .filter(other -> {
@@ -79,7 +84,11 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         enchantmentDesc.addProperty("category", getEnchantmentTargetName(enchantment.getApplicableItems()));
 
         enchantmentDesc.addProperty("weight", enchantment.getWeight());
-        enchantmentDesc.addProperty("tradeable", enchantment.isAvailableForEnchantedBookOffer());
+
+        // isAvailableForEnchantedBookOffer() removed in 1.21 :(
+        // if you find a better way to get whether an enchantment is tradeable that doesn't rely on a manually updated list, please update it.
+        enchantmentDesc.addProperty("tradeable", !NON_TRADEABLE_ENCHANTMENTS.contains(registryKey.getPath()));
+        
         enchantmentDesc.addProperty("discoverable", enchantment.isAvailableForRandomSelection());
 
         return enchantmentDesc;
@@ -99,29 +108,13 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         return resultsArray;
     }
 
-    // isCursed() removed in 1.21 :(
-    // if you find a better way to get whether a enchantment is cursed that doesn't rely on a manually updated list please update it.
-    public static boolean isCursed(Enchantment enchantment) {
-        Registry<Enchantment> registry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ENCHANTMENT);
-        return registry.getKey(enchantment)
-            .map(key -> CURSE_ENCHANTMENT_NAMES.contains(key.getValue().getPath()))
-            .orElse(false);
-    }
-
-    // for now need to manually add new cursed enchantments
+    
+    // for now need to manually add new curse enchantments
     private static final Set<String> CURSE_ENCHANTMENT_NAMES = Set.of(
         "binding_curse",
         "vanishing_curse"
     );
 
-    // isTreasure() removed in 1.21 :(
-    // if you find a better way to get whether an enchantment is a treasure that doesn't rely on a manually updated list, please update it.
-    public static boolean isTreasure(Enchantment enchantment) {
-        Registry<Enchantment> registry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ENCHANTMENT);
-        return registry.getKey(enchantment)
-            .map(key -> TREASURE_ENCHANTMENT_NAMES.contains(key.getValue().getPath()))
-            .orElse(false);
-    }
 
     // for now need to manually add new treasure enchantments(enchantments that can't be gotten from enchanting table)
     private static final Set<String> TREASURE_ENCHANTMENT_NAMES = Set.of(
@@ -129,6 +122,13 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         "binding_curse",
         "vanishing_curse",
         "mending",
+        "soul_speed",
+        "swift_sneak",
+        "wind_burst"
+    );
+
+    // for now need to manually add non-tradeable enchantments (enchants you cannot get from villagers)
+    private static final Set<String> NON_TRADEABLE_ENCHANTMENTS = Set.of(
         "soul_speed",
         "swift_sneak",
         "wind_burst"
