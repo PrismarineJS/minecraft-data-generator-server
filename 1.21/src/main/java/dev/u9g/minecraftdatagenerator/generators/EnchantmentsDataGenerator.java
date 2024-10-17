@@ -19,7 +19,7 @@ import java.util.Set;
 public class EnchantmentsDataGenerator implements IDataGenerator {
     public static String getEnchantmentTargetName(RegistryEntryList<Item> target) {
         TagKey<Item> tagKey = target.getTagKey().orElseThrow();
-        return tagKey.toString();
+        return tagKey.id().getPath().split("/")[1];
     }
 
     //Equation enchantment costs follow is a * level + b, so we can easily retrieve a and b by passing zero level
