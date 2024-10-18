@@ -22,6 +22,16 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         return tagKey.id().getPath().split("/")[1];
     }
 
+    private static boolean isEnchantmentInTag(Enchantment enchantment, String tag) {
+        return DGU.getWorld()
+                .getRegistryManager()
+                .get(RegistryKeys.ENCHANTMENT)
+                .streamTagsAndEntries()
+                .filter(tagKeyNamedPair -> tagKeyNamedPair.getFirst().id().equals(Identifier.of(tag)))
+                .flatMap(tagKeyNamedPair -> tagKeyNamedPair.getSecond().stream())
+                .anyMatch(enchantmentRegistryEntry -> enchantmentRegistryEntry.value() == enchantment);
+   }
+
     //Equation enchantment costs follow is a * level + b, so we can easily retrieve a and b by passing zero level
     private static JsonObject generateEnchantmentMinPowerCoefficients(Enchantment enchantment) {
         int b = enchantment.getMinPower(0);
@@ -57,13 +67,9 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         enchantmentDesc.add("minCost", generateEnchantmentMinPowerCoefficients(enchantment));
         enchantmentDesc.add("maxCost", generateEnchantmentMaxPowerCoefficients(enchantment));
 
-        // isTreasure() removed in 1.21 :(
-        // if you find a better way to get whether an enchantment is treasure that doesn't rely on a manually updated list, please update it.
-        enchantmentDesc.addProperty("treasureOnly", TREASURE_ENCHANTMENT_NAMES.contains(registryKey.getPath()));
+        enchantmentDesc.addProperty("treasureOnly", isEnchantmentInTag(enchantment, "treasure"));
 
-        // isCursed() removed in 1.21 :(
-        // if you find a better way to get whether a enchantment is cursed that doesn't rely on a manually updated list please update it.
-        enchantmentDesc.addProperty("curse", CURSE_ENCHANTMENT_NAMES.contains(registryKey.getPath()));
+        enchantmentDesc.addProperty("curse", isEnchantmentInTag(enchantment, "curse"));
 
         List<Enchantment> incompatibleEnchantments = registry.stream()
                 .filter(other -> {
@@ -80,18 +86,10 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
             excludes.add(otherKey.getPath());
         }
         enchantmentDesc.add("exclude", excludes);
-
         enchantmentDesc.addProperty("category", getEnchantmentTargetName(enchantment.getApplicableItems()));
-
         enchantmentDesc.addProperty("weight", enchantment.getWeight());
-
-        // isAvailableForEnchantedBookOffer() removed in 1.21 :(
-        // if you find a better way to get whether an enchantment is tradeable that doesn't rely on a manually updated list, please update it.
-        enchantmentDesc.addProperty("tradeable", !NON_TRADEABLE_ENCHANTMENTS.contains(registryKey.getPath()));
-        
-        // isAvailableForRandomSelection() removed in 1.21 :(
-        // if you find a better way to get whether an enchantment is discoverable that doesn't rely on a manually updated list, please update it.
-        enchantmentDesc.addProperty("discoverable", !NON_DISCOVERABLE_ENCHANTMENTS.contains(registryKey.getPath()));
+        enchantmentDesc.addProperty("tradeable", isEnchantmentInTag(enchantment, "tradeable"));      
+        enchantmentDesc.addProperty("discoverable", isEnchantmentInTag(enchantment, "on_random_loot"));
 
         return enchantmentDesc;
     }
@@ -111,36 +109,4 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
     }
 
     
-    // for now need to manually add new curse enchantments
-    private static final Set<String> CURSE_ENCHANTMENT_NAMES = Set.of(
-        "binding_curse",
-        "vanishing_curse"
-    );
-
-
-    // for now need to manually add new treasure enchantments(enchantments that can't be gotten from enchanting table)
-    private static final Set<String> TREASURE_ENCHANTMENT_NAMES = Set.of(
-        "frost_walker",
-        "binding_curse",
-        "vanishing_curse",
-        "mending",
-        "soul_speed",
-        "swift_sneak",
-        "wind_burst"
-    );
-
-    // for now need to manually add non-tradeable enchantments (enchants you cannot get from villagers)
-    private static final Set<String> NON_TRADEABLE_ENCHANTMENTS = Set.of(
-        "soul_speed",
-        "swift_sneak",
-        "wind_burst"
-    );
-
-    // for now need to manually add non-discoverable enchantments (enchants you cannot find in random loot chests like desert temple, jungle temple, stroghold, etc.)
-    private static final Set<String> NON_DISCOVERABLE_ENCHANTMENTS = Set.of(
-        "soul_speed",
-        "swift_sneak",
-        "wind_burst"
-    );
-
 }
