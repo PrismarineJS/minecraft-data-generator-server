@@ -10,8 +10,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
@@ -48,7 +48,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         if (minecraftServer != null) {
             //If we have local world context, we can actually evaluate loot tables and determine actual data
             ServerWorld serverWorld = minecraftServer.getOverworld();
-            LootContextParameterSet.Builder lootContextParameterSet = new LootContextParameterSet.Builder(serverWorld)
+            LootWorldContext.Builder lootContextParameterSet = new LootWorldContext.Builder(serverWorld)
                     .add(LootContextParameters.BLOCK_STATE, blockState)
                     .add(LootContextParameters.ORIGIN, Vec3d.ZERO)
                     .add(LootContextParameters.TOOL, firstToolItem.getDefaultStack());
@@ -145,7 +145,7 @@ public class BlocksDataGenerator implements IDataGenerator {
 
         blockDesc.addProperty("transparent", !defaultState.isOpaque());
         blockDesc.addProperty("emitLight", defaultState.getLuminance());
-        blockDesc.addProperty("filterLight", defaultState.getOpacity(EmptyBlockView.INSTANCE, BlockPos.ORIGIN));
+        blockDesc.addProperty("filterLight", defaultState.getOpacity());
 
         blockDesc.addProperty("defaultState", Block.getRawIdFromState(defaultState));
         blockDesc.addProperty("minStateId", Block.getRawIdFromState(blockStates.getFirst()));
