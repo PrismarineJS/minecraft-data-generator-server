@@ -39,7 +39,7 @@ public class EffectsDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultsArray = new JsonArray();
-        Registry<StatusEffect> statusEffectRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.STATUS_EFFECT);
+        Registry<StatusEffect> statusEffectRegistry = DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.STATUS_EFFECT);
         statusEffectRegistry.forEach(effect -> resultsArray.add(generateEffect(statusEffectRegistry, effect)));
         return resultsArray;
     }

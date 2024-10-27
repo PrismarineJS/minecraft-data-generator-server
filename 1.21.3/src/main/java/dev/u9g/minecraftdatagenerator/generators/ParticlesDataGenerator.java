@@ -26,7 +26,7 @@ public class ParticlesDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultsArray = new JsonArray();
-        Registry<ParticleType<?>> particleTypeRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.PARTICLE_TYPE);
+        Registry<ParticleType<?>> particleTypeRegistry = DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.PARTICLE_TYPE);
         particleTypeRegistry.forEach(particleType -> resultsArray.add(generateParticleType(particleTypeRegistry, particleType)));
         return resultsArray;
     }

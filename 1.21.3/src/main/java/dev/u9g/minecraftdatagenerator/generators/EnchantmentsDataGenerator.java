@@ -25,7 +25,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
     private static boolean isEnchantmentInTag(Enchantment enchantment, String tag) {
         return DGU.getWorld()
                 .getRegistryManager()
-                .get(RegistryKeys.ENCHANTMENT)
+                .getOrThrow(RegistryKeys.ENCHANTMENT)
                 .streamTagsAndEntries()
                 .filter(tagKeyNamedPair -> tagKeyNamedPair.getFirst().id().equals(Identifier.of(tag)))
                 .flatMap(tagKeyNamedPair -> tagKeyNamedPair.getSecond().stream())
@@ -100,7 +100,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultsArray = new JsonArray();
-        Registry<Enchantment> enchantmentRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ENCHANTMENT);
+        Registry<Enchantment> enchantmentRegistry = DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
         enchantmentRegistry.stream()
                 .forEach(enchantment -> resultsArray.add(generateEnchantment(enchantmentRegistry, enchantment)));
         return resultsArray;

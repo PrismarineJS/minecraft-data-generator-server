@@ -81,7 +81,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
 
         HashSet<String> uniqueMaterialNames = new HashSet<>();
 
-        Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM);
+        Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.ITEM);
         itemRegistry.forEach(item -> {
             if (item instanceof MiningToolItem toolItem) {
                 item.getComponents().get(DataComponentTypes.TOOL).rules()
@@ -111,7 +111,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
 
     @Override
     public JsonElement generateDataJson() {
-        Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM);
+        Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.ITEM);
 
         Map<String, Map<Item, Float>> materialMiningSpeeds = new LinkedHashMap<>();
         materialMiningSpeeds.put("default", ImmutableMap.of());

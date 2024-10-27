@@ -25,7 +25,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
 
     @Override
     public JsonObject generateDataJson() {
-        Registry<Block> blockRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK);
+        Registry<Block> blockRegistry = DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.BLOCK);
         BlockShapesCache blockShapesCache = new BlockShapesCache();
 
         blockRegistry.forEach(blockShapesCache::processBlock);

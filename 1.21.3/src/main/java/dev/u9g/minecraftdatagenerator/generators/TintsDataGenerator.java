@@ -131,8 +131,8 @@ public class TintsDataGenerator implements IDataGenerator {
     @Override
     public JsonObject generateDataJson() {
         DynamicRegistryManager registryManager = DGU.getWorld().getRegistryManager();
-        Registry<Biome> biomeRegistry = registryManager.get(RegistryKeys.BIOME);
-        Registry<Block> blockRegistry = registryManager.get(RegistryKeys.BLOCK);
+        Registry<Biome> biomeRegistry = registryManager.getOrThrow(RegistryKeys.BIOME);
+        Registry<Block> blockRegistry = registryManager.getOrThrow(RegistryKeys.BLOCK);
 
         BiomeTintColors biomeTintColors = generateBiomeTintColors(biomeRegistry);
         Map<Integer, Integer> redstoneColors = generateRedstoneTintColors();

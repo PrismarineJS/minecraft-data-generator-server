@@ -105,7 +105,7 @@ public class BiomesDataGenerator implements IDataGenerator {
     public JsonArray generateDataJson() {
         JsonArray biomesArray = new JsonArray();
         DynamicRegistryManager registryManager = DGU.getWorld().getRegistryManager();
-        Registry<Biome> biomeRegistry = registryManager.get(RegistryKeys.BIOME);
+        Registry<Biome> biomeRegistry = registryManager.getOrThrow(RegistryKeys.BIOME);
 
         biomeRegistry.stream()
                 .map(biome -> generateBiomeInfo(biomeRegistry, biome))

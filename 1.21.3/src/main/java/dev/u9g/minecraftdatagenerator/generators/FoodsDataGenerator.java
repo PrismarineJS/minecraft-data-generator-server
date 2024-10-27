@@ -43,7 +43,7 @@ public class FoodsDataGenerator implements IDataGenerator {
 
     public JsonArray generateDataJson() {
         JsonArray resultsArray = new JsonArray();
-        Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM);
+        Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.ITEM);
         itemRegistry.stream()
                 .filter(i -> i.getComponents().contains(DataComponentTypes.FOOD))
                 .forEach(food -> resultsArray.add(generateFoodDescriptor(itemRegistry, food)));

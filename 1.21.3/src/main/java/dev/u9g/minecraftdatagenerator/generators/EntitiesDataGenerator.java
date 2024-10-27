@@ -112,7 +112,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultArray = new JsonArray();
-        Registry<EntityType<?>> entityTypeRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ENTITY_TYPE);
+        Registry<EntityType<?>> entityTypeRegistry = DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.ENTITY_TYPE);
         entityTypeRegistry.forEach(entity -> resultArray.add(generateEntity(entityTypeRegistry, entity)));
         return resultArray;
     }

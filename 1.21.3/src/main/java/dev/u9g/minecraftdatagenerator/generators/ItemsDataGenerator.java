@@ -39,7 +39,7 @@ public class ItemsDataGenerator implements IDataGenerator {
         itemDesc.addProperty("stackSize", item.getMaxCount());
 
         JsonArray enchantCategoriesArray = new JsonArray();
-        DGU.getWorld().getRegistryManager().get(RegistryKeys.ENCHANTMENT).stream()
+        DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).stream()
                 .map(Enchantment::getApplicableItems)
                 .filter(applicableItems -> applicableItems.contains(itemRegistry.getEntry(item)))
                 .map(EnchantmentsDataGenerator::getEnchantmentTargetName)
@@ -76,7 +76,7 @@ public class ItemsDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultArray = new JsonArray();
-        Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM);
+        Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.ITEM);
         itemRegistry.stream().forEach(item -> resultArray.add(generateItem(itemRegistry, item)));
         return resultArray;
     }

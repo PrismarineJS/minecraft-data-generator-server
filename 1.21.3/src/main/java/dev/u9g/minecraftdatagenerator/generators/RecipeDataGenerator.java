@@ -18,7 +18,7 @@ import java.util.Objects;
 public class RecipeDataGenerator implements IDataGenerator {
 
     private static int getRawIdFor(Item item) {
-        return DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM).getRawId(item);
+        return DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.ITEM).getRawId(item);
     }
 
     @Override
