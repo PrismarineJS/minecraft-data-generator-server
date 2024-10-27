@@ -8,31 +8,28 @@ on:
       - main
 
 jobs:
+  define-versions:
+    runs-on: ubuntu-latest
+
+    outputs:
+      versions: ${{ steps.versions.outputs.versions }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Define Versions
+        id: versions
+        run: |
+          # ls all files from "mc" directory
+          echo "::set-output name=versions::$(ls mc)"
+
   build:
+    needs: define-versions
     strategy:
       fail-fast: false
       matrix:
-        version: [
-          "1.7",
-          "1.8.9",
-          "1.9.4",
-          "1.10.2",
-          "1.11.2",
-          "1.12.2",
-          "1.13",
-          "1.14",
-          "1.15",
-          "1.16",
-          "1.17",
-          "1.18",
-          "22w19a",
-          "1.19",
-          "1.19.2",
-          "1.20",
-          "1.20.4",
-          "1.20.5",
-          "1.21"
-        ]
+        version: ${{ fromJSON(needs.define-versions.outputs.versions) }}
 
     name: Build ${{ matrix.version }}
     timeout-minutes: 10
