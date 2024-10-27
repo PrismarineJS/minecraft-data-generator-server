@@ -54,7 +54,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
             case "net.minecraft.entity.decoration", "net.minecraft.entity.decoration.painting" -> "Immobile";
             case "net.minecraft.entity.boss", "net.minecraft.entity.mob", "net.minecraft.entity.boss.dragon" ->
                     "Hostile mobs";
-            case "net.minecraft.entity.projectile", "net.minecraft.entity.thrown" -> "Projectiles";
+            case "net.minecraft.entity.projectile", "net.minecraft.entity.projectile.thrown" -> "Projectiles";
             case "net.minecraft.entity.passive" -> "Passive mobs";
             case "net.minecraft.entity.vehicle" -> "Vehicles";
             case "net.minecraft.entity.player", "net.minecraft.entity" -> "other";
