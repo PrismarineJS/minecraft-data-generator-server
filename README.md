@@ -12,16 +12,16 @@ Just replace `<version>` with the version you want to generate.
 For Linux/Mac OS:
 
 ```bash
-./gradlew :<version>:runServer
+./gradlew :mc:<version>:runServer
 ```
 
 For Windows:
 
 ```bash
-gradlew.bat :<version>:runServer
+gradlew.bat :mc:<version>:runServer
 ```
 
-You can then find the minecraft-data in the `<version>/run/minecraft-data` directory.
+You can then find the minecraft-data in the `mc/<version>/run/minecraft-data` directory.
 
 ## Adding a new version
 
