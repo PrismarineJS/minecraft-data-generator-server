@@ -23,7 +23,7 @@ public class TableBackedRegistryView<K, V> implements RegistryView<K, V> {
                 return entry.getKey();
             }
         }
-        throw new Error("value not in registry.");
+        throw new IllegalStateException("value not in registry.");
     }
 
     @Override
@@ -34,7 +34,7 @@ public class TableBackedRegistryView<K, V> implements RegistryView<K, V> {
                 return row.getKey();
             }
         }
-        throw new Error("value not in registry.");
+        throw new IllegalStateException("value not in registry.");
     }
 
     @Override

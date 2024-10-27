@@ -37,8 +37,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         entityDesc.addProperty("width", entity == null ? 0 : entity.width);
         entityDesc.addProperty("height", entity == null ? 0 : entity.height);
 
-        String entityTypeString = "UNKNOWN";
-        entityTypeString = getEntityTypeForClass(entityClass);
+        String entityTypeString = getEntityTypeForClass(entityClass);
         entityDesc.addProperty("type", entityTypeString);
         entityDesc.addProperty("category", getCategoryFrom(entityClass));
 
@@ -61,7 +60,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
             case "net.minecraft.entity.passive" -> "Passive mobs";
             case "net.minecraft.entity.vehicle" -> "Vehicles";
             case "net.minecraft.entity" -> "other";
-            default -> throw new Error("Unexpected entity type: " + packageName);
+            default -> throw new IllegalStateException("Unexpected entity type: " + packageName);
         };
     }
 
@@ -104,7 +103,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
 
     private static int entityId(Entity entity) {
         if (!DGU.getCurrentlyRunningServer().getVersion().equals("1.7")) {
-            throw new Error("These ids were gotten manually for 1.7, remake for " + DGU.getCurrentlyRunningServer().getVersion());
+            throw new IllegalStateException("These ids were gotten manually for 1.7, remake for " + DGU.getCurrentlyRunningServer().getVersion());
         }
         int rawId = Registries.ENTITY_TYPES.getRawId(entity.getClass());
         if (rawId == -1) { // see TrackedEntityInstance
@@ -113,7 +112,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
             } else if (entity instanceof FishingBobberEntity) {
                 return 90;
             } else {
-                throw new Error("unable to find rawId for entity: " + entity.getClass().getName());
+                throw new IllegalStateException("unable to find rawId for entity: " + entity.getClass().getName());
             }
         }
         return rawId;
