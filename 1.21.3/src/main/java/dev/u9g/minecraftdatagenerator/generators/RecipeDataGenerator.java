@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.*;
+import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKeys;
 
@@ -31,22 +32,22 @@ public class RecipeDataGenerator implements IDataGenerator {
         DynamicRegistryManager registryManager = DGU.getWorld().getRegistryManager();
         JsonObject finalObj = new JsonObject();
         Multimap<Integer, JsonObject> recipes = ArrayListMultimap.create();
-        for (RecipeEntry<?> recipeE : Objects.requireNonNull(DGU.getWorld()).getRecipeManager().values()) {
+        for (RecipeEntry<?> recipeE : Objects.requireNonNull(DGU.getWorld().getServer()).getRecipeManager().values()) {
             Recipe<?> recipe = recipeE.value();
             if (recipe instanceof ShapedRecipe sr) {
                 var ingredients = sr.getIngredients();
                 List<Integer> ingr = new ArrayList<>();
                 for (int i = 0; i < 9; i++) {
                     if (i >= ingredients.size()) {
-                        ingr.add(-1);
+                        ingr.add(null);
                         continue;
                     }
-                    var stacks = ingredients.get(i);
-                    var matching = stacks.getMatchingStacks();
-                    if (matching.length == 0) {
-                        ingr.add(-1);
+                    var stacks = ingredients.get(i).get();
+                    var matching = stacks.getMatchingItems();
+                    if (matching.isEmpty()) {
+                        ingr.add(null);
                     } else {
-                        ingr.add(getRawIdFor(matching[0].getItem()));
+                        ingr.add(getRawIdFor(matching.getFirst().value()));
                     }
                 }
                 //Lists.reverse(ingr);
@@ -67,11 +68,11 @@ public class RecipeDataGenerator implements IDataGenerator {
                 finalRecipe.add("inShape", inShape);
 
                 var resultObject = new JsonObject();
-                resultObject.addProperty("id", getRawIdFor(sr.getResult(registryManager).getItem()));
-                resultObject.addProperty("count", sr.getResult(registryManager).getCount());
+                resultObject.addProperty("id", getRawIdFor(sr.craft(CraftingRecipeInput.EMPTY, registryManager).getItem()));
+                resultObject.addProperty("count", sr.craft(CraftingRecipeInput.EMPTY, registryManager).getCount());
                 finalRecipe.add("result", resultObject);
 
-                String id = ((Integer) getRawIdFor(sr.getResult(registryManager).getItem())).toString();
+                String id = ((Integer) getRawIdFor(sr.craft(CraftingRecipeInput.EMPTY, registryManager).getItem())).toString();
 
                 if (!finalObj.has(id)) {
                     finalObj.add(id, new JsonArray());
@@ -104,17 +105,17 @@ public class RecipeDataGenerator implements IDataGenerator {
 //                recipes.put(getRawIdFor(sr.getOutput().getItem()), rootRecipeObject);
             } else if (recipe instanceof ShapelessRecipe sl) {
                 var ingredients = new JsonArray();
-                for (Ingredient ingredient : sl.getIngredients()) {
-                    if (ingredient.isEmpty()) continue;
-                    ingredients.add(getRawIdFor(ingredient.getMatchingStacks()[0].getItem()));
+                for (Ingredient ingredient : sl.getIngredientPlacement().getIngredients()) {
+                    if (ingredient.getMatchingItems().isEmpty()) continue;
+                    ingredients.add(getRawIdFor(ingredient.getMatchingItems().getFirst().value()));
                 }
                 var rootRecipeObject = new JsonObject();
                 rootRecipeObject.add("ingredients", ingredients);
                 var resultObject = new JsonObject();
-                resultObject.addProperty("id", getRawIdFor(sl.getResult(registryManager).getItem()));
-                resultObject.addProperty("count", sl.getResult(registryManager).getCount());
+                resultObject.addProperty("id", getRawIdFor(sl.craft(CraftingRecipeInput.EMPTY, registryManager).getItem()));
+                resultObject.addProperty("count", sl.craft(CraftingRecipeInput.EMPTY, registryManager).getCount());
                 rootRecipeObject.add("result", resultObject);
-                recipes.put(getRawIdFor(sl.getResult(registryManager).getItem()), rootRecipeObject);
+                recipes.put(getRawIdFor(sl.craft(CraftingRecipeInput.EMPTY, registryManager).getItem()), rootRecipeObject);
             }
         }
         recipes.forEach((a, b) -> {
