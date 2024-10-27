@@ -10,7 +10,7 @@ import java.util.Set;
 public interface BiomeAccessor {
     @Accessor("BIOMESET")
     static Set<Biome> BIOMESET() {
-        throw new Error();
+        throw new IllegalStateException();
     }
 
     @Accessor("waterColor")

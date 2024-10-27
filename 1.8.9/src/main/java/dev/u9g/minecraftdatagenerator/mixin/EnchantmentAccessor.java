@@ -11,6 +11,6 @@ import java.util.Map;
 public interface EnchantmentAccessor {
     @Accessor("ENCHANTMENT_MAP")
     static Map<Identifier, Enchantment> ENCHANTMENT_MAP() {
-        throw new Error();
+        throw new IllegalStateException();
     }
 }
