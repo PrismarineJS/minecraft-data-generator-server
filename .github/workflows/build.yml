@@ -21,8 +21,8 @@ jobs:
       - name: Define Versions
         id: versions
         run: |
-          # ls all files from "mc" directory
-          echo "::set-output name=versions::$(ls mc)"
+          versions=($(ls mc))
+          echo "versions=[\"$(IFS=\",\"; echo "${versions[*]}")\"]" >> "$GITHUB_OUTPUT"
 
   build:
     needs: define-versions
