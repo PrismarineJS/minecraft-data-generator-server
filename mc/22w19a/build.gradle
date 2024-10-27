@@ -1,8 +1,7 @@
-import xyz.wagyourtail.unimined.api.minecraft.task.RemapJarTask
 import xyz.wagyourtail.unimined.internal.minecraft.MinecraftProvider
 
 plugins {
-    id 'xyz.wagyourtail.unimined'
+    id 'dg-mc-conventions'
 }
 
 unimined.minecraft {
@@ -15,39 +14,13 @@ unimined.minecraft {
         devFallbackNamespace "intermediary"
     }
 
-    runs.config("server") {
-        javaVersion = JavaVersion.VERSION_21
-    }
-
     customPatcher(new CustomOfficialFabricMinecraftTransformer(project, delegate as MinecraftProvider)) {
         it.loader libs.versions.fabric.loader.get()
     }
 
+    runs.config("server") {
+        javaVersion = JavaVersion.VERSION_21
+    }
+
     defaultRemapJar = true
-}
-
-dependencies {
-    implementation project(":common")
-}
-
-processResources {
-    filteringCharset "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
-}
-
-tasks.withType(RemapJarTask).configureEach {
-    onlyIf { false}
-}
-
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
 }

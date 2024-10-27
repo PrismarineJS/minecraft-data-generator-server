@@ -15,4 +15,6 @@ repositories {
 
 dependencies {
     implementation("xyz.wagyourtail.unimined:xyz.wagyourtail.unimined.gradle.plugin:1.2.15-SNAPSHOT")
+    implementation("io.freefair.gradle:lombok-plugin:8.10.2")
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:6.25.0")
 }
