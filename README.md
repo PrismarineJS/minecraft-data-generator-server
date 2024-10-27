@@ -31,6 +31,8 @@ Then also add it to the `.github/workflows/build.yml` file.
 Then copy the code of the most recently released version into the new directory.
 Then you need to change the values in the `gradle.properties` file.
 At last, you need to fix all code issues that are caused by the new version.
+if there are any new curse, treasure, or non-tradeable, or non-discoverable enchantments in the new version, you need to add them manually to the `EnchantmentsDataGenerator` class.
 For that, use an IDE like IntelliJ IDEA to fix the issues.
 Once everything compiles, you can commit the changes, push them to your fork and create a pull request.
 Once your PR was accepted and merged, the new version will be available in the next release.
+
