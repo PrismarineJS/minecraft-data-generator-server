@@ -14,7 +14,6 @@ import net.minecraft.registry.entry.RegistryEntry;
 
 
 import java.util.List;
-import java.util.Set;
 
 public class EnchantmentsDataGenerator implements IDataGenerator {
     public static String getEnchantmentTargetName(RegistryEntryList<Item> target) {
@@ -26,9 +25,8 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         return DGU.getWorld()
                 .getRegistryManager()
                 .getOrThrow(RegistryKeys.ENCHANTMENT)
-                .streamTagsAndEntries()
-                .filter(tagKeyNamedPair -> tagKeyNamedPair.getFirst().id().equals(Identifier.of(tag)))
-                .flatMap(tagKeyNamedPair -> tagKeyNamedPair.getSecond().stream())
+                .getOrThrow(TagKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(tag)))
+                .stream()
                 .anyMatch(enchantmentRegistryEntry -> enchantmentRegistryEntry.value() == enchantment);
     }
 
