@@ -2,6 +2,7 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import dev.u9g.minecraftdatagenerator.FieldHelper;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -17,6 +18,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {
@@ -42,21 +44,17 @@ public class EntitiesDataGenerator implements IDataGenerator {
     }
 
     private static String getCategoryFrom(@NotNull EntityType<?> entityType) {
-        if (entityType == EntityType.PLAYER) return "other"; // fail early for player entities
-        Entity entity = entityType.create(DGU.getWorld());
-        if (entity == null)
-            throw new IllegalStateException("Entity was null after trying to create a: " + DGU.translateText(entityType.getTranslationKey()));
-        entity.remove();
-        return switch (entity.getClass().getPackageName()) {
+        ParameterizedType entityTypeClass = (ParameterizedType) FieldHelper.findStaticFieldWithValue(EntityType.class, entityType).getGenericType();
+        Class<?> entityClass = (Class<?>) entityTypeClass.getActualTypeArguments()[0];
+        return switch (entityClass.getPackageName()) {
             case "net.minecraft.entity.decoration", "net.minecraft.entity.decoration.painting" -> "Immobile";
             case "net.minecraft.entity.boss", "net.minecraft.entity.mob", "net.minecraft.entity.boss.dragon" ->
                     "Hostile mobs";
-            case "net.minecraft.entity.projectile", "net.minecraft.entity.projectile.thrown",
-                 "net.minecraft.entity.thrown" -> "Projectiles";
+            case "net.minecraft.entity.projectile", "net.minecraft.entity.thrown" -> "Projectiles";
             case "net.minecraft.entity.passive" -> "Passive mobs";
             case "net.minecraft.entity.vehicle" -> "Vehicles";
-            case "net.minecraft.entity" -> "other";
-            default -> throw new IllegalStateException("Unexpected entity type: " + entity.getClass().getPackageName());
+            case "net.minecraft.entity.player", "net.minecraft.entity" -> "other";
+            default -> throw new IllegalStateException("Unexpected entity type: " + entityClass.getPackageName());
         };
     }
 

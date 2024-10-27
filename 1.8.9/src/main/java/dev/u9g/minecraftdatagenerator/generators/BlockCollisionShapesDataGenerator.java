@@ -65,6 +65,8 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
             for (BlockState state : block.getStateManager().getBlockStates().reverse()) {
                 List<Box> boxes = new ArrayList<>();
                 try {
+                    // Fix needed for StairsBlock because it requires the state of the block to be set
+                    DGU.getWorld().setBlockState(BlockPos.ORIGIN, state);
                     block.appendCollisionBoxes(DGU.getWorld(), BlockPos.ORIGIN, state, ENTITY_BOX, boxes, null);
                 } catch (Exception e) {
                     e.printStackTrace();
