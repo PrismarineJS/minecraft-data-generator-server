@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.mixin.EntityTypeAccessor;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import dev.u9g.minecraftdatagenerator.util.Registries;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.mob.AmbientEntity;
 import net.minecraft.entity.mob.HostileEntity;
@@ -14,6 +15,7 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.entity.projectile.Projectile;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,6 +33,10 @@ public class EntitiesDataGenerator implements IDataGenerator {
         entityDesc.addProperty("id", id);
         entityDesc.addProperty("internalId", id);
         entityDesc.addProperty("name", Objects.requireNonNull(registryKey).getPath());
+        if (entity instanceof ItemEntity itemEntity) {
+            // Same as 1.9.4
+            itemEntity.setItemStack(new ItemStack(Blocks.STONE));
+        }
         String displayName = entity != null ? entity.getTranslationKey() : null;
         if (displayName != null && !displayName.startsWith("entity.")) {
             entityDesc.addProperty("displayName", displayName);
