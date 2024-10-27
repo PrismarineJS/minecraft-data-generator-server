@@ -36,7 +36,6 @@ jobs:
       matrix:
         version: ${{ fromJSON(needs.define-versions.outputs.versions) }}
 
-
     name: Build ${{ matrix.version }}
     timeout-minutes: 10
 

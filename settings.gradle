@@ -12,6 +12,4 @@ dependencyResolutionManagement {
 
 include "common"
 
-
 new File(rootProject.projectDir, "mc").list().toList().forEach { include ":mc:$it" }
-
