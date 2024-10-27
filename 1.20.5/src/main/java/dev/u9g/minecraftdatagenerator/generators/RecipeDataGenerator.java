@@ -26,6 +26,57 @@ public class RecipeDataGenerator implements IDataGenerator {
         return "recipes";
     }
 
+    private void generateShapedRecipe(DynamicRegistryManager registryManager, JsonObject finalObj, ShapedRecipe sr, int n) {
+        boolean hasIncremented = false;
+        var ingredients = sr.getIngredients();
+        List<Integer> ingr = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            if (i >= ingredients.size()) {
+                ingr.add(-1);
+                continue;
+            }
+            var stacks = ingredients.get(i);
+            var matching = stacks.getMatchingStacks(); // FIXME: fix when there are more than one matching stack
+            if (matching.length == 0) {
+                ingr.add(-1);
+            } else if (matching.length > n){
+                ingr.add(getRawIdFor(matching[n].getItem()));
+            } else {
+                ingr.add(getRawIdFor(matching[0].getItem()));
+            }
+            if (matching.length-1 > n && !hasIncremented) {
+                generateShapedRecipe(registryManager, finalObj, sr, n+1);
+                hasIncremented = true;
+            }
+        }
+
+            JsonArray inShape = new JsonArray();
+
+            var iter = ingr.iterator();
+            for (int y = 0; y < sr.getHeight(); y++) {
+                var jsonRow = new JsonArray();
+                for (int z = 0; z < sr.getWidth(); z++) {
+                    jsonRow.add(iter.next());
+                }
+                inShape.add(jsonRow);
+            }
+
+        JsonObject finalRecipe = new JsonObject();
+        finalRecipe.add("inShape", inShape);
+
+        var resultObject = new JsonObject();
+        resultObject.addProperty("id", getRawIdFor(sr.getResult(registryManager).getItem()));
+        resultObject.addProperty("count", sr.getResult(registryManager).getCount());
+        finalRecipe.add("result", resultObject);
+
+        String id = ((Integer) getRawIdFor(sr.getResult(registryManager).getItem())).toString();
+
+        if (!finalObj.has(id)) {
+            finalObj.add(id, new JsonArray());
+        }
+        finalObj.get(id).getAsJsonArray().add(finalRecipe);
+    }
+
     @Override
     public JsonElement generateDataJson() {
         DynamicRegistryManager registryManager = DGU.getWorld().getRegistryManager();
@@ -34,49 +85,7 @@ public class RecipeDataGenerator implements IDataGenerator {
         for (RecipeEntry<?> recipeE : Objects.requireNonNull(DGU.getWorld()).getRecipeManager().values()) {
             Recipe<?> recipe = recipeE.value();
             if (recipe instanceof ShapedRecipe sr) {
-                var ingredients = sr.getIngredients();
-                List<Integer> ingr = new ArrayList<>();
-                for (int i = 0; i < 9; i++) {
-                    if (i >= ingredients.size()) {
-                        ingr.add(-1);
-                        continue;
-                    }
-                    var stacks = ingredients.get(i);
-                    var matching = stacks.getMatchingStacks();
-                    if (matching.length == 0) {
-                        ingr.add(-1);
-                    } else {
-                        ingr.add(getRawIdFor(matching[0].getItem()));
-                    }
-                }
-                //Lists.reverse(ingr);
-
-                JsonArray inShape = new JsonArray();
-
-
-                var iter = ingr.iterator();
-                for (int y = 0; y < sr.getHeight(); y++) {
-                    var jsonRow = new JsonArray();
-                    for (int z = 0; z < sr.getWidth(); z++) {
-                        jsonRow.add(iter.next());
-                    }
-                    inShape.add(jsonRow);
-                }
-
-                JsonObject finalRecipe = new JsonObject();
-                finalRecipe.add("inShape", inShape);
-
-                var resultObject = new JsonObject();
-                resultObject.addProperty("id", getRawIdFor(sr.getResult(registryManager).getItem()));
-                resultObject.addProperty("count", sr.getResult(registryManager).getCount());
-                finalRecipe.add("result", resultObject);
-
-                String id = ((Integer) getRawIdFor(sr.getResult(registryManager).getItem())).toString();
-
-                if (!finalObj.has(id)) {
-                    finalObj.add(id, new JsonArray());
-                }
-                finalObj.get(id).getAsJsonArray().add(finalRecipe);
+                generateShapedRecipe(registryManager, finalObj, sr, 0);
 //                var input = new JsonArray();
 //                var ingredients = sr.getIngredients().stream().toList();
 //                for (int y = 0; y < sr.getHeight(); y++) {
