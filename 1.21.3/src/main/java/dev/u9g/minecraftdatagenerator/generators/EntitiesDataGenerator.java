@@ -6,6 +6,7 @@ import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.AmbientEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
@@ -36,7 +37,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         MinecraftServer minecraftServer = DGU.getCurrentlyRunningServer();
 
         if (minecraftServer != null) {
-            Entity entityObject = entityType.create(minecraftServer.getOverworld());
+            Entity entityObject = entityType.create(minecraftServer.getOverworld(), SpawnReason.NATURAL);
             entityTypeString = entityObject != null ? getEntityTypeForClass(entityObject.getClass()) : "unknown";
         }
         if (entityType == EntityType.PLAYER) {
@@ -51,7 +52,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
 
     private static String getCategoryFrom(EntityType<?> entityType) {
         if (entityType == EntityType.PLAYER) return "UNKNOWN";
-        Entity entity = entityType.create(DGU.getWorld());
+        Entity entity = entityType.create(DGU.getWorld(), SpawnReason.NATURAL);
         if (entity == null)
             throw new Error("Entity was null after trying to create a: " + DGU.translateText(entityType.getTranslationKey()));
         entity.discard();
