@@ -21,8 +21,13 @@ jobs:
       - name: Define Versions
         id: versions
         run: |
-          versions=($(ls mc))
-          echo "versions=[\"$(IFS=\",\"; echo "${versions[*]}")\"]" >> "$GITHUB_OUTPUT"
+          versions="["
+          for item in $(ls mc); do
+            versions+="\"$item\", "
+          done
+          
+          versions="${versions%,*}]"
+          echo "versions=$versions" >> "$GITHUB_OUTPUT"
 
   build:
     needs: define-versions
