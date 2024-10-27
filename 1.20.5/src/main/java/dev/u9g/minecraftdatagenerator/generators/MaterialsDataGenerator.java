@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ToolComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.MiningToolItem;
@@ -85,7 +86,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
         itemRegistry.forEach(item -> {
             if (item instanceof MiningToolItem toolItem) {
                 item.getComponents().get(DataComponentTypes.TOOL).rules()
-                        .stream().map(rule -> rule.blocks())
+                        .stream().map(ToolComponent.Rule::blocks)
                         .forEach(blocks -> {
                             Optional<TagKey<Block>> tagKey = blocks.getTagKey();
                             if (tagKey.isPresent()) {
@@ -137,7 +138,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
             //Tools are handled rather easily and do not require anything else
             if (item instanceof MiningToolItem toolItem) {
                 item.getComponents().get(DataComponentTypes.TOOL).rules()
-                        .stream().map(rule -> rule.blocks())
+                        .stream().map(ToolComponent.Rule::blocks)
                         .forEach(blocks -> {
                                     Optional<TagKey<Block>> tagKey = blocks.getTagKey();
                                     if (tagKey.isPresent()) {
