@@ -2,6 +2,7 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.enchantment.Enchantment;
@@ -10,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
@@ -26,14 +26,7 @@ public class ItemsDataGenerator implements IDataGenerator {
                 .collect(Collectors.toList());
     }
 
-    private static List<TagKey<Item>> getApplicableEnchantmentTargets(Item sourceItem) {
-        return sourceItem.getComponents().get(DataComponentTypes.ENCHANTMENTS)
-                .getEnchantments()
-                .stream()
-                .map(RegistryEntry::value)
-                .map(Enchantment::getApplicableItems)
-                .toList();
-    }
+  
 
     public static JsonObject generateItem(Registry<Item> itemRegistry, Item item) {
         JsonObject itemDesc = new JsonObject();
@@ -45,11 +38,15 @@ public class ItemsDataGenerator implements IDataGenerator {
         itemDesc.addProperty("displayName", DGU.translateText(item.getTranslationKey()));
         itemDesc.addProperty("stackSize", item.getMaxCount());
 
-        List<TagKey<Item>> enchantmentTargets = getApplicableEnchantmentTargets(item);
-
         JsonArray enchantCategoriesArray = new JsonArray();
-        for (TagKey<Item> target : enchantmentTargets) {
-            enchantCategoriesArray.add(EnchantmentsDataGenerator.getEnchantmentTargetName(target));
+        Registry<Enchantment> enchants = DGU.getWorld().getRegistryManager().get(RegistryKeys.ENCHANTMENT);
+        for (Enchantment enchant : enchants) {
+            if (enchant.getApplicableItems().contains(item.getRegistryEntry())) {
+                String enchantTarget = enchant.getApplicableItems().getTagKey().get().id().getPath().split("/")[1];
+                if (!enchantCategoriesArray.contains(new JsonPrimitive(enchantTarget))) {
+                    enchantCategoriesArray.add(enchantTarget);
+                }
+            }
         }
         if (enchantCategoriesArray.size() > 0) {
             itemDesc.add("enchantCategories", enchantCategoriesArray);

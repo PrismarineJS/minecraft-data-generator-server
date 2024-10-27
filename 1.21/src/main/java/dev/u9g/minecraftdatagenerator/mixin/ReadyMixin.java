@@ -16,7 +16,7 @@ public class ReadyMixin {
     private void init(CallbackInfoReturnable<Boolean> cir) {
         MinecraftDataGenerator.start(
                 MinecraftVersion.CURRENT.getName(),
-                DGU.getCurrentlyRunningServer().getRunDirectory().toPath()
+                DGU.getCurrentlyRunningServer().getRunDirectory()
         );
     }
 }
