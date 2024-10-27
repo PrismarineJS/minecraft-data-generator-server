@@ -22,6 +22,6 @@ public class MinecraftDataGenerator {
         } else {
             MinecraftDataGenerator.LOGGER.severe("Data generation failed!");
         }
-        Runtime.getRuntime().halt(0);
+        Runtime.getRuntime().halt(success ? 0 : 1);
     }
 }
