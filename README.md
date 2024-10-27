@@ -12,16 +12,16 @@ Just replace `<version>` with the version you want to generate.
 For Linux/Mac OS:
 
 ```bash
-./gradlew :<version>:runServer
+./gradlew :mc:<version>:runServer
 ```
 
 For Windows:
 
 ```bash
-gradlew.bat :<version>:runServer
+gradlew.bat :mc:<version>:runServer
 ```
 
-You can then find the minecraft-data in the `<version>/run/minecraft-data` directory.
+You can then find the minecraft-data in the `mc/<version>/run/minecraft-data` directory.
 
 ## Adding a new version
 
@@ -31,7 +31,6 @@ Then also add it to the `.github/workflows/build.yml` file.
 Then copy the code of the most recently released version into the new module directory.
 Then you need to change the values in the `build.gradle` file.
 At last, you need to fix all code issues that are caused by the new version.
-if there are any new curse, treasure, or non-tradeable, or non-discoverable enchantments in the new version, you need to add them manually to the `EnchantmentsDataGenerator` class.
 For that, use an IDE like IntelliJ IDEA to fix the issues.
 Once everything compiles, you can commit the changes, push them to your fork and create a pull request.
 Once your PR was accepted and merged, the new version will be available in the next release.

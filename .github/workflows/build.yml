@@ -8,35 +8,34 @@ on:
       - main
 
 jobs:
+  define-versions:
+    runs-on: ubuntu-latest
+
+    outputs:
+      versions: ${{ steps.versions.outputs.versions }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Define Versions
+        id: versions
+        run: |
+          versions="["
+          for item in $(ls mc); do
+            versions+="\"$item\", "
+          done
+          
+          versions="${versions%,*}]"
+          echo "versions=$versions" >> "$GITHUB_OUTPUT"
+
   build:
+    needs: define-versions
     strategy:
       fail-fast: false
       matrix:
-        version: [
-          "1.7",
-          "1.8.9",
-          "1.9.4",
-          "1.10.2",
-          "1.11.2",
-          "1.12.2",
-          "1.13",
-          "1.14",
-          "1.15",
-          "1.16",
-          "1.17",
-          "1.18",
-          "22w19a",
-          "1.19",
-          "1.19.2",
-          "1.20",
-          "1.20.4",
-          "1.20.5",
-          "1.21",
+        version: ${{ fromJSON(needs.define-versions.outputs.versions) }}
 
-          "1.21.3"
-
-
-        ]
 
     name: Build ${{ matrix.version }}
     timeout-minutes: 10
@@ -59,11 +58,11 @@ jobs:
       - name: Generate ${{ matrix.version }}
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: :${{ matrix.version }}:runServer
+          arguments: :mc:${{ matrix.version }}:runServer
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: data-${{ matrix.version }}
-          path: ${{ matrix.version }}/run/server/minecraft-data
+          path: mc/${{ matrix.version }}/run/server/minecraft-data
           if-no-files-found: error

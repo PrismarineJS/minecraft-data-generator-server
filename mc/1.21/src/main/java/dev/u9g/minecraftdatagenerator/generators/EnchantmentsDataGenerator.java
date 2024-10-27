@@ -7,6 +7,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.util.Identifier;
@@ -14,23 +15,12 @@ import net.minecraft.registry.entry.RegistryEntry;
 
 
 import java.util.List;
-import java.util.Set;
 
 public class EnchantmentsDataGenerator implements IDataGenerator {
     public static String getEnchantmentTargetName(RegistryEntryList<Item> target) {
         TagKey<Item> tagKey = target.getTagKey().orElseThrow();
         return tagKey.id().getPath().split("/")[1];
     }
-
-    private static boolean isEnchantmentInTag(Enchantment enchantment, String tag) {
-        return DGU.getWorld()
-                .getRegistryManager()
-                .get(RegistryKeys.ENCHANTMENT)
-                .streamTagsAndEntries()
-                .filter(tagKeyNamedPair -> tagKeyNamedPair.getFirst().id().equals(Identifier.of(tag)))
-                .flatMap(tagKeyNamedPair -> tagKeyNamedPair.getSecond().stream())
-                .anyMatch(enchantmentRegistryEntry -> enchantmentRegistryEntry.value() == enchantment);
-   }
 
     //Equation enchantment costs follow is a * level + b, so we can easily retrieve a and b by passing zero level
     private static JsonObject generateEnchantmentMinPowerCoefficients(Enchantment enchantment) {
@@ -55,6 +45,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
 
     public static JsonObject generateEnchantment(Registry<Enchantment> registry, Enchantment enchantment) {
         JsonObject enchantmentDesc = new JsonObject();
+        RegistryEntry<Enchantment> enchantmentEntry = registry.getEntry(enchantment);
         Identifier registryKey = registry.getKey(enchantment).orElseThrow().getValue();
 
         enchantmentDesc.addProperty("id", registry.getRawId(enchantment));
@@ -67,16 +58,12 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         enchantmentDesc.add("minCost", generateEnchantmentMinPowerCoefficients(enchantment));
         enchantmentDesc.add("maxCost", generateEnchantmentMaxPowerCoefficients(enchantment));
 
-        enchantmentDesc.addProperty("treasureOnly", isEnchantmentInTag(enchantment, "treasure"));
+        enchantmentDesc.addProperty("treasureOnly", enchantmentEntry.isIn(EnchantmentTags.TREASURE));
 
-        enchantmentDesc.addProperty("curse", isEnchantmentInTag(enchantment, "curse"));
+        enchantmentDesc.addProperty("curse", enchantmentEntry.isIn(EnchantmentTags.CURSE));
 
         List<Enchantment> incompatibleEnchantments = registry.stream()
-                .filter(other -> {
-                    RegistryEntry<Enchantment> enchantmentEntry = registry.getEntry(enchantment);
-                    RegistryEntry<Enchantment> otherEntry = registry.getEntry(other);
-                    return !Enchantment.canBeCombined(enchantmentEntry, otherEntry);
-                })
+                .filter(other -> !Enchantment.canBeCombined(enchantmentEntry, registry.getEntry(other)))
                 .filter(other -> other != enchantment)
                 .toList();
 
@@ -88,8 +75,8 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         enchantmentDesc.add("exclude", excludes);
         enchantmentDesc.addProperty("category", getEnchantmentTargetName(enchantment.getApplicableItems()));
         enchantmentDesc.addProperty("weight", enchantment.getWeight());
-        enchantmentDesc.addProperty("tradeable", isEnchantmentInTag(enchantment, "tradeable"));      
-        enchantmentDesc.addProperty("discoverable", isEnchantmentInTag(enchantment, "on_random_loot"));
+        enchantmentDesc.addProperty("tradeable", enchantmentEntry.isIn(EnchantmentTags.TRADEABLE));
+        enchantmentDesc.addProperty("discoverable", enchantmentEntry.isIn(EnchantmentTags.ON_RANDOM_LOOT));
 
         return enchantmentDesc;
     }
