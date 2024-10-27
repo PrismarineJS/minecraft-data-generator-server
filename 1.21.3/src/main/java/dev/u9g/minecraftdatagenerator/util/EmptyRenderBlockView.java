@@ -41,7 +41,6 @@ public enum EmptyRenderBlockView implements BlockRenderView {
         return 0;
     }
 
-
     @Override
     public float getBrightness(Direction direction, boolean shaded) {
         return 0.0f;
@@ -62,7 +61,7 @@ public enum EmptyRenderBlockView implements BlockRenderView {
 
     @Override
     public int getLightLevel(LightType type, BlockPos pos) {
-        return type == LightType.SKY ? getMaxLightLevel() : 0;
+        return type == LightType.SKY ? 15 : 0;
     }
 
     @Override
