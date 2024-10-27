@@ -22,11 +22,9 @@ public class ItemsDataGenerator implements IDataGenerator {
     private static List<Item> calculateItemsToRepairWith(Registry<Item> itemRegistry, Item sourceItem) {
         ItemStack sourceItemStack = sourceItem.getDefaultStack();
         return itemRegistry.stream()
-                .filter(otherItem -> sourceItem.canRepair(sourceItemStack, otherItem.getDefaultStack()))
+                .filter(otherItem -> sourceItemStack.canRepairWith(otherItem.getDefaultStack()))
                 .collect(Collectors.toList());
     }
-
-
 
     public static JsonObject generateItem(Registry<Item> itemRegistry, Item item) {
         JsonObject itemDesc = new JsonObject();
