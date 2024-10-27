@@ -1,24 +1,27 @@
 package dev.u9g.minecraftdatagenerator;
 
 import dev.u9g.minecraftdatagenerator.generators.DataGenerators;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Path;
+import java.util.logging.Logger;
 
 public class MinecraftDataGenerator {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MinecraftDataGenerator.class);
+    private static final Logger LOGGER = Logger.getLogger(MinecraftDataGenerator.class.getSimpleName());
 
     public static void start(String versionName, Path serverRootDirectory) {
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
         System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err)));
-        MinecraftDataGenerator.LOGGER.info("Starting data generation!");
+        MinecraftDataGenerator.LOGGER.info("Starting data generation for version %s".formatted(versionName));
         Path dataDumpDirectory = serverRootDirectory.resolve("minecraft-data").resolve(versionName);
-        DataGenerators.runDataGenerators(dataDumpDirectory);
-        MinecraftDataGenerator.LOGGER.info("Done data generation!");
+        boolean success = DataGenerators.runDataGenerators(dataDumpDirectory);
+        if (success) {
+            MinecraftDataGenerator.LOGGER.info("Data generation successful!");
+        } else {
+            MinecraftDataGenerator.LOGGER.severe("Data generation failed!");
+        }
         Runtime.getRuntime().halt(0);
     }
 }
