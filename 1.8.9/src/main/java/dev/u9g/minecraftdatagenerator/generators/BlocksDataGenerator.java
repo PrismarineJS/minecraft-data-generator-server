@@ -120,6 +120,8 @@ public class BlocksDataGenerator implements IDataGenerator {
     }
 
     private static String boundingBox(Block block, BlockState state) {
+        // Fix needed for StairsBlock because it requires the state of the block to be set
+        DGU.getWorld().setBlockState(BlockPos.ORIGIN, state);
         if (block.getCollisionBox(DGU.getWorld(), BlockPos.ORIGIN, state) == null) {
             return "empty";
         }
