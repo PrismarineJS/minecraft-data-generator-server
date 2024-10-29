@@ -60,7 +60,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          add-job-summary-as-pr-comment: always
+          add-job-summary-as-pr-comment: on-failure
 
       - name: Generate ${{ matrix.version }}
         run: ./gradlew :mc:${{ matrix.version }}:runServer --stacktrace
