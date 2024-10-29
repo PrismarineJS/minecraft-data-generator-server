@@ -65,3 +65,27 @@ jobs:
           name: data-${{ matrix.version }}
           path: mc/${{ matrix.version }}/run/server/minecraft-data
           if-no-files-found: error
+
+  repackage:
+    needs: build
+
+    name: Repackage versions
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: merged-data
+          path: artifacts/*
+          if-no-files-found: error
