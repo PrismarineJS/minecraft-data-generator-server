@@ -52,7 +52,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
 
     private static String getCategoryFrom(EntityType<?> entityType) {
         if (entityType == EntityType.PLAYER) return "UNKNOWN";
-        Entity entity = entityType.create(DGU.getWorld(), SpawnReason.NATURAL);
+        Entity entity = entityType.create(DGU.getCurrentlyRunningServer().getOverworld(), SpawnReason.NATURAL);
         if (entity == null)
             throw new Error("Entity was null after trying to create a: " + DGU.translateText(entityType.getTranslationKey()));
         entity.discard();
