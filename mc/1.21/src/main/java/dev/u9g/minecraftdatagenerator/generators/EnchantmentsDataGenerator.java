@@ -7,12 +7,11 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.util.Identifier;
-import net.minecraft.registry.entry.RegistryEntry;
-
 
 import java.util.List;
 
@@ -95,5 +94,5 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         return resultsArray;
     }
 
-    
+
 }

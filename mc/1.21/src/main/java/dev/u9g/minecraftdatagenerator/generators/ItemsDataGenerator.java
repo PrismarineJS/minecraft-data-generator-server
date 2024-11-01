@@ -26,7 +26,7 @@ public class ItemsDataGenerator implements IDataGenerator {
                 .collect(Collectors.toList());
     }
 
-  
+
 
     public static JsonObject generateItem(Registry<Item> itemRegistry, Item item) {
         JsonObject itemDesc = new JsonObject();
