@@ -7,6 +7,9 @@ on:
     branches:
       - main
 
+permissions:
+  pull-requests: write
+
 jobs:
   define-versions:
     runs-on: ubuntu-latest
@@ -46,7 +49,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/actions/wrapper-validation@v4
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -54,14 +57,41 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Generate ${{ matrix.version }}
-        uses: gradle/gradle-build-action@v2
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
         with:
-          arguments: :mc:${{ matrix.version }}:runServer
+          add-job-summary-as-pr-comment: on-failure
+
+      - name: Generate ${{ matrix.version }}
+        run: ./gradlew :mc:${{ matrix.version }}:runServer --stacktrace
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: data-${{ matrix.version }}
           path: mc/${{ matrix.version }}/run/server/minecraft-data
+          if-no-files-found: error
+
+  repackage:
+    needs: build
+
+    name: Repackage versions
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: merged-data
+          path: artifacts/*
           if-no-files-found: error
